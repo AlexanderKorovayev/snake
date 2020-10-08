@@ -5,13 +5,16 @@ import (
 	"reflect"
 )
 
-type Test [][]int
-
 func main() {
-	test := [][]int{{1, 1}, {2, 3}}
-	fmt.Println(test[1][1])
-	fmt.Println(reflect.TypeOf(test))
+	test := 5
+	//fmt.Println(&test)
+	test5(&test)
 	//game.Rungame()
+}
+
+func test5(test *int) {
+	fmt.Println(reflect.TypeOf(test), test)
+	fmt.Println(reflect.TypeOf(*test), *test)
 }
 
 /*
