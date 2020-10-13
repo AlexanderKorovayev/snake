@@ -1,20 +1,20 @@
 package main
 
 import (
-	"fmt"
-	"reflect"
+	"github.com/AlexanderKorovayev/snake/game"
 )
 
 func main() {
-	test := 5
-	//fmt.Println(&test)
-	test5(&test)
-	//game.Rungame()
-}
-
-func test5(test *int) {
-	fmt.Println(reflect.TypeOf(test), test)
-	fmt.Println(reflect.TypeOf(*test), *test)
+	//"github.com/AlexanderKorovayev/snake/game"
+	game.StartGame()
+	/*
+		test := []int{1, 2, 3}
+		test = append(test[1:], 5)
+		fmt.Println(test)
+		for x, y := range test {
+			fmt.Println(x, y)
+		}
+	*/
 }
 
 /*
