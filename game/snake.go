@@ -45,21 +45,29 @@ func (snake *Snake) Draw(screen *termloop.Screen) {
 
 }
 
-// Tick позволяет сущности человека двигаться
+// Tick позволяет сущности змейки двигаться
 // каждый момент времени мы проверяем состояние, что бы отрисовать объекты
 func (snake *Snake) Tick(event termloop.Event) {
 	if event.Type == termloop.EventKey {
 		if event.Key == termloop.KeyArrowRight {
-			snake.Direction = right
+			if snake.Direction != left {
+				snake.Direction = right
+			}
 		}
 		if event.Key == termloop.KeyArrowLeft {
-			snake.Direction = left
+			if snake.Direction != right {
+				snake.Direction = left
+			}
 		}
 		if event.Key == termloop.KeyArrowUp {
-			snake.Direction = up
+			if snake.Direction != down {
+				snake.Direction = up
+			}
 		}
 		if event.Key == termloop.KeyArrowDown {
-			snake.Direction = down
+			if snake.Direction != up {
+				snake.Direction = down
+			}
 		}
 	}
 }

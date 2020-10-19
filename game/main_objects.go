@@ -8,15 +8,15 @@ import (
 //Game основной объект для рисования
 type Game struct {
 	termloop.Level
-	//gameArea  area
-	snake *Snake
+	gameArea *Area
+	snake    *Snake
 	//gameFoot  foot
 }
 
-// наполнить структуру
-type area struct {
-	termloop.Entity
-	areaBorder map[coordinates]int // для нахождения коллисий с краем поля
+//Area объект арены, по которой будет перемещаться змейка
+type Area struct {
+	*termloop.Entity
+	areaBorder map[coordinates]int // для нахождения коллисий с краем поля и отрисовки граней
 }
 
 //Snake объект змейки

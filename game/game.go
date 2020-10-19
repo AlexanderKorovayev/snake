@@ -10,7 +10,7 @@ func StartGame() {
 
 	// Create titlescreen.
 	gs := NewGamescreen()
-	sg.Screen().SetFps(10)
+	sg.Screen().SetFps(5)
 	sg.Screen().SetLevel(gs)
 	sg.Start()
 }
@@ -25,6 +25,10 @@ func NewGamescreen() *Game {
 	gs.snake = CreateSnake()
 	// Add entities for the game level.
 	gs.AddEntity(gs.snake)
+
+	gs.gameArea = CreateArea()
+	// Add entities for the game level.
+	gs.AddEntity(gs.gameArea)
 
 	return gs
 }
