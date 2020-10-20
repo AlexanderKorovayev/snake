@@ -30,5 +30,9 @@ func NewGamescreen() *Game {
 	// Add entities for the game level.
 	gs.AddEntity(gs.gameArea)
 
+	gs.gameFood = CreateFood()
+	// Add entities for the game level.
+	gs.AddEntity(gs.gameFood)
+
 	return gs
 }

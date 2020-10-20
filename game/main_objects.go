@@ -10,7 +10,7 @@ type Game struct {
 	termloop.Level
 	gameArea *Area
 	snake    *Snake
-	//gameFoot  foot
+	gameFood *Food
 }
 
 //Area объект арены, по которой будет перемещаться змейка
@@ -26,6 +26,8 @@ type Snake struct {
 	Direction direction
 }
 
-// наполнить структуру
-type foot struct {
+//Food объект пищи для змейки
+type Food struct {
+	*termloop.Entity
+	coord coordinates
 }
