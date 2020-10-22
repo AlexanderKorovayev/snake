@@ -12,26 +12,40 @@ func CreateFood() *Food {
 	foodObj := new(Food)
 	foodObj.Entity = termloop.NewEntity(1, 1, 1, 1)
 
-	x, y := getCoordinates()
+	x, y := GetCoordinates()
 	// Set the new position of the food.
-	foodObj.coord = coordinates{x, y}
+	foodObj.coord = Coordinates{x, y}
 
 	return foodObj
 }
 
-func getCoordinates() (int, int) {
+//GetCoordinates получение координат для пищи
+func GetCoordinates() (int, int) {
 	// инициализируем рандомизатор для оси X
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 	// инициализируем рандомизатор для оси X
 	s2 := rand.NewSource(time.Now().UnixNano())
 	r2 := rand.New(s2)
-	return r1.Intn(35), r2.Intn(20)
+	return r1.Intn(34), r2.Intn(19)
 }
 
-//Draw отвечает за отрисовку змеи на дисплее
+//Draw отвечает за отрисовку пищи на дисплее
 func (food *Food) Draw(screen *termloop.Screen) {
 	//отрисовка на экране
 	screen.RenderCell(food.coord.x, food.coord.y, &termloop.Cell{Fg: termloop.ColorWhite, Bg: termloop.ColorBlack,
 		Ch: rune('€')})
+}
+
+//Collision произошло ли косание с едой
+func (food *Food) Collision(c *Coordinates) bool {
+	return food.coord.x == c.x && food.coord.y == c.y
+}
+
+//MoveFood передвинуть еду
+func (food *Food) MoveFood() {
+	x, y := GetCoordinates()
+	// Set the new position of the food.
+	food.coord = Coordinates{x, y}
+	//food.SetPosition(x, y)
 }

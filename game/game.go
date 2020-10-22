@@ -18,21 +18,21 @@ func StartGame() {
 //NewGamescreen инициализация игры
 func NewGamescreen() *Game {
 	// Creates the gamescreen level and create the entities
-	gs := new(Game)
-	gs.Level = termloop.NewBaseLevel(termloop.Cell{
+	GameScreen = new(Game)
+	GameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
 		Bg: termloop.ColorBlack,
 	})
-	gs.snake = CreateSnake()
+	GameScreen.snake = CreateSnake()
 	// Add entities for the game level.
-	gs.AddEntity(gs.snake)
+	GameScreen.AddEntity(GameScreen.snake)
 
-	gs.gameArea = CreateArea()
+	GameScreen.gameArea = CreateArea()
 	// Add entities for the game level.
-	gs.AddEntity(gs.gameArea)
+	GameScreen.AddEntity(GameScreen.gameArea)
 
-	gs.gameFood = CreateFood()
+	GameScreen.gameFood = CreateFood()
 	// Add entities for the game level.
-	gs.AddEntity(gs.gameFood)
+	GameScreen.AddEntity(GameScreen.gameFood)
 
-	return gs
+	return GameScreen
 }

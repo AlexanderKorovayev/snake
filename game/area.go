@@ -6,19 +6,19 @@ import "github.com/JoelOtter/termloop"
 func CreateArea() *Area {
 	areaObj := new(Area)
 	areaObj.Entity = termloop.NewEntity(1, 1, 1, 1)
-	var border map[coordinates]int
-	border = make(map[coordinates]int)
+	var border map[Coordinates]int
+	border = make(map[Coordinates]int)
 	fillAreaBorder(35, 20, &border)
 	areaObj.areaBorder = border
 	return areaObj
 }
 
-func fillAreaBorder(imax, jmax int, border *map[coordinates]int) {
+func fillAreaBorder(imax, jmax int, border *map[Coordinates]int) {
 	starti := 0
 	startj := 0
 	for i := starti; i < imax; i++ {
 		for j := startj; j < jmax; j++ {
-			coord := coordinates{i, j}
+			coord := Coordinates{i, j}
 			if i == starti || i == imax-1 {
 				(*border)[coord] = 1
 			} else if j == startj || j == jmax-1 {

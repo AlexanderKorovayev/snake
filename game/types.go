@@ -1,7 +1,11 @@
-// модуль содержит нестордартные типы
+// модуль содержит нестондартные типы
 package game
 
-type coordinates struct {
+//GameScreen глобальная переменная для получения доступа к основным объектам
+var GameScreen *Game
+
+//Coordinates координаты
+type Coordinates struct {
 	x int
 	y int
 }

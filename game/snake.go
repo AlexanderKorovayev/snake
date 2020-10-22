@@ -9,7 +9,7 @@ func CreateSnake() *Snake {
 	snakeObj := new(Snake)
 	snakeObj.Entity = termloop.NewEntity(1, 1, 1, 1)
 	snakeObj.Direction = right
-	snakeObj.Body = []coordinates{{1, 1}, {1, 2}, {1, 3}}
+	snakeObj.Body = []Coordinates{{1, 1}, {1, 2}, {1, 3}}
 	return snakeObj
 }
 
@@ -34,6 +34,13 @@ func (snake *Snake) Draw(screen *termloop.Screen) {
 		head := snake.Body[len(snake.Body)-1]
 		head.y++
 		snake.Body = append(snake.Body[1:], head)
+	}
+
+	if snake.FoodCollision() {
+		//увеличиваем длинну змейки
+		snake.increaseSnaake()
+		//перемещаем еду на новое место
+		GameScreen.gameFood.MoveFood()
 	}
 
 	//отрисовка на экране
@@ -69,5 +76,38 @@ func (snake *Snake) Tick(event termloop.Event) {
 				snake.Direction = down
 			}
 		}
+	}
+}
+
+//GetHead получение головы змейки
+func (snake *Snake) GetHead() *Coordinates {
+	return &snake.Body[len(snake.Body)-1]
+}
+
+//FoodCollision определение коллизии с едой
+func (snake *Snake) FoodCollision() bool {
+	return GameScreen.gameFood.Collision(snake.GetHead())
+}
+
+func (snake *Snake) increaseSnaake() {
+	if snake.Direction == right {
+		head := snake.Body[len(snake.Body)-1]
+		head.x++
+		snake.Body = append(snake.Body, head)
+	}
+	if snake.Direction == left {
+		head := snake.Body[len(snake.Body)-1]
+		head.x--
+		snake.Body = append(snake.Body, head)
+	}
+	if snake.Direction == up {
+		head := snake.Body[len(snake.Body)-1]
+		head.y--
+		snake.Body = append(snake.Body, head)
+	}
+	if snake.Direction == down {
+		head := snake.Body[len(snake.Body)-1]
+		head.y++
+		snake.Body = append(snake.Body, head)
 	}
 }

@@ -16,18 +16,18 @@ type Game struct {
 //Area объект арены, по которой будет перемещаться змейка
 type Area struct {
 	*termloop.Entity
-	areaBorder map[coordinates]int // для нахождения коллисий с краем поля и отрисовки граней
+	areaBorder map[Coordinates]int // для нахождения коллисий с краем поля и отрисовки граней
 }
 
 //Snake объект змейки
 type Snake struct {
 	*termloop.Entity
-	Body      []coordinates
+	Body      []Coordinates
 	Direction direction
 }
 
 //Food объект пищи для змейки
 type Food struct {
 	*termloop.Entity
-	coord coordinates
+	coord Coordinates
 }
