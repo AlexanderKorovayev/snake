@@ -40,3 +40,8 @@ func (area *Area) Draw(screen *termloop.Screen) {
 		}
 	}
 }
+
+//Collision произошло ли косание с змейкой
+func (area *Area) Collision(c *Coordinates) bool {
+	return area.areaBorder[Coordinates{c.x, c.y}] == 1
+}

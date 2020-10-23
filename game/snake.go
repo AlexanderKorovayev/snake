@@ -38,9 +38,13 @@ func (snake *Snake) Draw(screen *termloop.Screen) {
 
 	if snake.FoodCollision() {
 		//увеличиваем длинну змейки
-		snake.increaseSnaake()
+		snake.increaseSnake()
 		//перемещаем еду на новое место
 		GameScreen.gameFood.MoveFood()
+	}
+
+	if snake.AreaCollision() {
+		GameOver()
 	}
 
 	//отрисовка на экране
@@ -89,7 +93,12 @@ func (snake *Snake) FoodCollision() bool {
 	return GameScreen.gameFood.Collision(snake.GetHead())
 }
 
-func (snake *Snake) increaseSnaake() {
+//AreaCollision определение коллизии с окружением
+func (snake *Snake) AreaCollision() bool {
+	return GameScreen.gameArea.Collision(snake.GetHead())
+}
+
+func (snake *Snake) increaseSnake() {
 	if snake.Direction == right {
 		head := snake.Body[len(snake.Body)-1]
 		head.x++
