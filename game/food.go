@@ -33,13 +33,13 @@ func GetCoordinates() (int, int) {
 //Draw отвечает за отрисовку пищи на дисплее
 func (food *Food) Draw(screen *termloop.Screen) {
 	//отрисовка на экране
-	screen.RenderCell(food.coord.x, food.coord.y, &termloop.Cell{Fg: termloop.ColorWhite, Bg: termloop.ColorBlack,
+	screen.RenderCell(food.coord.X, food.coord.Y, &termloop.Cell{Fg: termloop.ColorWhite, Bg: termloop.ColorBlack,
 		Ch: rune('€')})
 }
 
 //Collision произошло ли косание с едой
 func (food *Food) Collision(c *Coordinates) bool {
-	return food.coord.x == c.x && food.coord.y == c.y
+	return food.coord.X == c.X && food.coord.Y == c.Y
 }
 
 //MoveFood передвинуть еду

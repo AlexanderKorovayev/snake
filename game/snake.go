@@ -17,22 +17,22 @@ func CreateSnake() *Snake {
 func (snake *Snake) Draw(screen *termloop.Screen) {
 	if snake.Direction == right {
 		head := snake.Body[len(snake.Body)-1]
-		head.x++
+		head.X++
 		snake.Body = append(snake.Body[1:], head)
 	}
 	if snake.Direction == left {
 		head := snake.Body[len(snake.Body)-1]
-		head.x--
+		head.X--
 		snake.Body = append(snake.Body[1:], head)
 	}
 	if snake.Direction == up {
 		head := snake.Body[len(snake.Body)-1]
-		head.y--
+		head.Y--
 		snake.Body = append(snake.Body[1:], head)
 	}
 	if snake.Direction == down {
 		head := snake.Body[len(snake.Body)-1]
-		head.y++
+		head.Y++
 		snake.Body = append(snake.Body[1:], head)
 	}
 
@@ -43,13 +43,13 @@ func (snake *Snake) Draw(screen *termloop.Screen) {
 		GameScreen.gameFood.MoveFood()
 	}
 
-	if snake.AreaCollision() {
+	if snake.AreaCollision() || snake.SnakeCollision() {
 		GameOver()
 	}
 
 	//отрисовка на экране
 	for _, v := range snake.Body {
-		screen.RenderCell(v.x, v.y, &termloop.Cell{Fg: termloop.ColorWhite,
+		screen.RenderCell(v.X, v.Y, &termloop.Cell{Fg: termloop.ColorWhite,
 			Bg: termloop.ColorBlack,
 			Ch: rune('߷')})
 	}
@@ -98,25 +98,31 @@ func (snake *Snake) AreaCollision() bool {
 	return GameScreen.gameArea.Collision(snake.GetHead())
 }
 
+//SnakeCollision определение столкновений змейки с самой собой
+func (snake *Snake) SnakeCollision() bool {
+	bodyWithoutHead := snake.Body[:len(snake.Body)-1]
+	return FindInSlice(&bodyWithoutHead, snake.GetHead())
+}
+
 func (snake *Snake) increaseSnake() {
 	if snake.Direction == right {
 		head := snake.Body[len(snake.Body)-1]
-		head.x++
+		head.X++
 		snake.Body = append(snake.Body, head)
 	}
 	if snake.Direction == left {
 		head := snake.Body[len(snake.Body)-1]
-		head.x--
+		head.X--
 		snake.Body = append(snake.Body, head)
 	}
 	if snake.Direction == up {
 		head := snake.Body[len(snake.Body)-1]
-		head.y--
+		head.Y--
 		snake.Body = append(snake.Body, head)
 	}
 	if snake.Direction == down {
 		head := snake.Body[len(snake.Body)-1]
-		head.y++
+		head.Y++
 		snake.Body = append(snake.Body, head)
 	}
 }

@@ -6,8 +6,8 @@ var GameScreen *Game
 
 //Coordinates координаты
 type Coordinates struct {
-	x int
-	y int
+	X int
+	Y int
 }
 
 type direction int

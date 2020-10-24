@@ -1,6 +1,8 @@
 package main
 
-import "github.com/AlexanderKorovayev/snake/game"
+import (
+	"github.com/AlexanderKorovayev/snake/game"
+)
 
 func main() {
 	//"github.com/AlexanderKorovayev/snake/game"

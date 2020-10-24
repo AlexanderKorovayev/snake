@@ -35,7 +35,7 @@ func (area *Area) Draw(screen *termloop.Screen) {
 	//отрисовка на экране
 	for k, v := range area.areaBorder {
 		if v == 1 {
-			screen.RenderCell(k.x, k.y, &termloop.Cell{Fg: termloop.ColorWhite,
+			screen.RenderCell(k.X, k.Y, &termloop.Cell{Fg: termloop.ColorWhite,
 				Bg: termloop.ColorWhite})
 		}
 	}
@@ -43,5 +43,5 @@ func (area *Area) Draw(screen *termloop.Screen) {
 
 //Collision произошло ли косание с змейкой
 func (area *Area) Collision(c *Coordinates) bool {
-	return area.areaBorder[Coordinates{c.x, c.y}] == 1
+	return area.areaBorder[Coordinates{c.X, c.Y}] == 1
 }
