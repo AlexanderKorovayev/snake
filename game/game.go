@@ -1,51 +1,45 @@
+/*
+package game
+модуль game отвечает за инициализауию самой игры
+*/
+
 package game
 
 import (
-	"io/ioutil"
-
+	"github.com/AlexanderKorovaev/snake/core"
 	"github.com/JoelOtter/termloop"
 )
 
-//StartGame стартуем игру
-func StartGame() {
-	sg := termloop.NewGame()
-
-	// Create titlescreen.
-	gs := NewGamescreen()
-	sg.Screen().SetFps(5)
-	sg.Screen().SetLevel(gs)
-	sg.Start()
-}
-
 //NewGamescreen инициализация игры
-func NewGamescreen() *Game {
-	// Creates the gamescreen level and create the entities
-	GameScreen = new(Game)
+func NewGamescreen() *core.Game {
+	//создаём основные объекты
+	GameScreen = new(core.Game)
 	GameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
 		Bg: termloop.ColorBlack,
 	})
-	GameScreen.snake = CreateSnake()
-	// Add entities for the game level.
-	GameScreen.AddEntity(GameScreen.snake)
 
-	GameScreen.gameArea = CreateArea()
-	// Add entities for the game level.
+	GameScreen.gameArea = core.CreateArea()
+	// добавляем игровое поле
 	GameScreen.AddEntity(GameScreen.gameArea)
 
-	GameScreen.gameFood = CreateFood()
-	// Add entities for the game level.
+	GameScreen.snake = core.CreateSnake()
+	// добавляем змейку
+	GameScreen.AddEntity(GameScreen.snake)
+
+	GameScreen.gameFood = core.CreateFood()
+	// добавляем еду
 	GameScreen.AddEntity(GameScreen.gameFood)
 
 	return GameScreen
 }
 
-//GameOver функция для отображения конца игры
-func GameOver() {
-	GameScreen.Level.RemoveEntity(GameScreen.snake)
-	GameScreen.Level.RemoveEntity(GameScreen.gameArea)
-	GameScreen.Level.RemoveEntity(GameScreen.gameFood)
+//StartGame стартуем игру
+func StartGame() {
+	sg := termloop.NewGame()
 
-	dat, _ := ioutil.ReadFile("gameover-logo.txt")
-	e := termloop.NewEntityFromCanvas(1, 1, termloop.CanvasFromString(string(dat)))
-	GameScreen.AddEntity(e)
+	// создаём основной экран
+	gs := NewGamescreen()
+	sg.Screen().SetFps(5)
+	sg.Screen().SetLevel(gs)
+	sg.Start()
 }

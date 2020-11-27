@@ -1,11 +1,16 @@
-//модуль для описания основных объектов
-package game
+/*
+package core
+модуль main_objects
+содержит описание типов основных игровых объектов
+*/
+
+package core
 
 import (
 	"github.com/JoelOtter/termloop"
 )
 
-//Game основной объект для рисования
+//Game основной объект игра, который содержит в себе все остальные
 type Game struct {
 	termloop.Level
 	gameArea *Area
@@ -13,7 +18,7 @@ type Game struct {
 	gameFood *Food
 }
 
-//Area объект арены, по которой будет перемещаться змейка
+//Area объект игрового поля, по которому будет перемещаться змейка
 type Area struct {
 	*termloop.Entity
 	areaBorder map[Coordinates]int // для нахождения коллисий с краем поля и отрисовки граней

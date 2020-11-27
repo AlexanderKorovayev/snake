@@ -1,4 +1,10 @@
-package game
+/*
+package core
+модуль snake
+описывает объект змейка
+*/
+
+package core
 
 import (
 	"github.com/JoelOtter/termloop"

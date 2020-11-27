@@ -1,18 +1,33 @@
-package game
+/*
+package core
+модуль area
+отвечает за отричовку игрового поля.
+небольшое описание для termloop:
+	есть canvas(полотно) это двумерный массив, который содержит Cell(ячейки),
+	они могут содержать разные символы и цвета, таким образом рисуется канвас
+	основные модули это:
+		entity.go
+		input.go
+		level.go
+		screen.go
+		termloop.go
+*/
+
+package core
 
 import "github.com/JoelOtter/termloop"
 
 //CreateArea создать арену, по которой будет перемещаться змейка
 func CreateArea() *Area {
-	areaObj := new(Area)
-	areaObj.Entity = termloop.NewEntity(1, 1, 1, 1)
-	var border map[Coordinates]int
-	border = make(map[Coordinates]int)
+	area := new(Area)
+	area.Entity = termloop.NewEntity(1, 1, 1, 1)
+	border := make(map[Coordinates]int)
 	fillAreaBorder(35, 20, &border)
-	areaObj.areaBorder = border
-	return areaObj
+	area.areaBorder = border
+	return area
 }
 
+//fillAreaBorder заполнить игровую область информацией о её границах
 func fillAreaBorder(imax, jmax int, border *map[Coordinates]int) {
 	starti := 0
 	startj := 0
@@ -43,5 +58,5 @@ func (area *Area) Draw(screen *termloop.Screen) {
 
 //Collision произошло ли косание с змейкой
 func (area *Area) Collision(c *Coordinates) bool {
-	return area.areaBorder[Coordinates{c.X, c.Y}] == 1
+	return area.areaBorder[*c] == 1
 }

@@ -1,4 +1,10 @@
-package game
+/*
+package core
+модуль food
+содержит объекты, которые змейка может съесть
+*/
+
+package core
 
 import (
 	"math/rand"
@@ -9,22 +15,22 @@ import (
 
 //CreateFood создать еду для змейки
 func CreateFood() *Food {
-	foodObj := new(Food)
-	foodObj.Entity = termloop.NewEntity(1, 1, 1, 1)
+	food := new(Food)
+	food.Entity = termloop.NewEntity(1, 1, 1, 1)
 
 	x, y := GetCoordinates()
-	// Set the new position of the food.
-	foodObj.coord = Coordinates{x, y}
+	//разместим еду на игровом поле
+	food.coord = Coordinates{x, y}
 
-	return foodObj
+	return food
 }
 
-//GetCoordinates получение координат для пищи
+//GetCoordinates получение рандомных координат для пищи
 func GetCoordinates() (int, int) {
 	// инициализируем рандомизатор для оси X
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
-	// инициализируем рандомизатор для оси X
+	// инициализируем рандомизатор для оси Y
 	s2 := rand.NewSource(time.Now().UnixNano())
 	r2 := rand.New(s2)
 	return r1.Intn(34), r2.Intn(19)
@@ -33,8 +39,10 @@ func GetCoordinates() (int, int) {
 //Draw отвечает за отрисовку пищи на дисплее
 func (food *Food) Draw(screen *termloop.Screen) {
 	//отрисовка на экране
-	screen.RenderCell(food.coord.X, food.coord.Y, &termloop.Cell{Fg: termloop.ColorWhite, Bg: termloop.ColorBlack,
-		Ch: rune('€')})
+	screen.RenderCell(food.coord.X,
+		food.coord.Y,
+		&termloop.Cell{Fg: termloop.ColorWhite, Bg: termloop.ColorBlack,
+			Ch: rune('€')})
 }
 
 //Collision произошло ли косание с едой
@@ -45,7 +53,6 @@ func (food *Food) Collision(c *Coordinates) bool {
 //MoveFood передвинуть еду
 func (food *Food) MoveFood() {
 	x, y := GetCoordinates()
-	// Set the new position of the food.
+	//установить новые координаты для еды.
 	food.coord = Coordinates{x, y}
-	//food.SetPosition(x, y)
 }
