@@ -6,9 +6,6 @@ package core
 
 package core
 
-//GameScreen глобальная переменная для получения доступа к основным объектам
-var GameScreen *Game
-
 //Coordinates координаты
 type Coordinates struct {
 	X int

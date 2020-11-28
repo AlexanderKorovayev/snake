@@ -14,9 +14,9 @@ import (
 
 //GameOver функция для отображения конца игры
 func GameOver() {
-	GameScreen.Level.RemoveEntity(GameScreen.snake)
-	GameScreen.Level.RemoveEntity(GameScreen.gameArea)
-	GameScreen.Level.RemoveEntity(GameScreen.gameFood)
+	GameScreen.Level.RemoveEntity(GameScreen.Snake)
+	GameScreen.Level.RemoveEntity(GameScreen.GameArea)
+	GameScreen.Level.RemoveEntity(GameScreen.GameFood)
 
 	dat, _ := ioutil.ReadFile("gameover-logo.txt")
 	e := termloop.NewEntityFromCanvas(1, 1, termloop.CanvasFromString(string(dat)))

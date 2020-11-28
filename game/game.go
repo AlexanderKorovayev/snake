@@ -10,36 +10,33 @@ import (
 	"github.com/JoelOtter/termloop"
 )
 
-//NewGamescreen инициализация игры
-func NewGamescreen() *core.Game {
+//NewLevel инициализация уровня
+func NewLevel() *core.Game {
 	//создаём основные объекты
-	GameScreen = new(core.Game)
-	GameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
+	core.GameScreen = new(core.Game)
+	core.GameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
 		Bg: termloop.ColorBlack,
 	})
-
-	GameScreen.gameArea = core.CreateArea()
 	// добавляем игровое поле
-	GameScreen.AddEntity(GameScreen.gameArea)
-
-	GameScreen.snake = core.CreateSnake()
+	core.GameScreen.GameArea = core.CreateArea()
+	core.GameScreen.AddEntity(core.GameScreen.GameArea)
 	// добавляем змейку
-	GameScreen.AddEntity(GameScreen.snake)
-
-	GameScreen.gameFood = core.CreateFood()
+	core.GameScreen.Snake = core.CreateSnake()
+	core.GameScreen.AddEntity(core.GameScreen.Snake)
 	// добавляем еду
-	GameScreen.AddEntity(GameScreen.gameFood)
+	core.GameScreen.GameFood = core.CreateFood()
+	core.GameScreen.AddEntity(core.GameScreen.GameFood)
 
-	return GameScreen
+	return core.GameScreen
 }
 
 //StartGame стартуем игру
 func StartGame() {
-	sg := termloop.NewGame()
+	game := termloop.NewGame()
 
 	// создаём основной экран
-	gs := NewGamescreen()
-	sg.Screen().SetFps(5)
-	sg.Screen().SetLevel(gs)
-	sg.Start()
+	level := NewLevel()
+	game.Screen().SetFps(5)
+	game.Screen().SetLevel(level)
+	game.Start()
 }

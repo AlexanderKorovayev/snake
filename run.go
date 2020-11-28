@@ -2,7 +2,7 @@
 package main
 
 import (
-	"github.com/AlexanderKorovayev/snake/game"
+	"github.com/AlexanderKorovaev/snake/game"
 )
 
 func main() {

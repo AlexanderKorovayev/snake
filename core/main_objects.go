@@ -13,9 +13,9 @@ import (
 //Game основной объект игра, который содержит в себе все остальные
 type Game struct {
 	termloop.Level
-	gameArea *Area
-	snake    *Snake
-	gameFood *Food
+	GameArea *Area
+	Snake    *Snake
+	GameFood *Food
 }
 
 //Area объект игрового поля, по которому будет перемещаться змейка
