@@ -12,8 +12,8 @@ import (
 	"github.com/JoelOtter/termloop"
 )
 
-//GameOver функция для отображения конца игры
-func GameOver() {
+//gameOver функция для отображения конца игры
+func gameOver() {
 	GameScreen.Level.RemoveEntity(GameScreen.Snake)
 	GameScreen.Level.RemoveEntity(GameScreen.GameArea)
 	GameScreen.Level.RemoveEntity(GameScreen.GameFood)

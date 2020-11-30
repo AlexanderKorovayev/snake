@@ -13,26 +13,26 @@ import (
 //Game основной объект игра, который содержит в себе все остальные
 type Game struct {
 	termloop.Level
-	GameArea *Area
-	Snake    *Snake
+	GameArea *area
+	Snake    *snake
 	GameFood *Food
 }
 
-//Area объект игрового поля, по которому будет перемещаться змейка
-type Area struct {
+//area объект игрового поля, по которому будет перемещаться змейка
+type area struct {
 	*termloop.Entity
-	areaBorder map[Coordinates]int // для нахождения коллисий с краем поля и отрисовки граней
+	areaBorder map[coordinates]int // для нахождения коллисий с краем поля и отрисовки граней
 }
 
-//Snake объект змейки
-type Snake struct {
+//snake объект змейки
+type snake struct {
 	*termloop.Entity
-	Body      []Coordinates
-	Direction direction
+	body  []coordinates
+	drctn direction
 }
 
 //Food объект пищи для змейки
 type Food struct {
 	*termloop.Entity
-	coord Coordinates
+	coord coordinates
 }

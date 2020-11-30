@@ -18,41 +18,49 @@ func CreateFood() *Food {
 	food := new(Food)
 	food.Entity = termloop.NewEntity(1, 1, 1, 1)
 
-	x, y := GetCoordinates()
+	x, y := getCoordinates()
 	//разместим еду на игровом поле
-	food.coord = Coordinates{x, y}
+	food.coord = coordinates{x, y}
 
 	return food
 }
 
-//GetCoordinates получение рандомных координат для пищи
-func GetCoordinates() (int, int) {
+//getCoordinates получение рандомных координат для пищи
+func getCoordinates() (int, int) {
 	// инициализируем рандомизатор для оси X
 	s1 := rand.NewSource(time.Now().UnixNano())
 	r1 := rand.New(s1)
 	// инициализируем рандомизатор для оси Y
 	s2 := rand.NewSource(time.Now().UnixNano())
 	r2 := rand.New(s2)
-	return r1.Intn(34), r2.Intn(19)
+	x := r1.Intn(Width - 1)
+	if x == 0 {
+		x++
+	}
+	y := r2.Intn(High - 1)
+	if y == 0 {
+		y++
+	}
+	return x, y
 }
 
 //Draw отвечает за отрисовку пищи на дисплее
 func (food *Food) Draw(screen *termloop.Screen) {
 	//отрисовка на экране
-	screen.RenderCell(food.coord.X,
-		food.coord.Y,
+	screen.RenderCell(food.coord.x,
+		food.coord.y,
 		&termloop.Cell{Fg: termloop.ColorWhite, Bg: termloop.ColorBlack,
 			Ch: rune('€')})
 }
 
-//Collision произошло ли косание с едой
-func (food *Food) Collision(c *Coordinates) bool {
-	return food.coord.X == c.X && food.coord.Y == c.Y
+//collision произошло ли косание с едой
+func (food *Food) collision(c *coordinates) bool {
+	return food.coord.x == c.x && food.coord.y == c.y
 }
 
-//MoveFood передвинуть еду
-func (food *Food) MoveFood() {
-	x, y := GetCoordinates()
+//moveFood передвинуть еду
+func (food *Food) moveFood() {
+	x, y := getCoordinates()
 	//установить новые координаты для еды.
-	food.coord = Coordinates{x, y}
+	food.coord = coordinates{x, y}
 }

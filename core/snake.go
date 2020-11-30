@@ -11,123 +11,122 @@ import (
 )
 
 //CreateSnake создать змейку
-func CreateSnake() *Snake {
-	snakeObj := new(Snake)
+func CreateSnake() *snake {
+	snakeObj := new(snake)
 	snakeObj.Entity = termloop.NewEntity(1, 1, 1, 1)
-	snakeObj.Direction = right
-	snakeObj.Body = []Coordinates{{1, 1}, {1, 2}, {1, 3}}
+	snakeObj.drctn = right
+	snakeObj.body = []coordinates{{1, 1}, {1, 2}, {1, 3}}
 	return snakeObj
 }
 
 //Draw отвечает за отрисовку змеи на дисплее
-func (snake *Snake) Draw(screen *termloop.Screen) {
-	if snake.Direction == right {
-		head := snake.Body[len(snake.Body)-1]
-		head.X++
-		snake.Body = append(snake.Body[1:], head)
+func (snake *snake) Draw(screen *termloop.Screen) {
+	if snake.drctn == right {
+		head := snake.body[len(snake.body)-1]
+		head.x++
+		snake.body = append(snake.body[1:], head)
 	}
-	if snake.Direction == left {
-		head := snake.Body[len(snake.Body)-1]
-		head.X--
-		snake.Body = append(snake.Body[1:], head)
+	if snake.drctn == left {
+		head := snake.body[len(snake.body)-1]
+		head.x--
+		snake.body = append(snake.body[1:], head)
 	}
-	if snake.Direction == up {
-		head := snake.Body[len(snake.Body)-1]
-		head.Y--
-		snake.Body = append(snake.Body[1:], head)
+	if snake.drctn == up {
+		head := snake.body[len(snake.body)-1]
+		head.y--
+		snake.body = append(snake.body[1:], head)
 	}
-	if snake.Direction == down {
-		head := snake.Body[len(snake.Body)-1]
-		head.Y++
-		snake.Body = append(snake.Body[1:], head)
+	if snake.drctn == down {
+		head := snake.body[len(snake.body)-1]
+		head.y++
+		snake.body = append(snake.body[1:], head)
 	}
 
-	if snake.FoodCollision() {
+	if snake.foodCollision() {
 		//увеличиваем длинну змейки
 		snake.increaseSnake()
 		//перемещаем еду на новое место
-		GameScreen.GameFood.MoveFood()
+		GameScreen.GameFood.moveFood()
 	}
 
-	if snake.AreaCollision() || snake.SnakeCollision() {
-		GameOver()
+	if snake.areaCollision() || snake.snakeCollision() {
+		gameOver()
 	}
 
 	//отрисовка на экране
-	for _, v := range snake.Body {
-		screen.RenderCell(v.X, v.Y, &termloop.Cell{Fg: termloop.ColorWhite,
+	for _, v := range snake.body {
+		screen.RenderCell(v.x, v.y, &termloop.Cell{Fg: termloop.ColorWhite,
 			Bg: termloop.ColorWhite})
 	}
 
 }
 
-// Tick позволяет сущности змейки двигаться
-// каждый момент времени мы проверяем состояние, что бы отрисовать объекты
-func (snake *Snake) Tick(event termloop.Event) {
+// Tick позволяет отслеживать нажатия клавиатуры
+func (snake *snake) Tick(event termloop.Event) {
 	if event.Type == termloop.EventKey {
 		if event.Key == termloop.KeyArrowRight {
-			if snake.Direction != left {
-				snake.Direction = right
+			if snake.drctn != left {
+				snake.drctn = right
 			}
 		}
 		if event.Key == termloop.KeyArrowLeft {
-			if snake.Direction != right {
-				snake.Direction = left
+			if snake.drctn != right {
+				snake.drctn = left
 			}
 		}
 		if event.Key == termloop.KeyArrowUp {
-			if snake.Direction != down {
-				snake.Direction = up
+			if snake.drctn != down {
+				snake.drctn = up
 			}
 		}
 		if event.Key == termloop.KeyArrowDown {
-			if snake.Direction != up {
-				snake.Direction = down
+			if snake.drctn != up {
+				snake.drctn = down
 			}
 		}
 	}
 }
 
 //GetHead получение головы змейки
-func (snake *Snake) GetHead() *Coordinates {
-	return &snake.Body[len(snake.Body)-1]
+func (snake *snake) GetHead() *coordinates {
+	return &snake.body[len(snake.body)-1]
 }
 
-//FoodCollision определение коллизии с едой
-func (snake *Snake) FoodCollision() bool {
-	return GameScreen.GameFood.Collision(snake.GetHead())
+//foodCollision определение коллизии с едой
+func (snake *snake) foodCollision() bool {
+	return GameScreen.GameFood.collision(snake.GetHead())
 }
 
-//AreaCollision определение коллизии с окружением
-func (snake *Snake) AreaCollision() bool {
-	return GameScreen.GameArea.Collision(snake.GetHead())
+//areaCollision определение коллизии с окружением
+func (snake *snake) areaCollision() bool {
+	return GameScreen.GameArea.collision(snake.GetHead())
 }
 
-//SnakeCollision определение столкновений змейки с самой собой
-func (snake *Snake) SnakeCollision() bool {
-	bodyWithoutHead := snake.Body[:len(snake.Body)-1]
+//snakeCollision определение столкновений змейки с самой собой
+func (snake *snake) snakeCollision() bool {
+	bodyWithoutHead := snake.body[:len(snake.body)-1]
 	return FindInSlice(&bodyWithoutHead, snake.GetHead())
 }
 
-func (snake *Snake) increaseSnake() {
-	if snake.Direction == right {
-		head := snake.Body[len(snake.Body)-1]
-		head.X++
-		snake.Body = append(snake.Body, head)
+func (snake *snake) increaseSnake() {
+	if snake.drctn == right {
+		head := snake.body[len(snake.body)-1]
+		head.x++
+		snake.body = append(snake.body, head)
 	}
-	if snake.Direction == left {
-		head := snake.Body[len(snake.Body)-1]
-		head.X--
-		snake.Body = append(snake.Body, head)
+	if snake.drctn == left {
+		head := snake.body[len(snake.body)-1]
+		head.x--
+		snake.body = append(snake.body, head)
 	}
-	if snake.Direction == up {
-		head := snake.Body[len(snake.Body)-1]
-		head.Y--
-		snake.Body = append(snake.Body, head)
+	if snake.drctn == up {
+		head := snake.body[len(snake.body)-1]
+		head.y--
+		snake.body = append(snake.body, head)
 	}
-	if snake.Direction == down {
-		head := snake.Body[len(snake.Body)-1]
-		head.Y++
-		snake.Body = append(snake.Body, head)
+	if snake.drctn == down {
+		head := snake.body[len(snake.body)-1]
+		head.y++
+		snake.body = append(snake.body, head)
 	}
 }

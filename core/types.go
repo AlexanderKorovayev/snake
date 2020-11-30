@@ -6,10 +6,10 @@ package core
 
 package core
 
-//Coordinates координаты
-type Coordinates struct {
-	X int
-	Y int
+//coordinates координаты
+type coordinates struct {
+	x int
+	y int
 }
 
 type direction int
