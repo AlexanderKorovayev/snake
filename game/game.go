@@ -20,9 +20,16 @@ func NewLevel() *core.Game {
 	// добавляем игровое поле
 	core.GameScreen.GameArea = core.CreateArea()
 	core.GameScreen.AddEntity(core.GameScreen.GameArea)
-	// добавляем змейку
-	core.GameScreen.Snake = core.CreateSnake()
-	core.GameScreen.AddEntity(core.GameScreen.Snake)
+	// добавляем змеек, соответствующе количетсву игроков
+	players := 1 //подумать где и как будем брать игроков
+	bodys, err := core.GenerateBodyCoord(players)
+	if err != nil {
+		panic(err.Error())
+	}
+	for _, body := range bodys {
+		core.GameScreen.Snake = core.CreateSnake(body)
+		core.GameScreen.AddEntity(core.GameScreen.Snake)
+	}
 	// добавляем еду
 	core.GameScreen.GameFood = core.CreateFood()
 	core.GameScreen.AddEntity(core.GameScreen.GameFood)

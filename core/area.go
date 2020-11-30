@@ -24,7 +24,7 @@ func CreateArea() *area {
 	area := new(area)
 	area.Entity = termloop.NewEntity(1, 1, 1, 1)
 	border := make(map[coordinates]int)
-	fillAreaBorder(Width, High, &border)
+	fillAreaBorder(width, high, &border)
 	area.areaBorder = border
 	return area
 }

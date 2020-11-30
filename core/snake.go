@@ -11,11 +11,11 @@ import (
 )
 
 //CreateSnake создать змейку
-func CreateSnake() *snake {
+func CreateSnake(body []coordinates) *snake {
 	snakeObj := new(snake)
 	snakeObj.Entity = termloop.NewEntity(1, 1, 1, 1)
 	snakeObj.drctn = right
-	snakeObj.body = []coordinates{{1, 1}, {1, 2}, {1, 3}}
+	snakeObj.body = body
 	return snakeObj
 }
 

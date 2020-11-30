@@ -33,11 +33,11 @@ func getCoordinates() (int, int) {
 	// инициализируем рандомизатор для оси Y
 	s2 := rand.NewSource(time.Now().UnixNano())
 	r2 := rand.New(s2)
-	x := r1.Intn(Width - 1)
+	x := r1.Intn(width - 1)
 	if x == 0 {
 		x++
 	}
-	y := r2.Intn(High - 1)
+	y := r2.Intn(high - 1)
 	if y == 0 {
 		y++
 	}
