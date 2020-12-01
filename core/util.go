@@ -21,7 +21,7 @@ func FindInSlice(sliceData *[]coordinates, data *coordinates) bool {
 }
 
 //GenerateBodysCoord генерируем координаты змейки для каждого игрока
-//распологаем каждого игрока в свой угол
+//ставим каждого игрока в свой угол
 func GenerateBodysCoord(numPlayer int) ([][]coordinates, error) {
 	if numPlayer > maxPlayer {
 		errTxt := "большое колличество игроков, должно быть не более %v"

@@ -14,8 +14,8 @@ import (
 )
 
 //CreateFood создать еду для змейки
-func CreateFood() *Food {
-	food := new(Food)
+func CreateFood() *food {
+	food := new(food)
 	food.Entity = termloop.NewEntity(1, 1, 1, 1)
 
 	x, y := getCoordinates()
@@ -45,7 +45,7 @@ func getCoordinates() (int, int) {
 }
 
 //Draw отвечает за отрисовку пищи на дисплее
-func (food *Food) Draw(screen *termloop.Screen) {
+func (food *food) Draw(screen *termloop.Screen) {
 	//отрисовка на экране
 	screen.RenderCell(food.coord.x,
 		food.coord.y,
@@ -54,12 +54,12 @@ func (food *Food) Draw(screen *termloop.Screen) {
 }
 
 //collision произошло ли косание с едой
-func (food *Food) collision(c *coordinates) bool {
+func (food *food) collision(c *coordinates) bool {
 	return food.coord.x == c.x && food.coord.y == c.y
 }
 
 //moveFood передвинуть еду
-func (food *Food) moveFood() {
+func (food *food) moveFood() {
 	x, y := getCoordinates()
 	//установить новые координаты для еды.
 	food.coord = coordinates{x, y}

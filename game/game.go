@@ -10,8 +10,21 @@ import (
 	"github.com/JoelOtter/termloop"
 )
 
-//NewLevel инициализация уровня
-func NewLevel() *core.Game {
+//startLevel инициализация уровня
+func startLevel() *StartLevel {
+	//создаём основные объекты
+	GameScreen := new(StartLevel)
+	GameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
+		Bg: termloop.ColorBlack,
+	})
+	// добавляем стартовую надпись
+	GameScreen.StartMenu = CreateStartMenu()
+	GameScreen.AddEntity(GameScreen.StartMenu)
+	return GameScreen
+}
+
+//snakeLevel инициализация уровня
+func snakeLevel() *core.Game {
 	//создаём основные объекты
 	core.GameScreen = new(core.Game)
 	core.GameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
@@ -39,11 +52,11 @@ func NewLevel() *core.Game {
 
 //StartGame стартуем игру
 func StartGame() {
-	game := termloop.NewGame()
+	core.TermloopGame = termloop.NewGame()
 
-	// создаём основной экран
-	level := NewLevel()
-	game.Screen().SetFps(5)
-	game.Screen().SetLevel(level)
-	game.Start()
+	// создаём стартовый уровень
+	level := startLevel()
+	core.TermloopGame.Screen().SetFps(5)
+	core.TermloopGame.Screen().SetLevel(level)
+	core.TermloopGame.Start()
 }

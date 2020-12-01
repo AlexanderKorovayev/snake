@@ -10,12 +10,12 @@ import (
 	"github.com/JoelOtter/termloop"
 )
 
-//Game основной объект игра, который содержит в себе все остальные
+//Game основной уровень игры
 type Game struct {
 	termloop.Level
 	GameArea *area
 	Snake    *snake
-	GameFood *Food
+	GameFood *food
 }
 
 //area объект игрового поля, по которому будет перемещаться змейка
@@ -31,8 +31,8 @@ type snake struct {
 	drctn direction
 }
 
-//Food объект пищи для змейки
-type Food struct {
+//food объект пищи для змейки
+type food struct {
 	*termloop.Entity
 	coord coordinates
 }
