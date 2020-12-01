@@ -20,20 +20,23 @@ func FindInSlice(sliceData *[]coordinates, data *coordinates) bool {
 	return false
 }
 
-//GenerateBodyCoord генерируем координаты расположения змейки для каждого игрока
+//GenerateBodysCoord генерируем координаты змейки для каждого игрока
 //распологаем каждого игрока в свой угол
-func GenerateBodyCoord(numPlayer int) ([][]coordinates, error) {
+func GenerateBodysCoord(numPlayer int) ([][]coordinates, error) {
 	if numPlayer > maxPlayer {
-		return nil, fmt.Errorf("большое колличество игроков, должно быть не более %v", numPlayer)
+		errTxt := "большое колличество игроков, должно быть не более %v"
+		return nil, fmt.Errorf(errTxt, maxPlayer)
 	} else {
 		var bodys [][]coordinates
 		switch numPlayer {
 		case 1:
-			bodys = [][]coordinates{{{33, 15}, {34, 15}, {35, 15}}}
+			bodys = [][]coordinates{{{1, high - 2}, {2, high - 2}, {3, high - 2}}}
 		case 2:
-			bodys = nil //доработать случай
+			//доработать случай
 		case 3:
-			bodys = nil //доработать случай
+			//доработать случай
+		case 4:
+			//доработать случай
 		}
 		return bodys, nil
 	}

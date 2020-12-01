@@ -11,6 +11,8 @@ package core
 //переменной мы можем менять происходящее на уровне
 var GameScreen *Game
 
+const gameOverLogo string = "gameover-logo.txt"
+
 //width ширина поля, по факту граница рисуется на 34 пикселе, и змейке достаётся 33 в ширину
 const width int = 35
 

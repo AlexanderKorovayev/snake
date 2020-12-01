@@ -8,6 +8,7 @@ package core
 
 import (
 	"io/ioutil"
+	"runtime"
 
 	"github.com/JoelOtter/termloop"
 )
@@ -18,7 +19,20 @@ func gameOver() {
 	GameScreen.Level.RemoveEntity(GameScreen.GameArea)
 	GameScreen.Level.RemoveEntity(GameScreen.GameFood)
 
-	dat, _ := ioutil.ReadFile("gameover-logo.txt")
-	e := termloop.NewEntityFromCanvas(1, 1, termloop.CanvasFromString(string(dat)))
-	GameScreen.AddEntity(e)
+	defaultText := termloop.NewText(0, 0, "Game over, pleace press cntrl+c",
+		termloop.ColorWhite, termloop.ColorDefault)
+
+	if runtime.GOOS == "windows" {
+		dat, err := ioutil.ReadFile(gameOverLogo)
+		if err != nil {
+			// если картинка не открылась, то отобразим хотя бы текст
+			GameScreen.AddEntity(defaultText)
+		}
+		canv := termloop.NewEntityFromCanvas(1, 1,
+			termloop.CanvasFromString(string(dat)))
+		GameScreen.AddEntity(canv)
+	} else {
+		//в линуксе почему-то лого не открывается, поэтому вставляем текст
+		GameScreen.AddEntity(defaultText)
+	}
 }

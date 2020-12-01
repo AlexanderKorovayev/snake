@@ -20,9 +20,9 @@ func NewLevel() *core.Game {
 	// добавляем игровое поле
 	core.GameScreen.GameArea = core.CreateArea()
 	core.GameScreen.AddEntity(core.GameScreen.GameArea)
-	// добавляем змеек, соответствующе количетсву игроков
+	// добавляем змеек, пропорционально количетсву игроков
 	players := 1 //подумать где и как будем брать игроков
-	bodys, err := core.GenerateBodyCoord(players)
+	bodys, err := core.GenerateBodysCoord(players)
 	if err != nil {
 		panic(err.Error())
 	}
