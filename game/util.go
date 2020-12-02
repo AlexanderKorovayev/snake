@@ -4,7 +4,7 @@ package core
 содержит вспомогательные функции
 */
 
-package core
+package game
 
 import (
 	"fmt"

@@ -4,7 +4,7 @@ package core
 содержит описание типов основных игровых объектов
 */
 
-package core
+package game
 
 import (
 	"github.com/JoelOtter/termloop"

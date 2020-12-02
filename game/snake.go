@@ -4,7 +4,7 @@ package core
 описывает объект змейка
 */
 
-package core
+package game
 
 import (
 	"github.com/JoelOtter/termloop"
@@ -50,7 +50,8 @@ func (snake *snake) Draw(screen *termloop.Screen) {
 	}
 
 	if snake.areaCollision() || snake.snakeCollision() {
-		gameOver()
+		level := startFinishLevel()
+		TermloopGame.Screen().SetLevel(level)
 	}
 
 	//отрисовка на экране

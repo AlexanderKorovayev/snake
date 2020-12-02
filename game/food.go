@@ -4,7 +4,7 @@ package core
 содержит объекты, которые змейка может съесть
 */
 
-package core
+package game
 
 import (
 	"math/rand"

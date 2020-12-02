@@ -4,7 +4,7 @@ package core
 хранит объекты для общего доступа
 */
 
-package core
+package game
 
 import (
 	"github.com/JoelOtter/termloop"
@@ -17,8 +17,6 @@ var GameScreen *Game
 
 //TermloopGame переменная игры нам нужна для динамической смены левелов
 var TermloopGame *termloop.Game
-
-const gameOverLogo string = "gameover-logo.txt"
 
 //width ширина поля, по факту граница рисуется на 34 пикселе, и змейке достаётся 33 в ширину
 const width int = 35

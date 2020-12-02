@@ -15,7 +15,7 @@ package core
 		termloop.go
 */
 
-package core
+package game
 
 import "github.com/JoelOtter/termloop"
 

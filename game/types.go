@@ -4,7 +4,7 @@ package core
 модуль содержит новые типы, которые необходимы для удобства в работе
 */
 
-package core
+package game
 
 //coordinates координаты
 type coordinates struct {

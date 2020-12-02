@@ -6,57 +6,69 @@ package game
 package game
 
 import (
-	"github.com/AlexanderKorovaev/snake/core"
 	"github.com/JoelOtter/termloop"
 )
 
-//startLevel инициализация уровня
-func startLevel() *StartLevel {
+//startMenuLevel формируем стартовый уровень
+func startMenuLevel() *startLevel {
 	//создаём основные объекты
-	GameScreen := new(StartLevel)
-	GameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
+	gameScreen := new(startLevel)
+	gameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
 		Bg: termloop.ColorBlack,
 	})
 	// добавляем стартовую надпись
-	GameScreen.StartMenu = CreateStartMenu()
-	GameScreen.AddEntity(GameScreen.StartMenu)
-	return GameScreen
+	gameScreen.startMenu = createStartMenu()
+	gameScreen.AddEntity(gameScreen.startMenu)
+	return gameScreen
 }
 
-//snakeLevel инициализация уровня
-func snakeLevel() *core.Game {
+//startFinishLevel формируем стартовый уровень
+func startFinishLevel() *finishLevel {
 	//создаём основные объекты
-	core.GameScreen = new(core.Game)
-	core.GameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
+	gameScreen := new(finishLevel)
+	gameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
+		Bg: termloop.ColorBlack,
+	})
+	// добавляем финишнюю надпись
+	gameScreen.finishMenu = createFinishMenu()
+	gameScreen.AddEntity(gameScreen.finishMenu)
+	return gameScreen
+}
+
+//startSnakeLevel формируем основной уровень
+func startSnakeLevel() *Game {
+	//создаём основные объекты
+	GameScreen = new(Game)
+	GameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
 		Bg: termloop.ColorBlack,
 	})
 	// добавляем игровое поле
-	core.GameScreen.GameArea = core.CreateArea()
-	core.GameScreen.AddEntity(core.GameScreen.GameArea)
+	GameScreen.GameArea = CreateArea()
+	GameScreen.AddEntity(GameScreen.GameArea)
 	// добавляем змеек, пропорционально количетсву игроков
 	players := 1 //подумать где и как будем брать игроков
-	bodys, err := core.GenerateBodysCoord(players)
+	bodys, err := GenerateBodysCoord(players)
 	if err != nil {
 		panic(err.Error())
 	}
 	for _, body := range bodys {
-		core.GameScreen.Snake = core.CreateSnake(body)
-		core.GameScreen.AddEntity(core.GameScreen.Snake)
+		GameScreen.Snake = CreateSnake(body)
+		GameScreen.AddEntity(GameScreen.Snake)
 	}
 	// добавляем еду
-	core.GameScreen.GameFood = core.CreateFood()
-	core.GameScreen.AddEntity(core.GameScreen.GameFood)
+	GameScreen.GameFood = CreateFood()
+	GameScreen.AddEntity(GameScreen.GameFood)
 
-	return core.GameScreen
+	return GameScreen
 }
 
 //StartGame стартуем игру
 func StartGame() {
-	core.TermloopGame = termloop.NewGame()
+	TermloopGame = termloop.NewGame()
 
 	// создаём стартовый уровень
-	level := startLevel()
-	core.TermloopGame.Screen().SetFps(5)
-	core.TermloopGame.Screen().SetLevel(level)
-	core.TermloopGame.Start()
+	level := startMenuLevel()
+	TermloopGame.Screen().SetFps(5)
+	TermloopGame.Screen().SetLevel(level)
+	TermloopGame.Start()
 }
