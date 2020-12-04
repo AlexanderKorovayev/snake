@@ -16,17 +16,15 @@ type finishLevel struct {
 	finishMenu *finishMenu
 }
 
-//finishMenu объект стартовое окно
+//finishMenu объект финишное окно
 type finishMenu struct {
 	*termloop.Text
 }
 
-//createFinishMenu стартовое состояние игры
+//createFinishMenu финишное состояние игры
 func createFinishMenu() *finishMenu {
 	finishObj := new(finishMenu)
-	finishText := `Game over
-				   press Enter to srart game
-				   press cntrl+c to exit`
+	finishText := "Game over///press Enter to srart game///press cntrl+c to exit"
 	finishObj.Text = termloop.NewText(0, 0, finishText,
 		termloop.ColorWhite,
 		termloop.ColorDefault)
