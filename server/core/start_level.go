@@ -1,10 +1,10 @@
 /*
-package game
+package core
 модуль start_level
 отвечает за отрисовку стартового меню.
 */
 
-package game
+package core
 
 import (
 	"github.com/JoelOtter/termloop"
@@ -34,7 +34,6 @@ func createStartMenu() *startMenu {
 func (s *startMenu) Tick(event termloop.Event) {
 	if event.Type == termloop.EventKey {
 		if event.Key == termloop.KeyEnter {
-			// тут посылаем серверу событие что мы готовы играть
 			level := startSnakeLevel()
 			TermloopGame.Screen().SetLevel(level)
 		}

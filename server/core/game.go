@@ -1,9 +1,9 @@
 /*
-package game
+package core
 модуль game отвечает за инициализауию самой игры
 */
 
-package game
+package core
 
 import (
 	"github.com/JoelOtter/termloop"
@@ -22,7 +22,7 @@ func startMenuLevel() *startLevel {
 	return gameScreen
 }
 
-//startFinishLevel формируем финишный уровень
+//startFinishLevel формируем стартовый уровень
 func startFinishLevel() *finishLevel {
 	//создаём основные объекты
 	gameScreen := new(finishLevel)
@@ -52,8 +52,6 @@ func startSnakeLevel() *Game {
 		panic(err.Error())
 	}
 	for _, body := range bodys {
-		// тут получается перезаписываем один объект змейки
-		// нужно будет переделать на правильное создание
 		GameScreen.Snake = CreateSnake(body)
 		GameScreen.AddEntity(GameScreen.Snake)
 	}
