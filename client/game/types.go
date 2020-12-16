@@ -20,3 +20,10 @@ const (
 	left
 	right
 )
+
+// TransportData структура, которая будет передаваться между сервером и клиентом
+type TransportData struct {
+	Action           string
+	MainObjectsCoord map[string][]coordinates
+	Info             string
+}

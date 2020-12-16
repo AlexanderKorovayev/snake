@@ -26,7 +26,7 @@ const (
 // 2) получить координаты объектов - в ответ получаем координаты всех объектов и доп инфу если есть
 // TransportData структура, которая будет передаваться между сервером и клиентом
 type TransportData struct {
-	Action string                   // create, getCoordinate. Подумать над статусами.
-	Coord  map[string][]Coordinates // тут будут координаты всех объектов
-	Info   string                   // отсчёт для начал игры
+	Action           string                   // create, getCoordinate. Подумать над статусами.
+	MainObjectsCoord map[string][]Coordinates // тут будут координаты всех объектов
+	Info             string                   // отсчёт для начал игры
 }

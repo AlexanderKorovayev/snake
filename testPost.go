@@ -36,6 +36,7 @@ func main() {
 			},
 		}
 	*/
+
 	message := core.TransportData{"test", map[string][]core.Coordinates{"test": {{1, 1}}}, "test1"}
 	bytesRepresentation, err := json.Marshal(message)
 	if err != nil {

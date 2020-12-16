@@ -46,15 +46,17 @@ func startSnakeLevel() *Game {
 	GameScreen.GameArea = CreateArea()
 	GameScreen.AddEntity(GameScreen.GameArea)
 	// добавляем змеек, пропорционально количетсву игроков
-	players := 1 //подумать где и как будем брать игроков
-	bodys, err := GenerateBodysCoord(players)
-	if err != nil {
-		panic(err.Error())
-	}
-	for _, body := range bodys {
-		GameScreen.Snake = CreateSnake(body)
-		GameScreen.AddEntity(GameScreen.Snake)
-	}
+	/*
+		players := 1 //подумать где и как будем брать игроков
+		bodys, err := GenerateBodysCoord(players)
+		if err != nil {
+			panic(err.Error())
+		}
+		for _, body := range bodys {
+			GameScreen.Snake = CreateSnake(body)
+			GameScreen.AddEntity(GameScreen.Snake)
+		}
+	*/
 	// добавляем еду
 	GameScreen.GameFood = CreateFood()
 	GameScreen.AddEntity(GameScreen.GameFood)
