@@ -19,10 +19,10 @@ var GameScreen *Game
 var TermloopGame *termloop.Game
 
 //width ширина поля, по факту граница рисуется на 34 пикселе, и змейке достаётся 33 в ширину
-const width int = 35
+const width int = 36
 
 //high высота поля, по факту граница рисуется на 14 пикселе, и змейке достаётся 13 в ширину
-const high int = 15
+const high int = 16
 
 //максимальное колличество игроков
 const maxPlayer int = 4

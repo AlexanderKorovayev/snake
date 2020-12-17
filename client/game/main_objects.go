@@ -13,9 +13,10 @@ import (
 //Game основной уровень игры
 type Game struct {
 	termloop.Level
-	GameArea *area
-	Snake    *snake
-	GameFood *food
+	GameArea    *area
+	Snake       *snake
+	GameFood    *food
+	TimeToReady *timeToReady
 }
 
 //area объект игрового поля, по которому будет перемещаться змейка
@@ -35,4 +36,11 @@ type snake struct {
 type food struct {
 	*termloop.Entity
 	coord Coordinates
+}
+
+//timeToReady объект для обратного отсчёта до начала игры
+type timeToReady struct {
+	*termloop.Entity
+	coord Coordinates
+	value rune
 }
