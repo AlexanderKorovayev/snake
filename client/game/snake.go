@@ -11,7 +11,7 @@ import (
 )
 
 //CreateSnake создать змейку
-func CreateSnake(body []coordinates) *snake {
+func CreateSnake(body []Coordinates) *snake {
 	snakeObj := new(snake)
 	snakeObj.Entity = termloop.NewEntity(1, 1, 1, 1)
 	snakeObj.drctn = right
@@ -23,22 +23,22 @@ func CreateSnake(body []coordinates) *snake {
 func (snake *snake) Draw(screen *termloop.Screen) {
 	if snake.drctn == right {
 		head := snake.body[len(snake.body)-1]
-		head.x++
+		head.X++
 		snake.body = append(snake.body[1:], head)
 	}
 	if snake.drctn == left {
 		head := snake.body[len(snake.body)-1]
-		head.x--
+		head.X--
 		snake.body = append(snake.body[1:], head)
 	}
 	if snake.drctn == up {
 		head := snake.body[len(snake.body)-1]
-		head.y--
+		head.Y--
 		snake.body = append(snake.body[1:], head)
 	}
 	if snake.drctn == down {
 		head := snake.body[len(snake.body)-1]
-		head.y++
+		head.Y++
 		snake.body = append(snake.body[1:], head)
 	}
 
@@ -56,7 +56,7 @@ func (snake *snake) Draw(screen *termloop.Screen) {
 
 	//отрисовка на экране
 	for _, v := range snake.body {
-		screen.RenderCell(v.x, v.y, &termloop.Cell{Fg: termloop.ColorWhite,
+		screen.RenderCell(v.X, v.Y, &termloop.Cell{Fg: termloop.ColorWhite,
 			Bg: termloop.ColorWhite})
 	}
 
@@ -89,7 +89,7 @@ func (snake *snake) Tick(event termloop.Event) {
 }
 
 //GetHead получение головы змейки
-func (snake *snake) GetHead() *coordinates {
+func (snake *snake) GetHead() *Coordinates {
 	return &snake.body[len(snake.body)-1]
 }
 
@@ -112,22 +112,22 @@ func (snake *snake) snakeCollision() bool {
 func (snake *snake) increaseSnake() {
 	if snake.drctn == right {
 		head := snake.body[len(snake.body)-1]
-		head.x++
+		head.X++
 		snake.body = append(snake.body, head)
 	}
 	if snake.drctn == left {
 		head := snake.body[len(snake.body)-1]
-		head.x--
+		head.X--
 		snake.body = append(snake.body, head)
 	}
 	if snake.drctn == up {
 		head := snake.body[len(snake.body)-1]
-		head.y--
+		head.Y--
 		snake.body = append(snake.body, head)
 	}
 	if snake.drctn == down {
 		head := snake.body[len(snake.body)-1]
-		head.y++
+		head.Y++
 		snake.body = append(snake.body, head)
 	}
 }

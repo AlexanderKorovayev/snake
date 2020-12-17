@@ -23,19 +23,19 @@ import "github.com/JoelOtter/termloop"
 func CreateArea() *area {
 	area := new(area)
 	area.Entity = termloop.NewEntity(1, 1, 1, 1)
-	border := make(map[coordinates]int)
+	border := make(map[Coordinates]int)
 	fillAreaBorder(width, high, &border)
 	area.areaBorder = border
 	return area
 }
 
 //fillAreaBorder заполнить игровую область информацией о её границах
-func fillAreaBorder(imax, jmax int, border *map[coordinates]int) {
+func fillAreaBorder(imax, jmax int, border *map[Coordinates]int) {
 	starti := 0
 	startj := 0
 	for i := starti; i < imax; i++ {
 		for j := startj; j < jmax; j++ {
-			coord := coordinates{i, j}
+			coord := Coordinates{i, j}
 			if i == starti || i == imax-1 {
 				(*border)[coord] = 1
 			} else if j == startj || j == jmax-1 {
@@ -52,13 +52,13 @@ func (area *area) Draw(screen *termloop.Screen) {
 	//отрисовка на экране
 	for k, v := range area.areaBorder {
 		if v == 1 {
-			screen.RenderCell(k.x, k.y, &termloop.Cell{Fg: termloop.ColorWhite,
+			screen.RenderCell(k.X, k.Y, &termloop.Cell{Fg: termloop.ColorWhite,
 				Bg: termloop.ColorWhite})
 		}
 	}
 }
 
 //Collision произошло ли косание с змейкой
-func (area *area) collision(c *coordinates) bool {
+func (area *area) collision(c *Coordinates) bool {
 	return area.areaBorder[*c] == 1
 }

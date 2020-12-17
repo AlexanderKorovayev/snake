@@ -9,48 +9,43 @@ package game
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
 )
 
-func getSnakeCoord() []coordinates {
+func getSnakeCoord() []Coordinates {
 	message := new(TransportData) //{"test", map[string][]coordinates{"test": {{1, 1}}}, "test1"}
-	message.MainObjectsCoord = map[string][]coordinates{}
-	//сообщим серверу имя клиента
+	message.MainObjectsCoord = map[string][]Coordinates{}
+	// сообщим серверу имя клиента
 	message.Info = getOutboundIP()
-	// так как передаём инфу в виде набора байт
+	// передаём инфу в виде набора байт
 	bytesMessageRepresentation, err := json.Marshal(message)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	//fmt.Println(string(bytesMessageRepresentation))
-
 	r := bytes.NewReader(bytesMessageRepresentation)
 	resp, err := http.Post("http://localhost:8080/create", "application/json", r)
 	if err != nil {
-		fmt.Println(err)
+		//добавить обработку ошибки
 	}
 
 	body, _ := ioutil.ReadAll(resp.Body)
 
 	// надо всегда закрывать боди иначе соединение не закроется
 	defer resp.Body.Close()
-
 	// приведём результат к заданной структуре
-	var res TransportData
-	err = json.Unmarshal(body, &res)
+	// перезапишем message
+	err = json.Unmarshal(body, message)
 
 	if err != nil {
 		//добавить обработку ошибок
 	}
 
-	//fmt.Println(res)
 	// вытащим координаты из результата
-	return parseSnakeCoord(&res)
+	return parseSnakeCoord(message)
 }
 
 // получить ip клиента, что бы сервер мог
@@ -67,7 +62,7 @@ func getOutboundIP() string {
 	return localAddr.IP.String()
 }
 
-func parseSnakeCoord(data *TransportData) []coordinates {
+func parseSnakeCoord(data *TransportData) []Coordinates {
 	// получаем координаты
 	return data.MainObjectsCoord[getOutboundIP()]
 	// обрабатываем сообщение

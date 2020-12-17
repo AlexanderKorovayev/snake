@@ -78,7 +78,6 @@ func generateBodyCoord(numPlayer int) []core.Coordinates {
 	var coord []core.Coordinates
 	switch numPlayer {
 	case 1:
-		fmt.Println("in")
 		coord = []core.Coordinates{{1, core.High - 2}, {2, core.High - 2}, {3, core.High - 2}}
 	case 2:
 		coord = []core.Coordinates{{core.Width - 5, 2}, {core.Width - 4, 2}, {core.Width - 3, 2}}

@@ -6,8 +6,6 @@ package game
 package game
 
 import (
-	"fmt"
-
 	"github.com/JoelOtter/termloop"
 )
 
@@ -50,7 +48,7 @@ func startSnakeLevel() *Game {
 
 	// отправляем запрос серверу на получение координат для змейки
 	body := getSnakeCoord()
-	fmt.Println(body)
+	logToFIle(body)
 	// продумать как мы будем получать несколько змеек
 	//и создавать их на одном поле
 	GameScreen.Snake = CreateSnake(body)

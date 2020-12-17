@@ -20,7 +20,7 @@ func CreateFood() *food {
 
 	x, y := getCoordinates()
 	//разместим еду на игровом поле
-	food.coord = coordinates{x, y}
+	food.coord = Coordinates{x, y}
 
 	return food
 }
@@ -47,20 +47,20 @@ func getCoordinates() (int, int) {
 //Draw отвечает за отрисовку пищи на дисплее
 func (food *food) Draw(screen *termloop.Screen) {
 	//отрисовка на экране
-	screen.RenderCell(food.coord.x,
-		food.coord.y,
+	screen.RenderCell(food.coord.X,
+		food.coord.Y,
 		&termloop.Cell{Fg: termloop.ColorWhite, Bg: termloop.ColorBlack,
 			Ch: rune('€')})
 }
 
 //collision произошло ли косание с едой
-func (food *food) collision(c *coordinates) bool {
-	return food.coord.x == c.x && food.coord.y == c.y
+func (food *food) collision(c *Coordinates) bool {
+	return food.coord.X == c.X && food.coord.Y == c.Y
 }
 
 //moveFood передвинуть еду
 func (food *food) moveFood() {
 	x, y := getCoordinates()
 	//установить новые координаты для еды.
-	food.coord = coordinates{x, y}
+	food.coord = Coordinates{x, y}
 }
