@@ -15,7 +15,7 @@ import (
 	"net/http"
 )
 
-func getSnakeCoord() []Coordinates {
+func getServerInfo() []byte {
 	message := new(TransportData) //{"test", map[string][]coordinates{"test": {{1, 1}}}, "test1"}
 	message.MainObjectsCoord = map[string][]Coordinates{}
 	// сообщим серверу имя клиента
@@ -36,16 +36,7 @@ func getSnakeCoord() []Coordinates {
 
 	// надо всегда закрывать боди иначе соединение не закроется
 	defer resp.Body.Close()
-	// приведём результат к заданной структуре
-	// перезапишем message
-	err = json.Unmarshal(body, message)
-
-	if err != nil {
-		//добавить обработку ошибок
-	}
-
-	// вытащим координаты из результата
-	return parseSnakeCoord(message)
+	return body
 }
 
 // получить ip клиента, что бы сервер мог
