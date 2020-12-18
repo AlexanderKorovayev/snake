@@ -6,8 +6,6 @@ package game
 package game
 
 import (
-	"encoding/json"
-
 	"github.com/JoelOtter/termloop"
 )
 
@@ -37,8 +35,8 @@ func startFinishLevel() *finishLevel {
 	return gameScreen
 }
 
-//startSnakeLevel формируем основной уровень
-func startSnakeLevel() *Game {
+//startBaseSnakeLevel формируем базовую часть основного уровеня
+func startBaseSnakeLevel() *Game {
 	//создаём основные объекты
 	GameScreen = new(Game)
 	GameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
@@ -48,46 +46,11 @@ func startSnakeLevel() *Game {
 	GameScreen.GameArea = CreateArea()
 	GameScreen.AddEntity(GameScreen.GameArea)
 
-	// отправляем запрос серверу на получение координат для змейки
-	// надо опрашивать сервер 10 сек с промежутком в секунду.
-	// сначала змейка не двигается и на каждом опросе мы рисуем обратный отсчёт
-	// силами клиента и когда видим событие финиш от сервера то змейки начинают ползти
+	return GameScreen
+}
 
-	// отправляем серваку свою готовность играть.
-	// внутри себя сервак запускает обратный отсчёт на добавление
-	// остальных игроков и будет ждать только это время.
-	// по истечению этого времени он отошлёт сообщение о готовности играть
-	// а также координаты для всех объектов.
-	// клиент в бесконечном цикле опрашивает сервер и если в ответе число
-	// то отрисовываем его, если в ответе ready, то рисуем все объекты и
-	// дальше по тику делаем запросы на перерисовку
-	// всех объектов получаем координаты.
-
-	// похоже что он нужен в старт левел
-	// тут мы возвращаем  имеющиеся объекты
-	// в а старт левеле отрисовываем их
-	// цикл опроса готовности сервера к игре
-	for {
-		// опрашиваем сервер
-		info := getServerInfo()
-
-		// распарсим info в json
-		infoJSON := new(TransportData)
-		infoJSON.MainObjectsCoord = map[string][]Coordinates{}
-		err := json.Unmarshal(info, infoJSON)
-
-		if err != nil {
-			//добавить обработку ошибок
-		}
-
-		// теперь надо добавить проверку infoJSON на то что внутри
-		// вытащим координаты из результата
-		// и отрисуем обратный отсчёт
-		parseSnakeCoord(infoJSON)
-		GameScreen.TimeToReady = CreateTimeObj(val)
-		GameScreen.AddEntity(GameScreen.TimeToReady)
-	}
-
+//startMainSnakeLevel формируем главную часть основного уровеня
+func startMainSnakeLevel() {
 	// решить вопрос, как будем создавать змеек, переменная-то одна
 	GameScreen.Snake = CreateSnake(info)
 	GameScreen.AddEntity(GameScreen.Snake)
@@ -96,8 +59,6 @@ func startSnakeLevel() *Game {
 
 	GameScreen.GameFood = CreateFood()
 	GameScreen.AddEntity(GameScreen.GameFood)
-
-	return GameScreen
 }
 
 //StartGame стартуем игру

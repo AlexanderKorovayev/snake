@@ -16,7 +16,7 @@ import (
 )
 
 func getServerInfo() []byte {
-	message := new(TransportData) //{"test", map[string][]coordinates{"test": {{1, 1}}}, "test1"}
+	message := new(TransportData)
 	message.MainObjectsCoord = map[string][]Coordinates{}
 	// сообщим серверу имя клиента
 	message.Info = getOutboundIP()

@@ -19,6 +19,11 @@ import (
 )
 
 func main() {
+	// инициализируем глобальную переменну для
+	// хранения колличества подключённых клиентов
+	ClientsCount = make(map[string]string)
+
+	http.HandleFunc("/initiate", handlers.GetSnakeCoordHandler)
 	http.HandleFunc("/create", handlers.GetSnakeCoordHandler)
 	http.HandleFunc("/getCoordinate", handlers.GetSnakeCoordHandler)
 	http.ListenAndServe("localhost:8080", nil)
