@@ -34,3 +34,6 @@ var MainObjects map[string][]Coordinates
 // будем использовать словарь с пустыми значениями, такой подход быстро
 // позволяет проверять наличие елемента в себе
 var ClientsCount map[string]string
+
+// TimeCount переменная для обратного отсчёта
+var TimeCount int = 5
