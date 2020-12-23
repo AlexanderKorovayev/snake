@@ -27,5 +27,5 @@ const (
 type TransportData struct {
 	Action           string
 	MainObjectsCoord map[string][]Coordinates
-	Info             string
+	Info             interface{}
 }

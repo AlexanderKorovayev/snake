@@ -1,7 +1,7 @@
 /*
 package handlers
 модуль initiate_snake_coord
-обработчик для определения начальных координат змейки
+обработчик для инициализации игры
 */
 
 package handlers
@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"reflect"
 
 	"github.com/AlexanderKorovaev/snake/server/core"
 )
@@ -31,17 +30,25 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			// парсим входящие данные
 			data := parseBody(r)
 			// проверим, есть ли клиент в игре
-			fmt.Println(reflect.TypeOf(data.Info))
-			_, ok := core.ClientsCount[data.Info]
+			// с клиента будут приходить только строчки,
+			// поэтому сделаем приведение типа
+			fmt.Printf("пришло %v \n", data)
+
+			_, ok := core.ClientsCount[data.Info.(string)]
+			fmt.Printf("есть ли такой игрок: %v \n", ok)
 			// если клиент уже в игре
 			if ok {
+				fmt.Println("in")
 				myJSON := addInfo(&data, "already added")
+				fmt.Println(string(myJSON))
 				//отправляем данные клиенту обратно
 				fmt.Fprintf(w, string(myJSON))
 			} else {
+				fmt.Println("in1")
 				// иначе добавляем в игру
-				core.ClientsCount[data.Info] = nil
+				core.ClientsCount[data.Info.(string)] = ""
 				myJSON := addInfo(&data, "added")
+				fmt.Println(string(myJSON))
 				//отправляем данные клиенту обратно
 				fmt.Fprintf(w, string(myJSON))
 			}
@@ -55,8 +62,7 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 	} else {
 		// сообщаем клиенту, что время вышло
 		data := parseBody(r)
-		// если клиент уже был в игре, то отправим координаты всех объектов
-		_, ok := core.ClientsCount[data.Info]
+		_, ok := core.ClientsCount[data.Info.(string)]
 		// если клиент уже был в игре, то отправим координаты всех объектов
 		if ok {
 			//реализовать отправку всех объектов
@@ -72,13 +78,12 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 func addInfo(data *core.TransportData, status string) []byte {
 	// то посылаем ему информацию что идёт ожидание
 	data.Action = status
-	data.Info = string(core.TimeCount)
+	data.Info = core.TimeCount
 	// преобразуем данные в бинарный вид
 	myJSON, err := json.Marshal(data)
 	if err != nil {
 		//добавить обработку ошибок
 	}
-	fmt.Println(string(myJSON))
 	return myJSON
 }
 
@@ -89,7 +94,6 @@ func parseBody(r *http.Request) core.TransportData {
 		//добавить обработку ошибок
 	}
 
-	fmt.Println(string(body))
 	// приводим данные к нужном формату
 	var data core.TransportData
 	err = json.Unmarshal(body, &data)

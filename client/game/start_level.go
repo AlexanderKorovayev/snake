@@ -8,6 +8,7 @@ package game
 
 import (
 	"encoding/json"
+	"time"
 
 	"github.com/JoelOtter/termloop"
 )
@@ -40,7 +41,7 @@ func (s *startMenu) Tick(event termloop.Event) {
 			// сначала установим базовую часть уровня
 			level := startBaseSnakeLevel()
 			TermloopGame.Screen().SetLevel(level)
-
+			time.Sleep(time.Second)
 			// далее опрашиваем сервер до тех пор пока не будут готовы все игроки
 			// отправляем серваку свою готовность играть.
 			// внутри себя сервак запускает обратный отсчёт на добавление
@@ -53,8 +54,11 @@ func (s *startMenu) Tick(event termloop.Event) {
 			// всех объектов и получаем координаты.
 
 			// цикл опроса готовности сервера к игре
+			// тут запускается бесконечный цикл, поэтому тик не заканчивается
+			// и отрисовки не происходит
 			for {
 				// опрашиваем сервер
+				logToFIle("start loop")
 				info := getServerInfo()
 				// распарсим info в json
 				infoJSON := new(TransportData)
@@ -63,13 +67,19 @@ func (s *startMenu) Tick(event termloop.Event) {
 				if err != nil {
 					//добавить обработку ошибок
 				}
-				// теперь надо добавить проверку infoJSON на то что внутри.
-				parseSnakeCoord(infoJSON)
-				// отрисуем обратный отсчёт
-				GameScreen.TimeToReady = CreateTimeObj(val)
-				GameScreen.AddEntity(GameScreen.TimeToReady)
-				// добавим остальные объекты на уровень
-				startMainSnakeLevel()
+				logToFIle(infoJSON)
+				time.Sleep(time.Second * 3)
+				logToFIle("finish loop")
+				/*
+					// теперь надо добавить проверку infoJSON на то что внутри.
+					estimate := parseServerInfo(infoJSON)
+					// отрисуем обратный отсчёт
+					level.TimeToReady = CreateTimeObj(estimate)
+					level.AddEntity(GameScreen.TimeToReady)
+					// добавим остальные объекты на уровень
+					//startMainSnakeLevel()
+					time.Sleep(time.Second * 3)
+				*/
 			}
 		}
 	}

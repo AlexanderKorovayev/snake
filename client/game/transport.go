@@ -27,7 +27,7 @@ func getServerInfo() []byte {
 	}
 
 	r := bytes.NewReader(bytesMessageRepresentation)
-	resp, err := http.Post("http://localhost:8080/create", "application/json", r)
+	resp, err := http.Post("http://localhost:2000/initiate", "application/json", r)
 	if err != nil {
 		//добавить обработку ошибки
 	}
@@ -58,4 +58,19 @@ func parseSnakeCoord(data *TransportData) []Coordinates {
 	return data.MainObjectsCoord[getOutboundIP()]
 	// обрабатываем сообщение
 	//data.Info необходимо организовать обработку сообщений
+}
+
+// функция обработки статусов игры с сервера
+// возможные стытусы: "added",
+//					  "already added",
+//					  "busy",
+//					  "finished"
+func parseServerInfo(data *TransportData) rune {
+	// получим статус
+	status := data.Info
+	if status == "added" || status == "already added" {
+		// в данном случае приходит руна, поэтому применим приведение типов
+		return data.Info.(rune)
+	}
+	return 't'
 }

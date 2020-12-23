@@ -10,11 +10,6 @@ import (
 	"github.com/JoelOtter/termloop"
 )
 
-// GameScreen глобальная переменная которая хранит основные объекты уровня
-// в начале игры мы передаём эту переменную в termloop и меняя сзначеия этой
-// переменной мы можем менять происходящее на уровне
-var GameScreen *Game
-
 // TermloopGame переменная игры нам нужна для динамической смены левелов
 var TermloopGame *termloop.Game
 
@@ -36,4 +31,4 @@ var MainObjects map[string][]Coordinates
 var ClientsCount map[string]string
 
 // TimeCount переменная для обратного отсчёта
-var TimeCount int = 5
+var TimeCount int = 100

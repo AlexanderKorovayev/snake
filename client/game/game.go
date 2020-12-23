@@ -52,7 +52,7 @@ func startBaseSnakeLevel() *Game {
 //startMainSnakeLevel формируем главную часть основного уровеня
 func startMainSnakeLevel() {
 	// решить вопрос, как будем создавать змеек, переменная-то одна
-	GameScreen.Snake = CreateSnake(info)
+	//GameScreen.Snake = CreateSnake(info)
 	GameScreen.AddEntity(GameScreen.Snake)
 
 	// добавляем еду

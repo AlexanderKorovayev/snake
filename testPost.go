@@ -54,6 +54,5 @@ func main() {
 
 	// надо всегда закрывать боди иначе соединение не закроется
 	defer resp.Body.Close()
-
 	fmt.Println(string(body))
 }

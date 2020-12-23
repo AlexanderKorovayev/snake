@@ -36,8 +36,8 @@ func (s *finishMenu) Tick(event termloop.Event) {
 	if event.Type == termloop.EventKey {
 		if event.Key == termloop.KeyEnter {
 			// надо вставить правильную функцию
-			level := startSnakeLevel()
-			TermloopGame.Screen().SetLevel(level)
+			//level := startSnakeLevel()
+			//TermloopGame.Screen().SetLevel(level)
 		}
 	}
 }

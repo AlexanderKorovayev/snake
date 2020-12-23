@@ -22,7 +22,7 @@ import (
 func main() {
 	// инициализируем глобальную переменну для
 	// хранения колличества подключённых клиентов
-	ClientsCount = make(map[string]string)
+	core.ClientsCount = make(map[string]string)
 
 	// как организовать обратный отсчёт
 	// создать два потока, основной принимает запросы, а второй ведёт обратный отсчёт
@@ -40,5 +40,5 @@ func main() {
 	http.HandleFunc("/initiate", handlers.InitiateGame)
 	http.HandleFunc("/create", handlers.GetSnakeCoordHandler)
 	http.HandleFunc("/getCoordinate", handlers.GetSnakeCoordHandler)
-	http.ListenAndServe("localhost:8080", nil)
+	http.ListenAndServe(":2000", nil)
 }

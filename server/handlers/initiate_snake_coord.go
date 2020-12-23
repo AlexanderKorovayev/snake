@@ -46,7 +46,8 @@ func GetSnakeCoordHandler(w http.ResponseWriter, r *http.Request) {
 	//fmt.Println(testRespTyped)
 
 	//получаем координаты для поступившего запроса
-	getCoord(&data.MainObjectsCoord, &data.Info)
+	clName := (data.Info).(string)
+	getCoord(&data.MainObjectsCoord, &clName)
 
 	myJSON, err := json.Marshal(data)
 	if err != nil {

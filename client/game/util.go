@@ -22,7 +22,7 @@ func FindInSlice(sliceData *[]Coordinates, data *Coordinates) bool {
 }
 
 func logToFIle(data interface{}) {
-	// OpenFile позволяет использовать один флаг.
+	// OpenFile принимает только один флаг.
 	// перечисляя через OR мы можем обеспечить выполнение каждого флага.
 	file, err := os.OpenFile("logs.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {

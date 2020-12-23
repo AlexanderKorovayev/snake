@@ -28,5 +28,5 @@ const (
 type TransportData struct {
 	Action           string                   // create, getCoordinate. Подумать над статусами.
 	MainObjectsCoord map[string][]Coordinates // тут будут координаты всех объектов
-	Info             string                   // отсчёт для начал игры
+	Info             interface{}              // отсчёт для начал игры
 }
