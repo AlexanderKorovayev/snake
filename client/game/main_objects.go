@@ -40,7 +40,5 @@ type food struct {
 
 //timeToReady объект для обратного отсчёта до начала игры
 type timeToReady struct {
-	*termloop.Entity
-	coord Coordinates
-	value rune
+	*termloop.Text
 }

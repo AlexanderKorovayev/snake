@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 
 	"github.com/AlexanderKorovaev/snake/server/core"
 )
@@ -78,7 +79,7 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 func addInfo(data *core.TransportData, status string) []byte {
 	// то посылаем ему информацию что идёт ожидание
 	data.Action = status
-	data.Info = core.TimeCount
+	data.Info = strconv.Itoa(core.TimeCount)
 	// преобразуем данные в бинарный вид
 	myJSON, err := json.Marshal(data)
 	if err != nil {

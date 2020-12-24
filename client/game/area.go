@@ -19,7 +19,6 @@ package game
 
 import (
 	"encoding/json"
-	"time"
 
 	"github.com/JoelOtter/termloop"
 )
@@ -97,12 +96,12 @@ func (area *area) Tick(event termloop.Event) {
 		logToFIle(estimate)
 		// отрисуем обратный отсчёт
 		// мы уже создали глобальный GameScreen в startBaseSnakeLevel, поэтому тут
-		// надо просто его дополнить
+		// надо просто обновлять в нём обратный отсчёт
 		GameScreen.TimeToReady = CreateTimeObj(estimate)
 		GameScreen.AddEntity(GameScreen.TimeToReady)
 		// добавим остальные объекты на уже созданный уровень
 		//startMainSnakeLevel()
-		time.Sleep(time.Second * 3)
+		//time.Sleep(time.Second * 3)
 		logToFIle("finish loop")
 	}
 }
