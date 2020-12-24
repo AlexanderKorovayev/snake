@@ -16,7 +16,7 @@ func CreateTimeObj(val rune) *timeToReady {
 	timeObj.Entity = termloop.NewEntity(1, 1, 1, 1)
 
 	//разместим время на игровом поле
-	timeObj.coord = Coordinates{width / 2, high / 2}
+	timeObj.coord = Coordinates{(width / 2) - 1, (high / 2) - 1}
 	timeObj.value = val
 	return timeObj
 }

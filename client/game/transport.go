@@ -67,10 +67,10 @@ func parseSnakeCoord(data *TransportData) []Coordinates {
 //					  "finished"
 func parseServerInfo(data *TransportData) rune {
 	// получим статус
-	status := data.Info
+	status := data.Action
 	if status == "added" || status == "already added" {
 		// в данном случае приходит руна, поэтому применим приведение типов
-		return data.Info.(rune)
+		return rune(data.Info.(float64))
 	}
 	return 't'
 }

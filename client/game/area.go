@@ -17,7 +17,15 @@ package core
 
 package game
 
-import "github.com/JoelOtter/termloop"
+import (
+	"encoding/json"
+	"time"
+
+	"github.com/JoelOtter/termloop"
+)
+
+// флаг, сигнализирующий, нужно ли ещё ожидать игроков и начала основной игры
+var initGameFlag bool = true
 
 //CreateArea создать арену, по которой будет перемещаться змейка
 func CreateArea() *area {
@@ -55,6 +63,47 @@ func (area *area) Draw(screen *termloop.Screen) {
 			screen.RenderCell(k.X, k.Y, &termloop.Cell{Fg: termloop.ColorWhite,
 				Bg: termloop.ColorWhite})
 		}
+	}
+}
+
+//Tick отслеживаем события
+func (area *area) Tick(event termloop.Event) {
+	// если ожидание игроков ещё требуется, то опрашиваем сервер
+	if initGameFlag {
+		// далее опрашиваем сервер до тех пор пока не будут готовы все игроки
+		// отправляем серваку свою готовность играть.
+		// внутри себя сервак запускает обратный отсчёт на добавление
+		// остальных игроков и будет ждать только это время.
+		// по истечению этого времени он отошлёт сообщение о готовности играть
+		// а также координаты для всех объектов.
+		// клиент в бесконечном цикле опрашивает сервер и если в ответе число
+		// то отрисовываем его, если в ответе ready, то рисуем все объекты и
+		// дальше по тику делаем запросы на перерисовку
+		// всех объектов и получаем координаты.
+
+		// опрашиваем сервер
+		logToFIle("start loop")
+		info := getServerInfo()
+		// распарсим info в json
+		infoJSON := new(TransportData)
+		infoJSON.MainObjectsCoord = map[string][]Coordinates{}
+		err := json.Unmarshal(info, infoJSON)
+		if err != nil {
+			//добавить обработку ошибок
+		}
+		logToFIle(infoJSON)
+		// теперь надо добавить проверку infoJSON на то что внутри.
+		estimate := parseServerInfo(infoJSON)
+		logToFIle(estimate)
+		// отрисуем обратный отсчёт
+		// мы уже создали глобальный GameScreen в startBaseSnakeLevel, поэтому тут
+		// надо просто его дополнить
+		GameScreen.TimeToReady = CreateTimeObj(estimate)
+		GameScreen.AddEntity(GameScreen.TimeToReady)
+		// добавим остальные объекты на уже созданный уровень
+		//startMainSnakeLevel()
+		time.Sleep(time.Second * 3)
+		logToFIle("finish loop")
 	}
 }
 
