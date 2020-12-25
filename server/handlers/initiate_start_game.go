@@ -33,23 +33,16 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			// проверим, есть ли клиент в игре
 			// с клиента будут приходить только строчки,
 			// поэтому сделаем приведение типа
-			fmt.Printf("пришло %v \n", data)
-
 			_, ok := core.ClientsCount[data.Info.(string)]
-			fmt.Printf("есть ли такой игрок: %v \n", ok)
 			// если клиент уже в игре
 			if ok {
-				fmt.Println("in")
 				myJSON := addInfo(&data, "already added")
-				fmt.Println(string(myJSON))
 				//отправляем данные клиенту обратно
 				fmt.Fprintf(w, string(myJSON))
 			} else {
-				fmt.Println("in1")
 				// иначе добавляем в игру
 				core.ClientsCount[data.Info.(string)] = ""
 				myJSON := addInfo(&data, "added")
-				fmt.Println(string(myJSON))
 				//отправляем данные клиенту обратно
 				fmt.Fprintf(w, string(myJSON))
 			}
@@ -61,12 +54,28 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, string(myJSON))
 		}
 	} else {
+		fmt.Println("время вышло")
 		// сообщаем клиенту, что время вышло
 		data := parseBody(r)
 		_, ok := core.ClientsCount[data.Info.(string)]
 		// если клиент уже был в игре, то отправим координаты всех объектов
 		if ok {
-			//реализовать отправку всех объектов
+			// отправка всех объектов
+			fmt.Println("отправляем координаты")
+			// введём порядковый номер, который нужен для
+			// правильного распределения змеек
+			i := 1
+			// надо перебрать всех подключённых клиентов через ClientsCount
+			for clName := range core.ClientsCount {
+				//получаем координаты для данного клиента
+				data.MainObjectsCoord[clName] = generateBodyCoord(i)
+				i++
+			}
+			// сообщаем, что можно начинать играть
+			myJSON := addInfo(&data, "ready")
+			//отправляем данные клиенту обратно
+			fmt.Printf("в итоге %v \n", data)
+			fmt.Fprintf(w, string(myJSON))
 		} else {
 			// иначе сообщаем, что время для добавления вышло
 			myJSON := addInfo(&data, "finished")
@@ -103,4 +112,23 @@ func parseBody(r *http.Request) core.TransportData {
 		//добавить обработку ошибок
 	}
 	return data
+}
+
+//generateBodyCoord генерируем координаты змейки для каждого игрока
+//ставим каждого игрока в свой угол
+func generateBodyCoord(numPlayer int) []core.Coordinates {
+	var coord []core.Coordinates
+	switch numPlayer {
+	case 1:
+		coord = []core.Coordinates{{1, core.High - 2}, {2, core.High - 2}, {3, core.High - 2}}
+	case 2:
+		coord = []core.Coordinates{{core.Width - 5, 2}, {core.Width - 4, 2}, {core.Width - 3, 2}}
+	case 3:
+		//допилить этот случай
+		coord = []core.Coordinates{{core.Width - 5, 2}, {core.Width - 4, 2}, {core.Width - 3, 2}}
+	case 4:
+		//допилить этот случай
+		coord = []core.Coordinates{{core.Width - 5, 2}, {core.Width - 4, 2}, {core.Width - 3, 2}}
+	}
+	return coord
 }

@@ -50,7 +50,9 @@ func startBaseSnakeLevel() *Game {
 }
 
 //startMainSnakeLevel формируем главную часть основного уровеня
-func startMainSnakeLevel() {
+func startMainSnakeLevel(coord map[string][]Coordinates) {
+	// и всё, тут просто добавляем в глобальный уровень объект змейки
+
 	// решить вопрос, как будем создавать змеек, переменная-то одна
 	//GameScreen.Snake = CreateSnake(info)
 	GameScreen.AddEntity(GameScreen.Snake)

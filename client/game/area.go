@@ -81,7 +81,6 @@ func (area *area) Tick(event termloop.Event) {
 		// всех объектов и получаем координаты.
 
 		// опрашиваем сервер
-		logToFIle("start loop")
 		info := getServerInfo()
 		// распарсим info в json
 		infoJSON := new(TransportData)
@@ -90,19 +89,30 @@ func (area *area) Tick(event termloop.Event) {
 		if err != nil {
 			//добавить обработку ошибок
 		}
-		logToFIle(infoJSON)
-		// теперь надо добавить проверку infoJSON на то что внутри.
-		estimate := parseServerInfo(infoJSON)
-		logToFIle(estimate)
-		// отрисуем обратный отсчёт
-		// мы уже создали глобальный GameScreen в startBaseSnakeLevel, поэтому тут
-		// надо просто обновлять в нём обратный отсчёт
-		GameScreen.TimeToReady = CreateTimeObj(estimate)
-		GameScreen.AddEntity(GameScreen.TimeToReady)
-		// добавим остальные объекты на уже созданный уровень
-		//startMainSnakeLevel()
-		//time.Sleep(time.Second * 3)
-		logToFIle("finish loop")
+		// получим статус
+		status := infoJSON.Action
+		// по статусу определяем сценарий действий, который мы в свиче реализуем
+		switch status {
+		case "added", "already added":
+			// значит нам пришёл обратный отсчёт
+			estimate := infoJSON.Info.(string)
+			// отрисуем обратный отсчёт
+			// мы уже создали глобальный GameScreen в startBaseSnakeLevel, поэтому тут
+			// надо просто обновлять в нём обратный отсчёт
+			GameScreen.TimeToReady = CreateTimeObj(estimate)
+			GameScreen.AddEntity(GameScreen.TimeToReady)
+		case "busy":
+			// реализовать обработку
+		case "finished":
+			// реализовать обработку
+		case "ready":
+			// добавим остальные объекты на уже созданный уровень
+			startMainSnakeLevel(infoJSON.MainObjectsCoord)
+			// отключим запросы на сервер
+			// теперь они будут исходить от тика змейки у каждого игрока
+			initGameFlag = false
+			// так же надо отключить отрисовку чисел !!!!!
+		}
 	}
 }
 

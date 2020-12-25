@@ -59,18 +59,3 @@ func parseSnakeCoord(data *TransportData) []Coordinates {
 	// обрабатываем сообщение
 	//data.Info необходимо организовать обработку сообщений
 }
-
-// функция обработки статусов игры с сервера
-// возможные стытусы: "added",
-//					  "already added",
-//					  "busy",
-//					  "finished"
-func parseServerInfo(data *TransportData) string {
-	// получим статус
-	status := data.Action
-	if status == "added" || status == "already added" {
-		// в данном случае приходит руна, поэтому применим приведение типов
-		return data.Info.(string)
-	}
-	return "wait"
-}

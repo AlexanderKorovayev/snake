@@ -47,7 +47,9 @@ func GetSnakeCoordHandler(w http.ResponseWriter, r *http.Request) {
 
 	//получаем координаты для поступившего запроса
 	clName := (data.Info).(string)
-	getCoord(&data.MainObjectsCoord, &clName)
+	// прибавляем единицу, что бы внести больше понятности.
+	// если длинна контейнера ноль, то значит это будет первый клиент
+	data.MainObjectsCoord[clName] = generateBodyCoord(len(data.MainObjectsCoord) + 1)
 
 	myJSON, err := json.Marshal(data)
 	if err != nil {
@@ -58,21 +60,7 @@ func GetSnakeCoordHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(myJSON))
 }
 
-// getCoord получить координаты змейки
-func getCoord(mainObjects *map[string][]core.Coordinates, clientName *string) {
-	if len(*mainObjects) > core.MaxObjectsCount {
-		// подумать над ошибкой
-		//errTxt := "большое колличество игроков, должно быть не более %v"
-		//return fmt.Errorf(errTxt, maxPlayer)
-	} else {
-		// прибавляем единицу, что бы внести больше понятности.
-		// если длинна контейнера ноль, то значит это будет первый клиент
-		(*mainObjects)[*clientName] = generateBodyCoord(len(*mainObjects) + 1)
-		//return nil
-	}
-
-}
-
+/*
 //generateBodyCoord генерируем координаты змейки для каждого игрока
 //ставим каждого игрока в свой угол
 func generateBodyCoord(numPlayer int) []core.Coordinates {
@@ -91,3 +79,4 @@ func generateBodyCoord(numPlayer int) []core.Coordinates {
 	}
 	return coord
 }
+*/
