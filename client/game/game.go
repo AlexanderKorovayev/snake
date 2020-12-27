@@ -50,17 +50,40 @@ func startBaseSnakeLevel() *Game {
 }
 
 //startMainSnakeLevel формируем главную часть основного уровеня
-func startMainSnakeLevel(coord map[string][]Coordinates) {
-	// и всё, тут просто добавляем в глобальный уровень объект змейки
-
-	// решить вопрос, как будем создавать змеек, переменная-то одна
-	//GameScreen.Snake = CreateSnake(info)
-	GameScreen.AddEntity(GameScreen.Snake)
-
-	// добавляем еду
-
-	GameScreen.GameFood = CreateFood()
-	GameScreen.AddEntity(GameScreen.GameFood)
+func startMainSnakeLevel(objectsInfo map[string][]Coordinates) {
+	snakesName := []string{"Snake1", "Snake2", "Snake3", "Snake4"}
+	for objName, coord := range objectsInfo {
+		if objName == "food" {
+			// добавляем еду
+			logToFIle(coord)
+			GameScreen.GameFood = CreateFood(coord[0])
+			GameScreen.AddEntity(GameScreen.GameFood)
+		} else {
+			// добавляем змеек
+			for _, snakeName := range snakesName {
+				if snakeName == "Snake1" {
+					GameScreen.Snake1 = CreateSnake(coord)
+					GameScreen.AddEntity(GameScreen.Snake1)
+					snakesName = remove(snakesName, "Snake1")
+				}
+				if snakeName == "Snake2" {
+					GameScreen.Snake2 = CreateSnake(coord)
+					GameScreen.AddEntity(GameScreen.Snake1)
+					snakesName = remove(snakesName, "Snake2")
+				}
+				if snakeName == "Snake3" {
+					GameScreen.Snake3 = CreateSnake(coord)
+					GameScreen.AddEntity(GameScreen.Snake1)
+					snakesName = remove(snakesName, "Snake3")
+				}
+				if snakeName == "Snake4" {
+					GameScreen.Snake4 = CreateSnake(coord)
+					GameScreen.AddEntity(GameScreen.Snake1)
+					snakesName = remove(snakesName, "Snake4")
+				}
+			}
+		}
+	}
 }
 
 //StartGame стартуем игру

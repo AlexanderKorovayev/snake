@@ -31,4 +31,4 @@ var MainObjects map[string][]Coordinates
 var ClientsCount map[string]string
 
 // TimeCount переменная для обратного отсчёта
-var TimeCount int = 100
+var TimeCount int = 5

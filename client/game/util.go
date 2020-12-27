@@ -34,3 +34,13 @@ func logToFIle(data interface{}) {
 	log.Println(data)
 	defer file.Close()
 }
+
+// удаление из среза
+func remove(s []string, el string) []string {
+	for i, name := range s {
+		if el == name {
+			s[i] = s[len(s)-1]
+		}
+	}
+	return s[:len(s)-1]
+}

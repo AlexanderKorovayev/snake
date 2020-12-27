@@ -71,6 +71,9 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 				data.MainObjectsCoord[clName] = generateBodyCoord(i)
 				i++
 			}
+			// зададим координаты для еды
+			x, y := core.GetCoordinates()
+			data.MainObjectsCoord["food"] = []core.Coordinates{{X: x, Y: y}}
 			// сообщаем, что можно начинать играть
 			myJSON := addInfo(&data, "ready")
 			//отправляем данные клиенту обратно

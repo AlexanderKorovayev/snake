@@ -14,13 +14,12 @@ import (
 )
 
 //CreateFood создать еду для змейки
-func CreateFood() *food {
+func CreateFood(coord Coordinates) *food {
 	food := new(food)
 	food.Entity = termloop.NewEntity(1, 1, 1, 1)
 
-	x, y := getCoordinates()
 	//разместим еду на игровом поле
-	food.coord = Coordinates{x, y}
+	food.coord = coord
 
 	return food
 }

@@ -106,12 +106,18 @@ func (area *area) Tick(event termloop.Event) {
 		case "finished":
 			// реализовать обработку
 		case "ready":
-			// добавим остальные объекты на уже созданный уровень
-			startMainSnakeLevel(infoJSON.MainObjectsCoord)
-			// отключим запросы на сервер
+			// отключаем отрисовку чисел
+			// хз но RemoveEntity не работает,
+			// при этом если добавлять пустой объект без пробела,
+			// то он не обновляется и остаётся последнее
+			// добавленное число, поэтому оставил пробел
+			GameScreen.TimeToReady = CreateTimeObj(" ")
+			GameScreen.AddEntity(GameScreen.TimeToReady)
+			// отключим инициализирующий игру цикл
 			// теперь они будут исходить от тика змейки у каждого игрока
 			initGameFlag = false
-			// так же надо отключить отрисовку чисел !!!!!
+			// добавим остальные объекты на уже созданный уровень
+			startMainSnakeLevel(infoJSON.MainObjectsCoord)
 		}
 	}
 }

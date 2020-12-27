@@ -14,7 +14,10 @@ import (
 type Game struct {
 	termloop.Level
 	GameArea    *area
-	Snake       *snake
+	Snake1      *snake
+	Snake2      *snake
+	Snake3      *snake
+	Snake4      *snake
 	GameFood    *food
 	TimeToReady *timeToReady
 }
