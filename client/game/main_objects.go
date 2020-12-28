@@ -15,9 +15,9 @@ type Game struct {
 	termloop.Level
 	GameArea    *area
 	Snake1      *snake
-	Snake2      *snake
-	Snake3      *snake
-	Snake4      *snake
+	Snake2      *otherSnake
+	Snake3      *otherSnake
+	Snake4      *otherSnake
 	GameFood    *food
 	TimeToReady *timeToReady
 }
@@ -33,6 +33,12 @@ type snake struct {
 	*termloop.Entity
 	body  []Coordinates
 	drctn direction
+}
+
+//snake объект змейки
+type otherSnake struct {
+	*termloop.Entity
+	body []Coordinates
 }
 
 //food объект пищи для змейки

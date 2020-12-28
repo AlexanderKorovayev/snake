@@ -84,7 +84,7 @@ func (area *area) Tick(event termloop.Event) {
 		info := getServerInfo()
 		// распарсим info в json
 		infoJSON := new(TransportData)
-		infoJSON.MainObjectsCoord = map[string][]Coordinates{}
+		//infoJSON.MainObjectsCoord = map[string][]Coordinates{}
 		err := json.Unmarshal(info, infoJSON)
 		if err != nil {
 			//добавить обработку ошибок

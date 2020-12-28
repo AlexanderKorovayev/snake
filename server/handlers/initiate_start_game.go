@@ -75,6 +75,9 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			x, y := core.GetCoordinates()
 			data.MainObjectsCoord["food"] = []core.Coordinates{{X: x, Y: y}}
 			// сообщаем, что можно начинать играть
+			// тестовые змейки
+			data.MainObjectsCoord["192.168.1.144"] = []core.Coordinates{{X: 1, Y: 7}, {X: 2, Y: 7}, {X: 3, Y: 7}}
+			data.MainObjectsCoord["192.168.1.145"] = []core.Coordinates{{X: 1, Y: 1}, {X: 2, Y: 1}, {X: 3, Y: 1}}
 			myJSON := addInfo(&data, "ready")
 			//отправляем данные клиенту обратно
 			fmt.Printf("в итоге %v \n", data)
@@ -128,10 +131,12 @@ func generateBodyCoord(numPlayer int) []core.Coordinates {
 		coord = []core.Coordinates{{core.Width - 5, 2}, {core.Width - 4, 2}, {core.Width - 3, 2}}
 	case 3:
 		//допилить этот случай
-		coord = []core.Coordinates{{core.Width - 5, 2}, {core.Width - 4, 2}, {core.Width - 3, 2}}
+		coord = []core.Coordinates{{1, core.High - 13}, {2, core.High - 13}, {3, core.High - 13}}
 	case 4:
 		//допилить этот случай
-		coord = []core.Coordinates{{core.Width - 5, 2}, {core.Width - 4, 2}, {core.Width - 3, 2}}
+		coord = []core.Coordinates{{core.Width - 5, core.High - 2},
+			{core.Width - 4, core.High - 2},
+			{core.Width - 3, core.High - 2}}
 	}
 	return coord
 }
