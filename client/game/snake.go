@@ -64,6 +64,10 @@ func (snake *snake) Draw(screen *termloop.Screen) {
 
 // Tick позволяет отслеживать нажатия клавиатуры
 func (snake *snake) Tick(event termloop.Event) {
+	// теперь тик змейки у клиента становится основой работы с сервером.
+	// Серверу будет отправляться нажатая клавиша и текущие координаты змейки.
+	// Сервер в ответ посылает новые координаты змейки, координаты остальных объектов,
+	// а так же событие столкновения с чем-либо, что бы клиент мог завершить игру.
 	if event.Type == termloop.EventKey {
 		if event.Key == termloop.KeyArrowRight {
 			if snake.drctn != left {

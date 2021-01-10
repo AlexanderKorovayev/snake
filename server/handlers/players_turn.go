@@ -1,7 +1,7 @@
 /*
 package handlers
-модуль initiate_snake_coord
-обработчик для определения начальных координат змейки
+модуль players_turn
+обработчик для просчёта действий всех игроков за один ход
 */
 
 package handlers
@@ -17,7 +17,7 @@ import (
 
 // GetSnakeCoordHandler получить координаты змейки
 func GetSnakeCoordHandler(w http.ResponseWriter, r *http.Request) {
-
+	// клиент присылает координаты своего объекта, надо организовать обработку дальнейших дейтсвий.
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		//добавить обработку ошибок
