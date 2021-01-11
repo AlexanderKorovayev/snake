@@ -103,7 +103,12 @@ func (snake *snake) Tick(event termloop.Event) {
 
 	// создадим сообщение, которое необходимо передать серверу
 	message := new(TransportData)
-	message.MainObjectsCoord = map[string][]Coordinates{}
+
+	//!!!!!!!!! надо что бы каждая змея хранила в себе имя игрока
+	//!!!!!!!!! иначе непонятно, как потом раскидывать координаты на клиенте
+	//!!!!!!!!! а вот если имя есть, то мы можем присылать координаты в мапе
+
+	message.MainObjectsCoord = map[string][]Coordinates{getOutboundIP(): GameScreen.Snake1.body}
 	// опрашиваем сервер
 	info := getServerInfo("playersTurn", message)
 	// распарсим info в json
