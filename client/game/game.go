@@ -73,6 +73,7 @@ func startMainSnakeLevel(objectsInfo map[string][]Coordinates) {
 				GameScreen.AddEntity(GameScreen.Snake1)
 			} else {
 				// остальных змеек раскидываем по оставшимся местам
+				// и просто отрисовываем
 				for _, snakeName := range snakesName {
 					if snakeName == "Snake2" {
 						GameScreen.Snake2 = CreateOtherSnake(coord)

@@ -7,6 +7,8 @@ package core
 package game
 
 import (
+	"encoding/json"
+
 	"github.com/JoelOtter/termloop"
 )
 
@@ -64,10 +66,15 @@ func (snake *snake) Draw(screen *termloop.Screen) {
 
 // Tick позволяет отслеживать нажатия клавиатуры
 func (snake *snake) Tick(event termloop.Event) {
-	// теперь тик змейки у клиента становится основой работы с сервером.
+	// Теперь тик змейки у клиента становится основой работы с сервером.
 	// Серверу будет отправляться нажатая клавиша и текущие координаты змейки.
 	// Сервер в ответ посылает новые координаты змейки, координаты остальных объектов,
 	// а так же событие столкновения с чем-либо, что бы клиент мог завершить игру.
+
+	// Так же по тику мы будем обновлять snake.body, который сейчас в drow обовляется
+	// и snake.body будет уже отрисовываться в drow как и раньше.
+
+	// сначала пытаемся получить нажатия клавиш
 	if event.Type == termloop.EventKey {
 		if event.Key == termloop.KeyArrowRight {
 			if snake.drctn != left {
@@ -89,6 +96,22 @@ func (snake *snake) Tick(event termloop.Event) {
 				snake.drctn = down
 			}
 		}
+	}
+
+	// теперь получаем данные от сервера, что бы обработать актуальную
+	// информацию о других объектах.
+
+	// создадим сообщение, которое необходимо передать серверу
+	message := new(TransportData)
+	message.MainObjectsCoord = map[string][]Coordinates{}
+	// опрашиваем сервер
+	info := getServerInfo("playersTurn", message)
+	// распарсим info в json
+	infoJSON := new(TransportData)
+	//infoJSON.MainObjectsCoord = map[string][]Coordinates{}
+	err := json.Unmarshal(info, infoJSON)
+	if err != nil {
+		//добавить обработку ошибок
 	}
 }
 

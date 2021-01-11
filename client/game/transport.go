@@ -9,15 +9,14 @@ package game
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
 )
 
-func getServerInfo() []byte {
-	message := new(TransportData)
-	message.MainObjectsCoord = map[string][]Coordinates{}
+func getServerInfo(postMethodName string, message *TransportData) []byte {
 	// сообщим серверу имя клиента
 	message.Info = getOutboundIP()
 	// передаём инфу в виде набора байт
@@ -27,7 +26,7 @@ func getServerInfo() []byte {
 	}
 
 	r := bytes.NewReader(bytesMessageRepresentation)
-	resp, err := http.Post("http://localhost:2000/initiate", "application/json", r)
+	resp, err := http.Post(fmt.Sprintf("http://localhost:2000/%v", postMethodName), "application/json", r)
 	if err != nil {
 		//добавить обработку ошибки
 	}

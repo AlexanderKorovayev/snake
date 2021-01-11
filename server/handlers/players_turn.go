@@ -15,8 +15,8 @@ import (
 	"github.com/AlexanderKorovaev/snake/server/core"
 )
 
-// GetSnakeCoordHandler получить координаты змейки
-func GetSnakeCoordHandler(w http.ResponseWriter, r *http.Request) {
+// PlayersTurn получить координаты всех объектов
+func PlayersTurn(w http.ResponseWriter, r *http.Request) {
 	// клиент присылает координаты своего объекта, надо организовать обработку дальнейших дейтсвий.
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {

@@ -30,7 +30,7 @@ func main() {
 	// таким образом сервер будет предохраняться от новых подключений во время игры
 	go core.Countdown()
 	http.HandleFunc("/initiate", handlers.InitiateGame)
-	http.HandleFunc("/create", handlers.GetSnakeCoordHandler)
-	http.HandleFunc("/getCoordinate", handlers.GetSnakeCoordHandler)
+	http.HandleFunc("/playersTurn", handlers.PlayersTurn)
+	http.HandleFunc("/getCoordinate", handlers.PlayersTurn)
 	http.ListenAndServe(":2000", nil)
 }

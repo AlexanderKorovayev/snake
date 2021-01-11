@@ -80,8 +80,12 @@ func (area *area) Tick(event termloop.Event) {
 		// дальше по тику делаем запросы на перерисовку
 		// всех объектов и получаем координаты.
 
+		// создадим сообщение, которое необходимо передать серверу
+		message := new(TransportData)
+		message.MainObjectsCoord = map[string][]Coordinates{}
+
 		// опрашиваем сервер
-		info := getServerInfo()
+		info := getServerInfo("initiate", message)
 		// распарсим info в json
 		infoJSON := new(TransportData)
 		//infoJSON.MainObjectsCoord = map[string][]Coordinates{}
