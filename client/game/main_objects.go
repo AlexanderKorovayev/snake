@@ -34,6 +34,7 @@ type snake struct {
 	body  []Coordinates
 	drctn direction
 	name  string
+	dead  bool
 }
 
 //snake объект змейки
