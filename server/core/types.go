@@ -12,13 +12,18 @@ type Coordinates struct {
 	Y int
 }
 
-type direction int
+// Direction направление змейки
+type Direction int
 
 const (
-	up direction = iota
-	down
-	left
-	right
+	// Up вверх
+	Up Direction = iota
+	// Down вниз
+	Down
+	// Left влево
+	Left
+	// Right вправо
+	Right
 )
 
 // какие события могут быть?
@@ -26,7 +31,7 @@ const (
 // 2) получить координаты объектов - в ответ получаем координаты всех объектов и доп инфу если есть
 // TransportData структура, которая будет передаваться между сервером и клиентом
 type TransportData struct {
-	Action           string                   // create, getCoordinate. Подумать над статусами.
+	Action           interface{}              // create, getCoordinate. Подумать над статусами.
 	MainObjectsCoord map[string][]Coordinates // тут будут координаты всех объектов
 	Info             interface{}              // отсчёт для начал игры
 }

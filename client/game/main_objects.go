@@ -33,12 +33,14 @@ type snake struct {
 	*termloop.Entity
 	body  []Coordinates
 	drctn direction
+	name  string
 }
 
 //snake объект змейки
 type otherSnake struct {
 	*termloop.Entity
 	body []Coordinates
+	name string
 }
 
 //food объект пищи для змейки

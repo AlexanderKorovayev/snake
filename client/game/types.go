@@ -25,7 +25,7 @@ const (
 
 // TransportData структура, которая будет передаваться между сервером и клиентом
 type TransportData struct {
-	Action           string
+	Action           interface{}
 	MainObjectsCoord map[string][]Coordinates
 	Info             interface{}
 }

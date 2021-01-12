@@ -94,7 +94,7 @@ func (area *area) Tick(event termloop.Event) {
 			//добавить обработку ошибок
 		}
 		// получим статус
-		status := infoJSON.Action
+		status := infoJSON.Action.(string)
 		// по статусу определяем сценарий действий, который мы в свиче реализуем
 		switch status {
 		case "added", "already added":

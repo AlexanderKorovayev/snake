@@ -17,66 +17,64 @@ import (
 
 // PlayersTurn получить координаты всех объектов
 func PlayersTurn(w http.ResponseWriter, r *http.Request) {
-	// клиент присылает координаты своего объекта, надо организовать обработку дальнейших дейтсвий.
+	// клиент присылает координаты своей змейки и её направление
+	// надо организовать обработку этой информации.
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		//добавить обработку ошибок
 	}
-
-	fmt.Println(string(body))
-
-	//пробую создать необходимую структуру
-	//testData := core.TransportData{"test", map[string][]core.Coordinates{"test": {{1, 1}}}, "test1"}
-	//fmt.Println(testData)
-
 	var data core.TransportData
-	// можно делать универсальные подходы при парсинге json
-	// var testResp interface{}
 	err = json.Unmarshal(body, &data)
 
 	if err != nil {
 		//добавить обработку ошибок
 	}
 
-	// тип интерфейс, но к нему нельзя обращаться по индексу, поэтому необходимо
-	// привести явно к типу
-	// тоже самое придётся сделать и со значениями по ключу, потому что они
-	// тоже типа интерфейс
-	//testRespTyped := testResp.(map[string]interface{})
-	//fmt.Println(testRespTyped)
+	// теперь необходимо записывать данные каждого клиента.
+	// клиенты будут запрашивать обновление данных, каждому мы будем присылать
+	// последние актуальные данные.
+	// так же необходимо каждый раз просчитвать, было ли столкновение с едой.
 
-	//получаем координаты для поступившего запроса
+	// запишем координаты для поступившего запроса от клиента
+	fmt.Println(data.MainObjectsCoord)
 	clName := (data.Info).(string)
-	// прибавляем единицу, что бы внести больше понятности.
-	// если длинна контейнера ноль, то значит это будет первый клиент
-	data.MainObjectsCoord[clName] = generateBodyCoord(len(data.MainObjectsCoord) + 1)
-
+	core.MainObjects[clName] = data.MainObjectsCoord[clName]
+	// просчитаем для данного клиента новые координаты
+	// сначала приводим интерфейс к типу флоат а потом его уже к типу дирекшен
+	drctn := core.Direction((data.Action).(float64))
+	core.MainObjects[clName] = updateSnakeCoordinates(core.MainObjects[clName], drctn)
+	// запишем клиенту все координаты
+	data.MainObjectsCoord = core.MainObjects
+	// отправляем данные клиенту
 	myJSON, err := json.Marshal(data)
 	if err != nil {
 		//добавить обработку ошибок
 	}
-	fmt.Println(string(myJSON))
 	//отправляем данные клиенту обратно
 	fmt.Fprintf(w, string(myJSON))
 }
 
-/*
-//generateBodyCoord генерируем координаты змейки для каждого игрока
-//ставим каждого игрока в свой угол
-func generateBodyCoord(numPlayer int) []core.Coordinates {
-	var coord []core.Coordinates
-	switch numPlayer {
-	case 1:
-		coord = []core.Coordinates{{1, core.High - 2}, {2, core.High - 2}, {3, core.High - 2}}
-	case 2:
-		coord = []core.Coordinates{{core.Width - 5, 2}, {core.Width - 4, 2}, {core.Width - 3, 2}}
-	case 3:
-		//допилить этот случай
-		coord = []core.Coordinates{{core.Width - 5, 2}, {core.Width - 4, 2}, {core.Width - 3, 2}}
-	case 4:
-		//допилить этот случай
-		coord = []core.Coordinates{{core.Width - 5, 2}, {core.Width - 4, 2}, {core.Width - 3, 2}}
+// обновление координат змейки
+func updateSnakeCoordinates(body []core.Coordinates, drctn core.Direction) []core.Coordinates {
+	if drctn == core.Right {
+		head := body[len(body)-1]
+		head.X++
+		body = append(body[1:], head)
 	}
-	return coord
+	if drctn == core.Left {
+		head := body[len(body)-1]
+		head.X--
+		body = append(body[1:], head)
+	}
+	if drctn == core.Up {
+		head := body[len(body)-1]
+		head.Y--
+		body = append(body[1:], head)
+	}
+	if drctn == core.Down {
+		head := body[len(body)-1]
+		head.Y++
+		body = append(body[1:], head)
+	}
+	return body
 }
-*/

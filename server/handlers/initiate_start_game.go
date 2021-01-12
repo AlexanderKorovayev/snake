@@ -74,6 +74,9 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			// зададим координаты для еды
 			x, y := core.GetCoordinates()
 			data.MainObjectsCoord["food"] = []core.Coordinates{{X: x, Y: y}}
+			// так же необходимо записать координаты и для сервера
+			core.MainObjects = map[string][]core.Coordinates{} // сначала надо проинициализировать поле, но это можно сделать проще
+			core.MainObjects["food"] = []core.Coordinates{{X: x, Y: y}}
 			// сообщаем, что можно начинать играть
 			// !!!!!!!!!!!!!!!!!!!тестовые змейки!!!!!!!!!!!!!!!!!!!
 			data.MainObjectsCoord["192.168.1.144"] = generateBodyCoord(2)

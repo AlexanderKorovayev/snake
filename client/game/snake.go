@@ -13,50 +13,32 @@ import (
 )
 
 //CreateSnake создать змейку
-func CreateSnake(body []Coordinates) *snake {
+func CreateSnake(body []Coordinates, name string) *snake {
 	snakeObj := new(snake)
 	snakeObj.Entity = termloop.NewEntity(1, 1, 1, 1)
 	snakeObj.drctn = right
 	snakeObj.body = body
+	snakeObj.name = name
 	return snakeObj
 }
 
 //Draw отвечает за отрисовку змеи на дисплее
 func (snake *snake) Draw(screen *termloop.Screen) {
-	if snake.drctn == right {
-		head := snake.body[len(snake.body)-1]
-		head.X++
-		snake.body = append(snake.body[1:], head)
-	}
-	if snake.drctn == left {
-		head := snake.body[len(snake.body)-1]
-		head.X--
-		snake.body = append(snake.body[1:], head)
-	}
-	if snake.drctn == up {
-		head := snake.body[len(snake.body)-1]
-		head.Y--
-		snake.body = append(snake.body[1:], head)
-	}
-	if snake.drctn == down {
-		head := snake.body[len(snake.body)-1]
-		head.Y++
-		snake.body = append(snake.body[1:], head)
-	}
-
-	if snake.foodCollision() {
-		//увеличиваем длинну змейки
-		snake.increaseSnake()
-		//перемещаем еду на новое место
-		GameScreen.GameFood.moveFood()
-	}
-
-	if snake.areaCollision() || snake.snakeCollision() {
-		level := startFinishLevel()
-		TermloopGame.Screen().SetLevel(level)
-	}
-
-	//отрисовка на экране
+	// это должно приходить с сервера
+	/*
+		if snake.foodCollision() {
+			//увеличиваем длинну змейки
+			snake.increaseSnake()
+			//перемещаем еду на новое место
+			GameScreen.GameFood.moveFood()
+		}
+		// это должно приходить с сервера
+		if snake.areaCollision() || snake.snakeCollision() {
+			level := startFinishLevel()
+			TermloopGame.Screen().SetLevel(level)
+		}
+	*/
+	//отрисовка на экране главной змейки клиента
 	for _, v := range snake.body {
 		screen.RenderCell(v.X, v.Y, &termloop.Cell{Fg: termloop.ColorWhite,
 			Bg: termloop.ColorWhite})
@@ -103,20 +85,39 @@ func (snake *snake) Tick(event termloop.Event) {
 
 	// создадим сообщение, которое необходимо передать серверу
 	message := new(TransportData)
-
-	//!!!!!!!!! надо что бы каждая змея хранила в себе имя игрока
-	//!!!!!!!!! иначе непонятно, как потом раскидывать координаты на клиенте
-	//!!!!!!!!! а вот если имя есть, то мы можем присылать координаты в мапе
-
-	message.MainObjectsCoord = map[string][]Coordinates{getOutboundIP(): GameScreen.Snake1.body}
+	// зададим координаты змейки
+	message.MainObjectsCoord = map[string][]Coordinates{GameScreen.Snake1.name: GameScreen.Snake1.body}
+	// зададим направление змейки
+	message.Action = GameScreen.Snake1.drctn
+	// зададим имя змейки
+	message.Info = GameScreen.Snake1.name
 	// опрашиваем сервер
 	info := getServerInfo("playersTurn", message)
 	// распарсим info в json
 	infoJSON := new(TransportData)
-	//infoJSON.MainObjectsCoord = map[string][]Coordinates{}
 	err := json.Unmarshal(info, infoJSON)
 	if err != nil {
 		//добавить обработку ошибок
+	}
+	// обновим координаты для всех объектов
+	for objName, coord := range infoJSON.MainObjectsCoord {
+		if objName == "food" {
+			GameScreen.GameFood.coord = coord[0]
+		}
+		if objName == GameScreen.Snake1.name {
+			logToFIle("snake1")
+			logToFIle(coord)
+			GameScreen.Snake1.body = coord
+		}
+		if objName == GameScreen.Snake2.name {
+			GameScreen.Snake2.body = coord
+		}
+		if objName == GameScreen.Snake3.name {
+			GameScreen.Snake3.body = coord
+		}
+		if objName == GameScreen.Snake4.name {
+			GameScreen.Snake4.body = coord
+		}
 	}
 }
 
