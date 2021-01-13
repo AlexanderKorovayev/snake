@@ -36,20 +36,20 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			_, ok := core.ClientsCount[data.Info.(string)]
 			// если клиент уже в игре
 			if ok {
-				myJSON := addInfo(&data, "already added")
+				myJSON := addInfo(&data, "already added", false)
 				//отправляем данные клиенту обратно
 				fmt.Fprintf(w, string(myJSON))
 			} else {
 				// иначе добавляем в игру
 				core.ClientsCount[data.Info.(string)] = ""
-				myJSON := addInfo(&data, "added")
+				myJSON := addInfo(&data, "added", false)
 				//отправляем данные клиенту обратно
 				fmt.Fprintf(w, string(myJSON))
 			}
 		} else {
 			// сообщаем клиенту, что мест больше нет
 			data := core.TransportData{}
-			myJSON := addInfo(&data, "busy")
+			myJSON := addInfo(&data, "busy", false)
 			//отправляем данные клиенту обратно
 			fmt.Fprintf(w, string(myJSON))
 		}
@@ -65,10 +65,12 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			// введём порядковый номер, который нужен для
 			// правильного распределения змеек
 			i := 1
+			// для каждого клиента будет создаваться заново
+			core.DirectionMap = map[string]core.Direction{}
 			// надо перебрать всех подключённых клиентов через ClientsCount
 			for clName := range core.ClientsCount {
-				//получаем координаты для данного клиента
-				data.MainObjectsCoord[clName] = generateBodyCoord(i)
+				//получаем координаты и направление для данного клиента
+				data.MainObjectsCoord[clName], core.DirectionMap[clName] = generateDrctnBodyCoord(i)
 				i++
 			}
 			// зададим координаты для еды
@@ -79,26 +81,31 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			core.MainObjects["food"] = []core.Coordinates{{X: x, Y: y}}
 			// сообщаем, что можно начинать играть
 			// !!!!!!!!!!!!!!!!!!!тестовые змейки!!!!!!!!!!!!!!!!!!!
-			data.MainObjectsCoord["192.168.1.144"] = generateBodyCoord(2)
-			data.MainObjectsCoord["192.168.1.145"] = generateBodyCoord(3)
-			data.MainObjectsCoord["192.168.1.146"] = generateBodyCoord(4)
-			myJSON := addInfo(&data, "ready")
+			//data.MainObjectsCoord["192.168.1.144"] = generateDrctnBodyCoord(2)
+			//data.MainObjectsCoord["192.168.1.145"] = generateDrctnBodyCoord(3)
+			//data.MainObjectsCoord["192.168.1.146"] = generateDrctnBodyCoord(4)
+			myJSON := addInfo(&data, "ready", true)
 			//отправляем данные клиенту обратно
 			fmt.Printf("в итоге %v \n", data)
 			fmt.Fprintf(w, string(myJSON))
 		} else {
 			// иначе сообщаем, что время для добавления вышло
-			myJSON := addInfo(&data, "finished")
+			myJSON := addInfo(&data, "finished", false)
 			//отправляем данные клиенту обратно
 			fmt.Fprintf(w, string(myJSON))
 		}
 	}
 }
 
-func addInfo(data *core.TransportData, status string) []byte {
+func addInfo(data *core.TransportData, status string, addDrctn bool) []byte {
 	// то посылаем ему информацию что идёт ожидание
 	data.Action = status
-	data.Info = strconv.Itoa(core.TimeCount)
+	if addDrctn == true {
+		data.Info = core.DirectionMap
+		fmt.Println(data.Info)
+	} else {
+		data.Info = strconv.Itoa(core.TimeCount)
+	}
 	// преобразуем данные в бинарный вид
 	myJSON, err := json.Marshal(data)
 	if err != nil {
@@ -126,19 +133,20 @@ func parseBody(r *http.Request) core.TransportData {
 
 //generateBodyCoord генерируем координаты змейки для каждого игрока
 //ставим каждого игрока в свой угол
-func generateBodyCoord(numPlayer int) []core.Coordinates {
+func generateDrctnBodyCoord(numPlayer int) ([]core.Coordinates, core.Direction) {
 	var coord []core.Coordinates
+	var drctn core.Direction
 	switch numPlayer {
 	case 1:
-		coord = []core.Coordinates{{X: 1, Y: core.High - 1}, {X: 2, Y: core.High - 1}, {X: 3, Y: core.High - 1}}
+		coord, drctn = []core.Coordinates{{X: 1, Y: core.High - 1}, {X: 2, Y: core.High - 1}, {X: 3, Y: core.High - 1}}, core.Right
 	case 2:
-		coord = []core.Coordinates{{X: core.Width - 3, Y: 1}, {X: core.Width - 2, Y: 1}, {X: core.Width - 1, Y: 1}}
+		coord, drctn = []core.Coordinates{{X: core.Width - 3, Y: 1}, {X: core.Width - 2, Y: 1}, {X: core.Width - 1, Y: 1}}, core.Left
 	case 3:
-		coord = []core.Coordinates{{X: 1, Y: core.High - 14}, {X: 2, Y: core.High - 14}, {X: 3, Y: core.High - 14}}
+		coord, drctn = []core.Coordinates{{X: 1, Y: core.High - 14}, {X: 2, Y: core.High - 14}, {X: 3, Y: core.High - 14}}, core.Right
 	case 4:
-		coord = []core.Coordinates{{X: core.Width - 3, Y: core.High - 1},
+		coord, drctn = []core.Coordinates{{X: core.Width - 3, Y: core.High - 1},
 			{X: core.Width - 2, Y: core.High - 1},
-			{X: core.Width - 1, Y: core.High - 1}}
+			{X: core.Width - 1, Y: core.High - 1}}, core.Left
 	}
-	return coord
+	return coord, drctn
 }

@@ -13,10 +13,10 @@ import (
 )
 
 //CreateSnake создать змейку
-func CreateSnake(body []Coordinates, name string) *snake {
+func CreateSnake(body []Coordinates, name string, drctn direction) *snake {
 	snakeObj := new(snake)
 	snakeObj.Entity = termloop.NewEntity(1, 1, 1, 1)
-	snakeObj.drctn = right
+	snakeObj.drctn = drctn
 	snakeObj.body = body
 	snakeObj.name = name
 	snakeObj.dead = false
@@ -98,19 +98,19 @@ func (snake *snake) Tick(event termloop.Event) {
 	}
 	// обновим координаты для всех объектов
 	for objName, coord := range infoJSON.MainObjectsCoord {
-		if objName == "food" {
+		if objName == "food" && GameScreen.GameFood != nil {
 			GameScreen.GameFood.coord = coord[0]
 		}
-		if objName == GameScreen.Snake1.name {
+		if GameScreen.Snake1 != nil && objName == GameScreen.Snake1.name {
 			GameScreen.Snake1.body = coord
 		}
-		if objName == GameScreen.Snake2.name {
+		if GameScreen.Snake2 != nil && objName == GameScreen.Snake2.name {
 			GameScreen.Snake2.body = coord
 		}
-		if objName == GameScreen.Snake3.name {
+		if GameScreen.Snake3 != nil && objName == GameScreen.Snake3.name {
 			GameScreen.Snake3.body = coord
 		}
-		if objName == GameScreen.Snake4.name {
+		if GameScreen.Snake4 != nil && objName == GameScreen.Snake4.name {
 			GameScreen.Snake4.body = coord
 		}
 	}

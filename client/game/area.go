@@ -120,8 +120,13 @@ func (area *area) Tick(event termloop.Event) {
 			// отключим инициализирующий игру цикл
 			// теперь они будут исходить от тика змейки у каждого игрока
 			initGameFlag = false
+			// получим направления для змееки
+			// infoJSON.Info имеет тип интерфейс, но если в нём хранится сложный
+			// объект, то его поля тоже имеют тип интерфейс, поэтому будет
+			// преобразовывать его поэтапно
+			directionMap := infoJSON.Info.(map[string]interface{})
 			// добавим остальные объекты на уже созданный уровень
-			startMainSnakeLevel(infoJSON.MainObjectsCoord)
+			startMainSnakeLevel(infoJSON.MainObjectsCoord, directionMap)
 		}
 	}
 }

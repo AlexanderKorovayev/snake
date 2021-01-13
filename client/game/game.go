@@ -50,7 +50,7 @@ func startBaseSnakeLevel() *Game {
 }
 
 //startMainSnakeLevel формируем главную часть основного уровеня
-func startMainSnakeLevel(objectsInfo map[string][]Coordinates) {
+func startMainSnakeLevel(objectsInfo map[string][]Coordinates, directionMap map[string]interface{}) {
 	snakesName := []string{"Snake2", "Snake3", "Snake4"}
 	for objName, coord := range objectsInfo {
 		if objName == "food" {
@@ -65,7 +65,7 @@ func startMainSnakeLevel(objectsInfo map[string][]Coordinates) {
 			// добавляем змеек
 			// главную змейку клиента всегда размещаем в Snake1
 			if objName == getOutboundIP() {
-				GameScreen.Snake1 = CreateSnake(coord, objName)
+				GameScreen.Snake1 = CreateSnake(coord, objName, direction(directionMap[objName].(float64)))
 				GameScreen.AddEntity(GameScreen.Snake1)
 			} else {
 				// остальных змеек раскидываем по оставшимся местам
