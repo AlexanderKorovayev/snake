@@ -102,7 +102,6 @@ func addInfo(data *core.TransportData, status string, addDrctn bool) []byte {
 	data.Action = status
 	if addDrctn == true {
 		data.Info = core.DirectionMap
-		fmt.Println(data.Info)
 	} else {
 		data.Info = strconv.Itoa(core.TimeCount)
 	}
@@ -140,7 +139,7 @@ func generateDrctnBodyCoord(numPlayer int) ([]core.Coordinates, core.Direction) 
 	case 1:
 		coord, drctn = []core.Coordinates{{X: 1, Y: core.High - 1}, {X: 2, Y: core.High - 1}, {X: 3, Y: core.High - 1}}, core.Right
 	case 2:
-		coord, drctn = []core.Coordinates{{X: core.Width - 3, Y: 1}, {X: core.Width - 2, Y: 1}, {X: core.Width - 1, Y: 1}}, core.Left
+		coord, drctn = []core.Coordinates{{X: core.Width - 3, Y: 1}, {X: core.Width - 2, Y: 1}, {X: core.Width - 1, Y: 1}}, core.Down
 	case 3:
 		coord, drctn = []core.Coordinates{{X: 1, Y: core.High - 14}, {X: 2, Y: core.High - 14}, {X: 3, Y: core.High - 14}}, core.Right
 	case 4:
