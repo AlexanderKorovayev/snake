@@ -30,9 +30,6 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 		if len(core.ClientsCount) < core.MaxObjectsCount {
 			// парсим входящие данные
 			data := parseBody(r)
-			// проставим значения по умолчанию
-			data.Action = ""
-			data.Info = ""
 			// проверим, есть ли клиент в игре
 			// с клиента будут приходить только строчки,
 			// поэтому сделаем приведение типа
@@ -60,9 +57,6 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("время вышло")
 		// сообщаем клиенту, что время вышло
 		data := parseBody(r)
-		// проставим значения по умолчанию
-		data.Action = ""
-		data.Info = ""
 		_, ok := core.ClientsCount[data.Info.(string)]
 		// если клиент уже был в игре, то отправим координаты всех объектов
 		if ok {

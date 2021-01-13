@@ -55,6 +55,7 @@ func PlayersTurn(w http.ResponseWriter, r *http.Request) {
 		core.MainObjects["food"] = []core.Coordinates{{X: x, Y: y}}
 	}
 	// обратно посылаем статусы, поэтому клиент будет ожидать строку
+	// для этого на всякий случай будет задавать значения по умолчанию
 	data.Action = ""
 	data.Info = ""
 	// определим, было ли столкновение змейки с самой собой
