@@ -56,6 +56,7 @@ func PlayersTurn(w http.ResponseWriter, r *http.Request) {
 	}
 	// обратно посылаем статусы, поэтому клиент будет ожидать строку
 	data.Action = ""
+	data.Info = ""
 	// определим, было ли столкновение змейки с самой собой
 	if snakeSelfCollision(core.MainObjects[clName]) {
 		// отправим статус о коллисии
