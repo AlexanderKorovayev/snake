@@ -13,7 +13,7 @@ import (
 //CreateTimeObj создать отрисовку обратного отсчёта
 func CreateTimeObj(text string) *timeToReady {
 	timeObj := new(timeToReady)
-	timeObj.Text = termloop.NewText(3, (high/2)-1,
+	timeObj.Text = termloop.NewText(7, (high/2)-1,
 		text,
 		termloop.ColorWhite,
 		termloop.ColorDefault)

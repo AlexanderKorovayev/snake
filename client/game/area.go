@@ -104,7 +104,7 @@ func (area *area) Tick(event termloop.Event) {
 			// отрисуем обратный отсчёт
 			// мы уже создали глобальный GameScreen в startBaseSnakeLevel, поэтому тут
 			// надо просто обновлять в нём обратный отсчёт
-			GameScreen.TimeToReady = CreateTimeObj(fmt.Sprintf("your color is %v. Start in %v", infoJSON.Color, estimate))
+			GameScreen.TimeToReady = CreateTimeObj(fmt.Sprintf("your color is %v. Start in %v", infoJSON.Color[getOutboundIP()], estimate))
 			GameScreen.AddEntity(GameScreen.TimeToReady)
 		case "busy":
 			// реализовать обработку
@@ -127,7 +127,7 @@ func (area *area) Tick(event termloop.Event) {
 			// преобразовывать его поэтапно
 			directionMap := infoJSON.Info.(map[string]interface{})
 			// добавим остальные объекты на уже созданный уровень
-			startMainSnakeLevel(infoJSON.MainObjectsCoord, directionMap, colorMap(infoJSON.Color))
+			startMainSnakeLevel(infoJSON.MainObjectsCoord, directionMap, infoJSON.Color)
 		}
 	}
 }

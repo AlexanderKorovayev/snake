@@ -34,5 +34,5 @@ type TransportData struct {
 	Action           interface{}              // create, getCoordinate. Подумать над статусами.
 	MainObjectsCoord map[string][]Coordinates // тут будут координаты всех объектов
 	Info             interface{}              // отсчёт для начал игры
-	Color            string                   //цвет змейки
+	Color            map[string]string        //цвет змейки
 }

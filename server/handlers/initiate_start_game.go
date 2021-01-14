@@ -36,7 +36,7 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			_, ok := core.ClientsCount[data.Info.(string)]
 			// если клиент уже в игре
 			if ok {
-				myJSON := addInfo(&data, "already added", false, core.ColorMap[data.Info.(string)])
+				myJSON := addInfo(&data, "already added", false, core.ColorMap)
 				//отправляем данные клиенту обратно
 				fmt.Fprintf(w, string(myJSON))
 			} else {
@@ -46,14 +46,14 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 				core.ColorMap[data.Info.(string)] = core.Colors[0]
 				// удалим выбранный цвет из списка доступных
 				core.Colors = core.Remove(core.Colors, core.Colors[0])
-				myJSON := addInfo(&data, "added", false, core.ColorMap[data.Info.(string)])
+				myJSON := addInfo(&data, "added", false, core.ColorMap)
 				//отправляем данные клиенту обратно
 				fmt.Fprintf(w, string(myJSON))
 			}
 		} else {
 			// сообщаем клиенту, что мест больше нет
 			data := core.TransportData{}
-			myJSON := addInfo(&data, "busy", false, "")
+			myJSON := addInfo(&data, "busy", false, core.ColorMap)
 			//отправляем данные клиенту обратно
 			fmt.Fprintf(w, string(myJSON))
 		}
@@ -84,20 +84,20 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			core.MainObjects = map[string][]core.Coordinates{} // сначала надо проинициализировать поле, но это можно сделать проще
 			core.MainObjects["food"] = []core.Coordinates{{X: x, Y: y}}
 			// сообщаем, что можно начинать играть
-			myJSON := addInfo(&data, "ready", true, core.ColorMap[data.Info.(string)])
+			myJSON := addInfo(&data, "ready", true, core.ColorMap)
 			//отправляем данные клиенту обратно
 			fmt.Printf("в итоге %v \n", data)
 			fmt.Fprintf(w, string(myJSON))
 		} else {
 			// иначе сообщаем, что время для добавления вышло
-			myJSON := addInfo(&data, "finished", false, "")
+			myJSON := addInfo(&data, "finished", false, core.ColorMap)
 			//отправляем данные клиенту обратно
 			fmt.Fprintf(w, string(myJSON))
 		}
 	}
 }
 
-func addInfo(data *core.TransportData, status string, addDrctn bool, color string) []byte {
+func addInfo(data *core.TransportData, status string, addDrctn bool, color map[string]string) []byte {
 	// то посылаем ему информацию что идёт ожидание
 	data.Action = status
 	if addDrctn == true {
