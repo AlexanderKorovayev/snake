@@ -14,7 +14,7 @@ import (
 var TermloopGame *termloop.Game
 
 // Width ширина поля, по факту граница рисуется на 34 пикселе, и змейке достаётся 33 в ширину
-const Width int = 35
+const Width int = 46
 
 // High высота поля, по факту граница рисуется на 14 пикселе, и змейке достаётся 13 в ширину
 const High int = 15

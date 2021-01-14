@@ -101,7 +101,7 @@ func StartGame() {
 
 	// создаём стартовый уровень
 	level := startMenuLevel()
-	TermloopGame.Screen().SetFps(5)
+	TermloopGame.Screen().SetFps(4)
 	TermloopGame.Screen().SetLevel(level)
 	TermloopGame.Start()
 }

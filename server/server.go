@@ -31,6 +31,5 @@ func main() {
 	go core.Countdown()
 	http.HandleFunc("/initiate", handlers.InitiateGame)
 	http.HandleFunc("/playersTurn", handlers.PlayersTurn)
-	http.HandleFunc("/getCoordinate", handlers.PlayersTurn)
 	http.ListenAndServe(":2000", nil)
 }
