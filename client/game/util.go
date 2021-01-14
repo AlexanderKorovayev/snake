@@ -9,6 +9,8 @@ package game
 import (
 	"log"
 	"os"
+
+	"github.com/JoelOtter/termloop"
 )
 
 //FindInSlice функция для поиска вхождений в срезе
@@ -43,4 +45,22 @@ func remove(s []string, el string) []string {
 		}
 	}
 	return s[:len(s)-1]
+}
+
+// Соответствие цветов
+func colorMap(color string) termloop.Attr {
+	var colorTerm termloop.Attr
+	if color == "Blue" {
+		colorTerm = termloop.ColorBlue
+	}
+	if color == "Cyan" {
+		colorTerm = termloop.ColorCyan
+	}
+	if color == "Green" {
+		colorTerm = termloop.ColorGreen
+	}
+	if color == "Magneta" {
+		colorTerm = termloop.ColorMagenta
+	}
+	return colorTerm
 }

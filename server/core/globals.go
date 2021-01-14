@@ -35,3 +35,9 @@ var TimeCount int = 10
 
 // DirectionMap хранит в себе стартовое направление для каждой змейки
 var DirectionMap map[string]Direction
+
+// ColorMap хранит в себе цвет для каждой змейки
+var ColorMap map[string]string = map[string]string{}
+
+// Colors Возможные цвета змейки
+var Colors []string = []string{"Blue", "Cyan", "Green", "Magneta"}

@@ -50,7 +50,7 @@ func startBaseSnakeLevel() *Game {
 }
 
 //startMainSnakeLevel формируем главную часть основного уровеня
-func startMainSnakeLevel(objectsInfo map[string][]Coordinates, directionMap map[string]interface{}) {
+func startMainSnakeLevel(objectsInfo map[string][]Coordinates, directionMap map[string]interface{}, color termloop.Attr) {
 	snakesName := []string{"Snake2", "Snake3", "Snake4"}
 	for objName, coord := range objectsInfo {
 		if objName == "food" {
@@ -65,26 +65,26 @@ func startMainSnakeLevel(objectsInfo map[string][]Coordinates, directionMap map[
 			// добавляем змеек
 			// главную змейку клиента всегда размещаем в Snake1
 			if objName == getOutboundIP() {
-				GameScreen.Snake1 = CreateSnake(coord, objName, direction(directionMap[objName].(float64)))
+				GameScreen.Snake1 = CreateSnake(coord, objName, direction(directionMap[objName].(float64)), color)
 				GameScreen.AddEntity(GameScreen.Snake1)
 			} else {
 				// остальных змеек раскидываем по оставшимся местам
 				// и просто отрисовываем
 				for _, snakeName := range snakesName {
 					if snakeName == "Snake2" {
-						GameScreen.Snake2 = CreateOtherSnake(coord, objName)
+						GameScreen.Snake2 = CreateOtherSnake(coord, objName, color)
 						GameScreen.AddEntity(GameScreen.Snake2)
 						snakesName = remove(snakesName, "Snake2")
 						break
 					}
 					if snakeName == "Snake3" {
-						GameScreen.Snake3 = CreateOtherSnake(coord, objName)
+						GameScreen.Snake3 = CreateOtherSnake(coord, objName, color)
 						GameScreen.AddEntity(GameScreen.Snake3)
 						snakesName = remove(snakesName, "Snake3")
 						break
 					}
 					if snakeName == "Snake4" {
-						GameScreen.Snake4 = CreateOtherSnake(coord, objName)
+						GameScreen.Snake4 = CreateOtherSnake(coord, objName, color)
 						GameScreen.AddEntity(GameScreen.Snake4)
 						snakesName = remove(snakesName, "Snake4")
 						break

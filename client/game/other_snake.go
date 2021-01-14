@@ -11,11 +11,12 @@ import (
 )
 
 //CreateOtherSnake создать змейку
-func CreateOtherSnake(body []Coordinates, name string) *otherSnake {
+func CreateOtherSnake(body []Coordinates, name string, color termloop.Attr) *otherSnake {
 	snakeObj := new(otherSnake)
 	snakeObj.Entity = termloop.NewEntity(1, 1, 1, 1)
 	snakeObj.body = body
 	snakeObj.name = name
+	snakeObj.color = color
 	return snakeObj
 }
 
@@ -24,7 +25,7 @@ func (snake *otherSnake) Draw(screen *termloop.Screen) {
 	//отрисовка на экране
 	for _, v := range snake.body {
 		screen.RenderCell(v.X, v.Y, &termloop.Cell{Fg: termloop.ColorWhite,
-			Bg: termloop.ColorWhite})
+			Bg: snake.color})
 	}
 
 }

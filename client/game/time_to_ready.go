@@ -11,9 +11,10 @@ import (
 )
 
 //CreateTimeObj создать отрисовку обратного отсчёта
-func CreateTimeObj(val string) *timeToReady {
+func CreateTimeObj(text string) *timeToReady {
 	timeObj := new(timeToReady)
-	timeObj.Text = termloop.NewText((width/2)-1, (high/2)-1, val,
+	timeObj.Text = termloop.NewText(3, (high/2)-1,
+		text,
 		termloop.ColorWhite,
 		termloop.ColorDefault)
 	return timeObj

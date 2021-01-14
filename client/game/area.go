@@ -19,6 +19,7 @@ package game
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/JoelOtter/termloop"
 )
@@ -103,7 +104,7 @@ func (area *area) Tick(event termloop.Event) {
 			// отрисуем обратный отсчёт
 			// мы уже создали глобальный GameScreen в startBaseSnakeLevel, поэтому тут
 			// надо просто обновлять в нём обратный отсчёт
-			GameScreen.TimeToReady = CreateTimeObj(estimate)
+			GameScreen.TimeToReady = CreateTimeObj(fmt.Sprintf("your color is %v. Start in %v", infoJSON.Color, estimate))
 			GameScreen.AddEntity(GameScreen.TimeToReady)
 		case "busy":
 			// реализовать обработку
@@ -114,8 +115,8 @@ func (area *area) Tick(event termloop.Event) {
 			// хз но RemoveEntity не работает,
 			// при этом если добавлять пустой объект без пробела,
 			// то он не обновляется и остаётся последнее
-			// добавленное число, поэтому оставил пробел
-			GameScreen.TimeToReady = CreateTimeObj(" ")
+			// добавленное число, поэтому оставил пробел.Но нужно заменять все объекты
+			GameScreen.TimeToReady = CreateTimeObj("                                  ")
 			GameScreen.AddEntity(GameScreen.TimeToReady)
 			// отключим инициализирующий игру цикл
 			// теперь они будут исходить от тика змейки у каждого игрока
@@ -126,7 +127,7 @@ func (area *area) Tick(event termloop.Event) {
 			// преобразовывать его поэтапно
 			directionMap := infoJSON.Info.(map[string]interface{})
 			// добавим остальные объекты на уже созданный уровень
-			startMainSnakeLevel(infoJSON.MainObjectsCoord, directionMap)
+			startMainSnakeLevel(infoJSON.MainObjectsCoord, directionMap, colorMap(infoJSON.Color))
 		}
 	}
 }

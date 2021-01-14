@@ -36,20 +36,24 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			_, ok := core.ClientsCount[data.Info.(string)]
 			// если клиент уже в игре
 			if ok {
-				myJSON := addInfo(&data, "already added", false)
+				myJSON := addInfo(&data, "already added", false, core.ColorMap[data.Info.(string)])
 				//отправляем данные клиенту обратно
 				fmt.Fprintf(w, string(myJSON))
 			} else {
 				// иначе добавляем в игру
 				core.ClientsCount[data.Info.(string)] = ""
-				myJSON := addInfo(&data, "added", false)
+				// назначим цвет
+				core.ColorMap[data.Info.(string)] = core.Colors[0]
+				// удалим выбранный цвет из списка доступных
+				core.Colors = core.Remove(core.Colors, core.Colors[0])
+				myJSON := addInfo(&data, "added", false, core.ColorMap[data.Info.(string)])
 				//отправляем данные клиенту обратно
 				fmt.Fprintf(w, string(myJSON))
 			}
 		} else {
 			// сообщаем клиенту, что мест больше нет
 			data := core.TransportData{}
-			myJSON := addInfo(&data, "busy", false)
+			myJSON := addInfo(&data, "busy", false, "")
 			//отправляем данные клиенту обратно
 			fmt.Fprintf(w, string(myJSON))
 		}
@@ -80,24 +84,20 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			core.MainObjects = map[string][]core.Coordinates{} // сначала надо проинициализировать поле, но это можно сделать проще
 			core.MainObjects["food"] = []core.Coordinates{{X: x, Y: y}}
 			// сообщаем, что можно начинать играть
-			// !!!!!!!!!!!!!!!!!!!тестовые змейки!!!!!!!!!!!!!!!!!!!
-			//data.MainObjectsCoord["192.168.1.144"] = generateDrctnBodyCoord(2)
-			//data.MainObjectsCoord["192.168.1.145"] = generateDrctnBodyCoord(3)
-			//data.MainObjectsCoord["192.168.1.146"] = generateDrctnBodyCoord(4)
-			myJSON := addInfo(&data, "ready", true)
+			myJSON := addInfo(&data, "ready", true, core.ColorMap[data.Info.(string)])
 			//отправляем данные клиенту обратно
 			fmt.Printf("в итоге %v \n", data)
 			fmt.Fprintf(w, string(myJSON))
 		} else {
 			// иначе сообщаем, что время для добавления вышло
-			myJSON := addInfo(&data, "finished", false)
+			myJSON := addInfo(&data, "finished", false, "")
 			//отправляем данные клиенту обратно
 			fmt.Fprintf(w, string(myJSON))
 		}
 	}
 }
 
-func addInfo(data *core.TransportData, status string, addDrctn bool) []byte {
+func addInfo(data *core.TransportData, status string, addDrctn bool, color string) []byte {
 	// то посылаем ему информацию что идёт ожидание
 	data.Action = status
 	if addDrctn == true {
@@ -105,6 +105,7 @@ func addInfo(data *core.TransportData, status string, addDrctn bool) []byte {
 	} else {
 		data.Info = strconv.Itoa(core.TimeCount)
 	}
+	data.Color = color
 	// преобразуем данные в бинарный вид
 	myJSON, err := json.Marshal(data)
 	if err != nil {
@@ -139,13 +140,13 @@ func generateDrctnBodyCoord(numPlayer int) ([]core.Coordinates, core.Direction) 
 	case 1:
 		coord, drctn = []core.Coordinates{{X: 1, Y: core.High - 1}, {X: 2, Y: core.High - 1}, {X: 3, Y: core.High - 1}}, core.Right
 	case 2:
-		coord, drctn = []core.Coordinates{{X: core.Width - 3, Y: 1}, {X: core.Width - 2, Y: 1}, {X: core.Width - 1, Y: 1}}, core.Down
+		coord, drctn = []core.Coordinates{{X: core.Width - 1, Y: 1}, {X: core.Width - 2, Y: 1}, {X: core.Width - 3, Y: 1}}, core.Left
 	case 3:
 		coord, drctn = []core.Coordinates{{X: 1, Y: core.High - 14}, {X: 2, Y: core.High - 14}, {X: 3, Y: core.High - 14}}, core.Right
 	case 4:
-		coord, drctn = []core.Coordinates{{X: core.Width - 3, Y: core.High - 1},
+		coord, drctn = []core.Coordinates{{X: core.Width - 1, Y: core.High - 1},
 			{X: core.Width - 2, Y: core.High - 1},
-			{X: core.Width - 1, Y: core.High - 1}}, core.Left
+			{X: core.Width - 3, Y: core.High - 1}}, core.Left
 	}
 	return coord, drctn
 }

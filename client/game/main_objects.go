@@ -35,13 +35,15 @@ type snake struct {
 	drctn direction
 	name  string
 	dead  bool
+	color termloop.Attr
 }
 
 //snake объект змейки
 type otherSnake struct {
 	*termloop.Entity
-	body []Coordinates
-	name string
+	body  []Coordinates
+	name  string
+	color termloop.Attr
 }
 
 //food объект пищи для змейки

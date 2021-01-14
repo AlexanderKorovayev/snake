@@ -13,13 +13,14 @@ import (
 )
 
 //CreateSnake создать змейку
-func CreateSnake(body []Coordinates, name string, drctn direction) *snake {
+func CreateSnake(body []Coordinates, name string, drctn direction, color termloop.Attr) *snake {
 	snakeObj := new(snake)
 	snakeObj.Entity = termloop.NewEntity(1, 1, 1, 1)
 	snakeObj.drctn = drctn
 	snakeObj.body = body
 	snakeObj.name = name
 	snakeObj.dead = false
+	snakeObj.color = color
 	return snakeObj
 }
 
@@ -34,7 +35,7 @@ func (snake *snake) Draw(screen *termloop.Screen) {
 	//отрисовка на экране главной змейки клиента
 	for _, v := range snake.body {
 		screen.RenderCell(v.X, v.Y, &termloop.Cell{Fg: termloop.ColorWhite,
-			Bg: termloop.ColorWhite})
+			Bg: snake.color})
 	}
 
 }

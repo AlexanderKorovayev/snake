@@ -48,3 +48,13 @@ func GetCoordinates() (int, int) {
 	}
 	return x, y
 }
+
+// Remove удаление из среза
+func Remove(s []string, el string) []string {
+	for i, name := range s {
+		if el == name {
+			s[i] = s[len(s)-1]
+		}
+	}
+	return s[:len(s)-1]
+}

@@ -28,4 +28,5 @@ type TransportData struct {
 	Action           interface{}
 	MainObjectsCoord map[string][]Coordinates
 	Info             interface{}
+	Color            string
 }
