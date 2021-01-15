@@ -26,13 +26,13 @@ const (
 	Right
 )
 
-// какие события могут быть?
-// 1) добавить игрока - в ответ получаем координаты его змейки и доп инфу если есть
-// 2) получить координаты объектов - в ответ получаем координаты всех объектов и доп инфу если есть
-// TransportData структура, которая будет передаваться между сервером и клиентом
+// TransportData основная структура для передачи между клиентом и сервером
 type TransportData struct {
-	Action           interface{}              // create, getCoordinate. Подумать над статусами.
-	MainObjectsCoord map[string][]Coordinates // тут будут координаты всех объектов
-	Info             interface{}              // отсчёт для начал игры
-	Color            map[string]string        //цвет змейки
+	Estimate         string                   // обратный отсчёт для начала игры
+	CLientDirection  Direction                // направление конкретной змейки
+	DirectionMap     map[string]Direction     // направление змеек
+	MainObjectsCoord map[string][]Coordinates // координаты всех объектов
+	Info             string                   // полезная информация
+	Color            map[string]string        // цвет змеек
+	ClientID         string                   // идентификатор клиента
 }

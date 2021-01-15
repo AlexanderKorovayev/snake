@@ -23,10 +23,13 @@ const (
 	right
 )
 
-// TransportData структура, которая будет передаваться между сервером и клиентом
+// TransportData основная структура для передачи между клиентом и сервером
 type TransportData struct {
-	Action           interface{}
-	MainObjectsCoord map[string][]Coordinates
-	Info             interface{}
-	Color            map[string]string
+	Estimate         string                   // обратный отсчёт для начала игры
+	CLientDirection  direction                // направление конкретной змейки
+	DirectionMap     map[string]direction     // направление змеек
+	MainObjectsCoord map[string][]Coordinates // координаты всех объектов
+	Info             string                   // полезная информация
+	Color            map[string]string        // цвет змеек
+	ClientID         string                   // идентификатор клиента
 }

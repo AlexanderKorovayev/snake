@@ -31,80 +31,70 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			// парсим входящие данные
 			data := parseBody(r)
 			// проверим, есть ли клиент в игре
-			// с клиента будут приходить только строчки,
-			// поэтому сделаем приведение типа
-			_, ok := core.ClientsCount[data.Info.(string)]
+			_, ok := core.ClientsCount[data.ClientID]
 			// если клиент уже в игре
 			if ok {
-				myJSON := addInfo(&data, "already added", false, core.ColorMap)
+				myJSON := addInfo(&data, "already added", core.ColorMap)
 				//отправляем данные клиенту обратно
 				fmt.Fprintf(w, string(myJSON))
 			} else {
 				// иначе добавляем в игру
-				core.ClientsCount[data.Info.(string)] = ""
+				core.ClientsCount[data.ClientID] = ""
 				// назначим цвет
-				core.ColorMap[data.Info.(string)] = core.Colors[0]
+				core.ColorMap[data.ClientID] = core.Colors[0]
 				// удалим выбранный цвет из списка доступных
 				core.Colors = core.Remove(core.Colors, core.Colors[0])
-				myJSON := addInfo(&data, "added", false, core.ColorMap)
+				myJSON := addInfo(&data, "added", core.ColorMap)
 				//отправляем данные клиенту обратно
 				fmt.Fprintf(w, string(myJSON))
 			}
 		} else {
 			// сообщаем клиенту, что мест больше нет
 			data := core.TransportData{}
-			myJSON := addInfo(&data, "busy", false, core.ColorMap)
+			myJSON := addInfo(&data, "busy", core.ColorMap)
 			//отправляем данные клиенту обратно
 			fmt.Fprintf(w, string(myJSON))
 		}
 	} else {
-		fmt.Println("время вышло")
 		// сообщаем клиенту, что время вышло
 		data := parseBody(r)
-		_, ok := core.ClientsCount[data.Info.(string)]
+		_, ok := core.ClientsCount[data.ClientID]
 		// если клиент уже был в игре, то отправим координаты всех объектов
 		if ok {
 			// отправка всех объектов
-			fmt.Println("отправляем координаты")
 			// введём порядковый номер, который нужен для
 			// правильного распределения змеек
 			i := 1
-			// для каждого клиента будет создаваться заново
-			core.DirectionMap = map[string]core.Direction{}
+			data.DirectionMap = map[string]core.Direction{} // при парсинге из json сложные объекты не создаются, надо бы разобраться
 			// надо перебрать всех подключённых клиентов через ClientsCount
 			for clName := range core.ClientsCount {
 				//получаем координаты и направление для данного клиента
-				data.MainObjectsCoord[clName], core.DirectionMap[clName] = generateDrctnBodyCoord(i)
+				data.MainObjectsCoord[clName], data.DirectionMap[clName] = generateDrctnBodyCoord(i)
 				i++
 			}
 			// зададим координаты для еды
 			x, y := core.GetCoordinates()
 			data.MainObjectsCoord["food"] = []core.Coordinates{{X: x, Y: y}}
-			// так же необходимо записать координаты и для сервера
-			core.MainObjects = map[string][]core.Coordinates{} // сначала надо проинициализировать поле, но это можно сделать проще
+			// запишем их на сервере для дальнейшего расчёта столкновений
 			core.MainObjects["food"] = []core.Coordinates{{X: x, Y: y}}
 			// сообщаем, что можно начинать играть
-			myJSON := addInfo(&data, "ready", true, core.ColorMap)
+			myJSON := addInfo(&data, "ready", core.ColorMap)
 			//отправляем данные клиенту обратно
 			fmt.Printf("в итоге %v \n", data)
 			fmt.Fprintf(w, string(myJSON))
 		} else {
 			// иначе сообщаем, что время для добавления вышло
-			myJSON := addInfo(&data, "finished", false, core.ColorMap)
+			myJSON := addInfo(&data, "finished", core.ColorMap)
 			//отправляем данные клиенту обратно
 			fmt.Fprintf(w, string(myJSON))
 		}
 	}
 }
 
-func addInfo(data *core.TransportData, status string, addDrctn bool, color map[string]string) []byte {
+func addInfo(data *core.TransportData, status string, color map[string]string) []byte {
 	// то посылаем ему информацию что идёт ожидание
-	data.Action = status
-	if addDrctn == true {
-		data.Info = core.DirectionMap
-	} else {
-		data.Info = strconv.Itoa(core.TimeCount)
-	}
+	data.Info = status
+	data.Estimate = strconv.Itoa(core.TimeCount)
 	data.Color = color
 	// преобразуем данные в бинарный вид
 	myJSON, err := json.Marshal(data)
@@ -138,11 +128,17 @@ func generateDrctnBodyCoord(numPlayer int) ([]core.Coordinates, core.Direction) 
 	var drctn core.Direction
 	switch numPlayer {
 	case 1:
-		coord, drctn = []core.Coordinates{{X: 1, Y: core.High - 1}, {X: 2, Y: core.High - 1}, {X: 3, Y: core.High - 1}}, core.Right
+		coord, drctn = []core.Coordinates{{X: 1, Y: core.High - 1},
+			{X: 2, Y: core.High - 1},
+			{X: 3, Y: core.High - 1}}, core.Right
 	case 2:
-		coord, drctn = []core.Coordinates{{X: core.Width - 1, Y: 1}, {X: core.Width - 2, Y: 1}, {X: core.Width - 3, Y: 1}}, core.Left
+		coord, drctn = []core.Coordinates{{X: core.Width - 1, Y: 1},
+			{X: core.Width - 2, Y: 1},
+			{X: core.Width - 3, Y: 1}}, core.Left
 	case 3:
-		coord, drctn = []core.Coordinates{{X: 1, Y: core.High - 14}, {X: 2, Y: core.High - 14}, {X: 3, Y: core.High - 14}}, core.Right
+		coord, drctn = []core.Coordinates{{X: 1, Y: core.High - 14},
+			{X: 2, Y: core.High - 14},
+			{X: 3, Y: core.High - 14}}, core.Right
 	case 4:
 		coord, drctn = []core.Coordinates{{X: core.Width - 1, Y: core.High - 1},
 			{X: core.Width - 2, Y: core.High - 1},

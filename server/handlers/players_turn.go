@@ -38,11 +38,10 @@ func PlayersTurn(w http.ResponseWriter, r *http.Request) {
 	// так же необходимо каждый раз просчитвать, было ли столкновение с едой.
 
 	// запишем координаты для поступившего запроса от клиента
-	clName := (data.Info).(string)
+	clName := data.ClientID
 	core.MainObjects[clName] = data.MainObjectsCoord[clName]
 	// просчитаем для данного клиента новые координаты
-	// сначала приводим интерфейс к типу флоат а потом его уже к типу дирекшен
-	drctn := core.Direction((data.Action).(float64))
+	drctn := data.CLientDirection
 	core.MainObjects[clName] = updateSnakeCoordinates(core.MainObjects[clName], drctn)
 	// запишем клиенту все координаты
 	data.MainObjectsCoord = core.MainObjects
@@ -54,14 +53,12 @@ func PlayersTurn(w http.ResponseWriter, r *http.Request) {
 		x, y := getCoordinates()
 		core.MainObjects["food"] = []core.Coordinates{{X: x, Y: y}}
 	}
-	// обратно посылаем статусы, поэтому клиент будет ожидать строку
-	// для этого на всякий случай будет задавать значения по умолчанию
-	data.Action = ""
-	data.Info = ""
+	// добавим статус апдейта
+	data.Info = "updated"
 	// определим, было ли столкновение змейки с самой собой
 	if snakeSelfCollision(core.MainObjects[clName]) {
 		// отправим статус о коллисии
-		data.Action = "snakeSelfCollision"
+		data.Info = "snakeSelfCollision"
 		// !!!!!так же необходимо удалить унфу об игроке!!!!!
 	}
 	// отправляем данные клиенту
@@ -108,14 +105,6 @@ func foodCollision(body []core.Coordinates) bool {
 	snakeHead := getHead(body)
 	return core.MainObjects["food"][0].X == snakeHead.X && core.MainObjects["food"][0].Y == snakeHead.Y
 }
-
-// Где считать врезание с окружением?
-//areaCollision определение коллизии с окружением
-/*
-func (snake *snake) areaCollision() bool {
-	return GameScreen.GameArea.collision(snake.GetHead())
-}
-*/
 
 // определение столкновений змейки с самой собой
 func snakeSelfCollision(body []core.Coordinates) bool {

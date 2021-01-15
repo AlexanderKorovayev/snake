@@ -89,18 +89,17 @@ func (area *area) Tick(event termloop.Event) {
 		info := getServerInfo("initiate", message)
 		// распарсим info в json
 		infoJSON := new(TransportData)
-		//infoJSON.MainObjectsCoord = map[string][]Coordinates{}
 		err := json.Unmarshal(info, infoJSON)
 		if err != nil {
 			//добавить обработку ошибок
 		}
 		// получим статус
-		status := infoJSON.Action.(string)
-		// по статусу определяем сценарий действий, который мы в свиче реализуем
+		status := infoJSON.Info
+		// по статусу определяем сценарий действий, определяемый в свиче
 		switch status {
 		case "added", "already added":
 			// значит нам пришёл обратный отсчёт
-			estimate := infoJSON.Info.(string)
+			estimate := infoJSON.Estimate
 			// отрисуем обратный отсчёт
 			// мы уже создали глобальный GameScreen в startBaseSnakeLevel, поэтому тут
 			// надо просто обновлять в нём обратный отсчёт
@@ -125,7 +124,7 @@ func (area *area) Tick(event termloop.Event) {
 			// infoJSON.Info имеет тип интерфейс, но если в нём хранится сложный
 			// объект, то его поля тоже имеют тип интерфейс, поэтому будет
 			// преобразовывать его поэтапно
-			directionMap := infoJSON.Info.(map[string]interface{})
+			directionMap := infoJSON.DirectionMap
 			// добавим остальные объекты на уже созданный уровень
 			startMainSnakeLevel(infoJSON.MainObjectsCoord, directionMap, infoJSON.Color)
 		}

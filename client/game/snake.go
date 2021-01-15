@@ -31,7 +31,6 @@ func (snake *snake) Draw(screen *termloop.Screen) {
 		level := startFinishLevel()
 		TermloopGame.Screen().SetLevel(level)
 	}
-
 	//отрисовка на экране главной змейки клиента
 	for _, v := range snake.body {
 		screen.RenderCell(v.X, v.Y, &termloop.Cell{Fg: termloop.ColorWhite,
@@ -80,11 +79,12 @@ func (snake *snake) Tick(event termloop.Event) {
 	// создадим сообщение, которое необходимо передать серверу
 	message := new(TransportData)
 	// зададим координаты змейки
+	// каждый клиент отправляет только свою главную змейку
 	message.MainObjectsCoord = map[string][]Coordinates{GameScreen.Snake1.name: GameScreen.Snake1.body}
 	// зададим направление змейки
-	message.Action = GameScreen.Snake1.drctn
+	message.CLientDirection = GameScreen.Snake1.drctn
 	// зададим имя змейки
-	message.Info = GameScreen.Snake1.name
+	message.ClientID = GameScreen.Snake1.name
 	// опрашиваем сервер
 	info := getServerInfo("playersTurn", message)
 	// распарсим info в json
@@ -94,7 +94,7 @@ func (snake *snake) Tick(event termloop.Event) {
 		//добавить обработку ошибок
 	}
 	// если произошло столкновение, то остановим игру у клиента
-	if infoJSON.Action.(string) == "snakeSelfCollision" {
+	if infoJSON.Info == "snakeSelfCollision" {
 		GameScreen.Snake1.dead = true
 	}
 	// обновим координаты для всех объектов

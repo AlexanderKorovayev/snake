@@ -23,7 +23,7 @@ const High int = 15
 const MaxObjectsCount int = 4
 
 // MainObjects контейнер для хранения координат змеек и еды
-var MainObjects map[string][]Coordinates
+var MainObjects map[string][]Coordinates = map[string][]Coordinates{}
 
 // ClientsCount переменная для хранения колличества подключённых клиентов
 // будем использовать словарь с пустыми значениями, такой подход быстро
@@ -32,9 +32,6 @@ var ClientsCount map[string]string
 
 // TimeCount переменная для обратного отсчёта
 var TimeCount int = 10
-
-// DirectionMap хранит в себе стартовое направление для каждой змейки
-var DirectionMap map[string]Direction
 
 // ColorMap хранит в себе цвет для каждой змейки
 var ColorMap map[string]string = map[string]string{}

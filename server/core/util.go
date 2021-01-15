@@ -30,7 +30,7 @@ func Countdown() {
 	}
 }
 
-//GetCoordinates получение рандомных координат для пищи
+//GetCoordinates получение рандомных координат
 func GetCoordinates() (int, int) {
 	// инициализируем рандомизатор для оси X
 	s1 := rand.NewSource(time.Now().UnixNano())
