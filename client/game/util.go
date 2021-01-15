@@ -53,8 +53,8 @@ func colorMap(color string) termloop.Attr {
 	if color == "Blue" {
 		colorTerm = termloop.ColorBlue
 	}
-	if color == "Cyan" {
-		colorTerm = termloop.ColorCyan
+	if color == "Yellow" {
+		colorTerm = termloop.ColorYellow
 	}
 	if color == "Green" {
 		colorTerm = termloop.ColorGreen

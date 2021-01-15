@@ -40,4 +40,4 @@ var DirectionMap map[string]Direction
 var ColorMap map[string]string = map[string]string{}
 
 // Colors Возможные цвета змейки
-var Colors []string = []string{"Blue", "Cyan", "Green", "Magneta"}
+var Colors []string = []string{"Blue", "Yellow", "Green", "Magneta"}
