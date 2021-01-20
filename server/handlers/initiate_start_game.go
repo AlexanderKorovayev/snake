@@ -50,8 +50,8 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			}
 		} else {
 			// сообщаем клиенту, что мест больше нет
-			data := core.TransportData{}
-			myJSON := addInfo(&data, "busy", core.ColorMap)
+			data := core.CreateTransportData()
+			myJSON := addInfo(data, "busy", core.ColorMap)
 			//отправляем данные клиенту обратно
 			fmt.Fprintf(w, string(myJSON))
 		}

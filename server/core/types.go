@@ -36,3 +36,16 @@ type TransportData struct {
 	Color            map[string]string        // цвет змеек
 	ClientID         string                   // идентификатор клиента
 }
+
+// CreateTransportData конструктор основной структуры передачи данных
+func CreateTransportData() *TransportData {
+	trData := new(TransportData)
+	trData.Estimate = ""
+	trData.CLientDirection = Direction(0)
+	trData.DirectionMap = map[string]Direction{}
+	trData.MainObjectsCoord = map[string][]Coordinates{}
+	trData.Info = ""
+	trData.Color = map[string]string{}
+	trData.ClientID = ""
+	return trData
+}

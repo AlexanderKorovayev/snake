@@ -1,7 +1,7 @@
 /*
 package core
 модуль types
-модуль содержит новые типы, которые необходимы для удобства в работе
+модуль содержит новые типы и их конструкторы, которые необходимы для удобства в работе
 */
 
 package game
@@ -23,8 +23,8 @@ const (
 	right
 )
 
-// TransportData основная структура для передачи между клиентом и сервером
-type TransportData struct {
+// transportData основная структура для передачи между клиентом и сервером
+type transportData struct {
 	Estimate         string                   // обратный отсчёт для начала игры
 	CLientDirection  direction                // направление конкретной змейки
 	DirectionMap     map[string]direction     // направление змеек
@@ -32,4 +32,17 @@ type TransportData struct {
 	Info             string                   // полезная информация
 	Color            map[string]string        // цвет змеек
 	ClientID         string                   // идентификатор клиента
+}
+
+// сreateTransportData конструктор основной структуры передачи данных
+func createTransportData() *transportData {
+	trData := new(transportData)
+	trData.Estimate = ""
+	trData.CLientDirection = direction(0)
+	trData.DirectionMap = map[string]direction{}
+	trData.MainObjectsCoord = map[string][]Coordinates{}
+	trData.Info = ""
+	trData.Color = map[string]string{}
+	trData.ClientID = ""
+	return trData
 }

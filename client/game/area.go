@@ -76,35 +76,28 @@ func (area *area) Tick(event termloop.Event) {
 		// остальных игроков и будет ждать только это время.
 		// по истечению этого времени он отошлёт сообщение о готовности играть
 		// а также координаты для всех объектов.
-		// клиент в бесконечном цикле опрашивает сервер и если в ответе число
-		// то отрисовываем его, если в ответе ready, то рисуем все объекты и
-		// дальше по тику делаем запросы на перерисовку
-		// всех объектов и получаем координаты.
 
 		// создадим сообщение, которое необходимо передать серверу
-		message := new(TransportData)
-		message.MainObjectsCoord = map[string][]Coordinates{}
-
+		message := createTransportData()
 		// опрашиваем сервер
 		info := getServerInfo("initiate", message)
 		// распарсим info в json
-		infoJSON := new(TransportData)
-		err := json.Unmarshal(info, infoJSON)
+		err := json.Unmarshal(info, message)
 		if err != nil {
 			//добавить обработку ошибок
 		}
 		// получим статус
-		status := infoJSON.Info
+		status := message.Info
 		// по статусу определяем сценарий действий, определяемый в свиче
 		switch status {
 		case "added", "already added":
 			// значит нам пришёл обратный отсчёт
-			estimate := infoJSON.Estimate
+			estimate := message.Estimate
 			// отрисуем обратный отсчёт
 			// мы уже создали глобальный GameScreen в startBaseSnakeLevel, поэтому тут
 			// надо просто обновлять в нём обратный отсчёт
-			GameScreen.TimeToReady = CreateTimeObj(fmt.Sprintf("your color is %v. Start in %v", infoJSON.Color[getOutboundIP()], estimate))
-			GameScreen.AddEntity(GameScreen.TimeToReady)
+			gameScreen.timeToReady = createTimeObj(fmt.Sprintf("your color is %v. Start in %v", message.Color[clientID], estimate))
+			gameScreen.AddEntity(gameScreen.timeToReady)
 		case "busy":
 			// реализовать обработку
 		case "finished":
@@ -115,8 +108,8 @@ func (area *area) Tick(event termloop.Event) {
 			// при этом если добавлять пустой объект без пробела,
 			// то он не обновляется и остаётся последнее
 			// добавленное число, поэтому оставил пробел.Но нужно заменять все объекты
-			GameScreen.TimeToReady = CreateTimeObj("                                  ")
-			GameScreen.AddEntity(GameScreen.TimeToReady)
+			gameScreen.timeToReady = createTimeObj("                                  ")
+			gameScreen.AddEntity(gameScreen.timeToReady)
 			// отключим инициализирующий игру цикл
 			// теперь они будут исходить от тика змейки у каждого игрока
 			initGameFlag = false
@@ -124,9 +117,9 @@ func (area *area) Tick(event termloop.Event) {
 			// infoJSON.Info имеет тип интерфейс, но если в нём хранится сложный
 			// объект, то его поля тоже имеют тип интерфейс, поэтому будет
 			// преобразовывать его поэтапно
-			directionMap := infoJSON.DirectionMap
+			directionMap := message.DirectionMap
 			// добавим остальные объекты на уже созданный уровень
-			startMainSnakeLevel(infoJSON.MainObjectsCoord, directionMap, infoJSON.Color)
+			startMainSnakeLevel(message.MainObjectsCoord, directionMap, message.Color)
 		}
 	}
 }

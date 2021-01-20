@@ -13,7 +13,7 @@ import (
 // GameScreen глобальная переменная которая хранит основные объекты уровня
 // в начале игры мы передаём эту переменную в termloop и меняя сзначеия этой
 // переменной мы можем менять происходящее на уровне
-var GameScreen *Game
+var gameScreen *game
 
 // TermloopGame переменная игры нам нужна для динамической смены левелов
 var TermloopGame *termloop.Game
@@ -23,3 +23,6 @@ const width int = 46
 
 // high высота поля, по факту граница рисуется на 14 пикселе, и змейке достаётся 13 в ширину
 const high int = 16
+
+// константа для хранения имени клиента
+var clientID string = getOutboundIP()

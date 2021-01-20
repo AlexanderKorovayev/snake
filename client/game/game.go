@@ -36,17 +36,17 @@ func startFinishLevel() *finishLevel {
 }
 
 //startBaseSnakeLevel формируем базовую часть основного уровеня
-func startBaseSnakeLevel() *Game {
+func startBaseSnakeLevel() *game {
 	//создаём основные объекты
-	GameScreen = new(Game)
-	GameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
+	gameScreen = new(game)
+	gameScreen.Level = termloop.NewBaseLevel(termloop.Cell{
 		Bg: termloop.ColorBlack,
 	})
 	// добавляем игровое поле
-	GameScreen.GameArea = CreateArea()
-	GameScreen.AddEntity(GameScreen.GameArea)
+	gameScreen.gameArea = CreateArea()
+	gameScreen.AddEntity(gameScreen.gameArea)
 
-	return GameScreen
+	return gameScreen
 }
 
 //startMainSnakeLevel формируем главную часть основного уровеня
@@ -55,8 +55,8 @@ func startMainSnakeLevel(objectsInfo map[string][]Coordinates, directionMap map[
 	for objName, coord := range objectsInfo {
 		if objName == "food" {
 			// добавляем еду
-			GameScreen.GameFood = CreateFood(coord[0])
-			GameScreen.AddEntity(GameScreen.GameFood)
+			gameScreen.gameFood = CreateFood(coord[0])
+			gameScreen.AddEntity(gameScreen.gameFood)
 		} else {
 			// у каждого клиента будет своя основная змейка,
 			// у которой будут отслеживаться действия по тику.
@@ -64,28 +64,28 @@ func startMainSnakeLevel(objectsInfo map[string][]Coordinates, directionMap map[
 
 			// добавляем змеек
 			// главную змейку клиента всегда размещаем в Snake1
-			if objName == getOutboundIP() {
-				GameScreen.Snake1 = CreateSnake(coord, objName, directionMap[objName], colorMap(color[objName]))
-				GameScreen.AddEntity(GameScreen.Snake1)
+			if objName == clientID {
+				gameScreen.snake1 = CreateSnake(coord, objName, directionMap[objName], colorMap(color[objName]))
+				gameScreen.AddEntity(gameScreen.snake1)
 			} else {
 				// остальных змеек раскидываем по оставшимся местам
 				// и просто отрисовываем
 				for _, snakeName := range snakesName {
 					if snakeName == "Snake2" {
-						GameScreen.Snake2 = CreateOtherSnake(coord, objName, colorMap(color[objName]))
-						GameScreen.AddEntity(GameScreen.Snake2)
+						gameScreen.snake2 = CreateOtherSnake(coord, objName, colorMap(color[objName]))
+						gameScreen.AddEntity(gameScreen.snake2)
 						snakesName = remove(snakesName, "Snake2")
 						break
 					}
 					if snakeName == "Snake3" {
-						GameScreen.Snake3 = CreateOtherSnake(coord, objName, colorMap(color[objName]))
-						GameScreen.AddEntity(GameScreen.Snake3)
+						gameScreen.snake3 = CreateOtherSnake(coord, objName, colorMap(color[objName]))
+						gameScreen.AddEntity(gameScreen.snake3)
 						snakesName = remove(snakesName, "Snake3")
 						break
 					}
 					if snakeName == "Snake4" {
-						GameScreen.Snake4 = CreateOtherSnake(coord, objName, colorMap(color[objName]))
-						GameScreen.AddEntity(GameScreen.Snake4)
+						gameScreen.snake4 = CreateOtherSnake(coord, objName, colorMap(color[objName]))
+						gameScreen.AddEntity(gameScreen.snake4)
 						snakesName = remove(snakesName, "Snake4")
 						break
 					}

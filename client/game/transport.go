@@ -16,9 +16,9 @@ import (
 	"net/http"
 )
 
-func getServerInfo(postMethodName string, message *TransportData) []byte {
+func getServerInfo(postMethodName string, message *transportData) []byte {
 	// сообщим серверу имя клиента
-	message.ClientID = getOutboundIP()
+	message.ClientID = clientID
 	// передаём инфу в виде набора байт
 	bytesMessageRepresentation, err := json.Marshal(message)
 	if err != nil {
@@ -53,9 +53,9 @@ func getOutboundIP() string {
 	return localAddr.IP.String()
 }
 
-func parseSnakeCoord(data *TransportData) []Coordinates {
+func parseSnakeCoord(data *transportData) []Coordinates {
 	// получаем координаты
-	return data.MainObjectsCoord[getOutboundIP()]
+	return data.MainObjectsCoord[clientID]
 	// обрабатываем сообщение
 	//data.Info необходимо организовать обработку сообщений
 }

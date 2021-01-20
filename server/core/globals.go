@@ -31,7 +31,7 @@ var MainObjects map[string][]Coordinates = map[string][]Coordinates{}
 var ClientsCount map[string]string
 
 // TimeCount переменная для обратного отсчёта
-var TimeCount int = 10
+var TimeCount int = 5
 
 // ColorMap хранит в себе цвет для каждой змейки
 var ColorMap map[string]string = map[string]string{}

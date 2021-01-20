@@ -10,8 +10,8 @@ import (
 	"github.com/JoelOtter/termloop"
 )
 
-//CreateTimeObj создать отрисовку обратного отсчёта
-func CreateTimeObj(text string) *timeToReady {
+//createTimeObj создать отрисовку обратного отсчёта
+func createTimeObj(text string) *timeToReady {
 	timeObj := new(timeToReady)
 	timeObj.Text = termloop.NewText(7, (high/2)-1,
 		text,

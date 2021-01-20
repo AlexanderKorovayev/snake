@@ -27,7 +27,7 @@ func CreateSnake(body []Coordinates, name string, drctn direction, color termloo
 //Draw отвечает за отрисовку змеи на дисплее
 func (snake *snake) Draw(screen *termloop.Screen) {
 	// столкновения с уровнем будут просчитываться на клиенте
-	if snake.areaCollision() || GameScreen.Snake1.dead == true {
+	if snake.areaCollision() || gameScreen.snake1.dead == true {
 		level := startFinishLevel()
 		TermloopGame.Screen().SetLevel(level)
 	}
@@ -77,49 +77,49 @@ func (snake *snake) Tick(event termloop.Event) {
 	// информацию о других объектах.
 
 	// создадим сообщение, которое необходимо передать серверу
-	message := new(TransportData)
+	message := createTransportData()
 	// зададим координаты змейки
 	// каждый клиент отправляет только свою главную змейку
-	message.MainObjectsCoord = map[string][]Coordinates{GameScreen.Snake1.name: GameScreen.Snake1.body}
+	message.MainObjectsCoord = map[string][]Coordinates{gameScreen.snake1.name: gameScreen.snake1.body}
 	// зададим направление змейки
-	message.CLientDirection = GameScreen.Snake1.drctn
+	message.CLientDirection = gameScreen.snake1.drctn
 	// зададим имя змейки
-	message.ClientID = GameScreen.Snake1.name
+	message.ClientID = gameScreen.snake1.name
 	// опрашиваем сервер
 	info := getServerInfo("playersTurn", message)
 	// распарсим info в json
-	infoJSON := new(TransportData)
+	infoJSON := createTransportData()
 	err := json.Unmarshal(info, infoJSON)
 	if err != nil {
 		//добавить обработку ошибок
 	}
 	// если произошло столкновение, то остановим игру у клиента
 	if infoJSON.Info == "snakeSelfCollision" {
-		GameScreen.Snake1.dead = true
+		gameScreen.snake1.dead = true
 	}
 	// обновим координаты для всех объектов
 	for objName, coord := range infoJSON.MainObjectsCoord {
-		if objName == "food" && GameScreen.GameFood != nil {
-			GameScreen.GameFood.coord = coord[0]
+		if objName == "food" && gameScreen.gameFood != nil {
+			gameScreen.gameFood.coord = coord[0]
 		}
-		if GameScreen.Snake1 != nil && objName == GameScreen.Snake1.name {
-			GameScreen.Snake1.body = coord
+		if gameScreen.snake1 != nil && objName == gameScreen.snake1.name {
+			gameScreen.snake1.body = coord
 		}
-		if GameScreen.Snake2 != nil && objName == GameScreen.Snake2.name {
-			GameScreen.Snake2.body = coord
+		if gameScreen.snake2 != nil && objName == gameScreen.snake2.name {
+			gameScreen.snake2.body = coord
 		}
-		if GameScreen.Snake3 != nil && objName == GameScreen.Snake3.name {
-			GameScreen.Snake3.body = coord
+		if gameScreen.snake3 != nil && objName == gameScreen.snake3.name {
+			gameScreen.snake3.body = coord
 		}
-		if GameScreen.Snake4 != nil && objName == GameScreen.Snake4.name {
-			GameScreen.Snake4.body = coord
+		if gameScreen.snake4 != nil && objName == gameScreen.snake4.name {
+			gameScreen.snake4.body = coord
 		}
 	}
 }
 
 //areaCollision определение коллизии с окружением
 func (snake *snake) areaCollision() bool {
-	return GameScreen.GameArea.collision(snake.GetHead())
+	return gameScreen.gameArea.collision(snake.GetHead())
 }
 
 //GetHead получение головы змейки

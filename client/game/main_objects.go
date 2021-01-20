@@ -10,16 +10,16 @@ import (
 	"github.com/JoelOtter/termloop"
 )
 
-//Game основной уровень игры
-type Game struct {
+//game основной уровень игры
+type game struct {
 	termloop.Level
-	GameArea    *area
-	Snake1      *snake
-	Snake2      *otherSnake
-	Snake3      *otherSnake
-	Snake4      *otherSnake
-	GameFood    *food
-	TimeToReady *timeToReady
+	gameArea    *area
+	snake1      *snake
+	snake2      *otherSnake
+	snake3      *otherSnake
+	snake4      *otherSnake
+	gameFood    *food
+	timeToReady *timeToReady
 }
 
 //area объект игрового поля, по которому будет перемещаться змейка
