@@ -10,8 +10,8 @@ import (
 	"github.com/JoelOtter/termloop"
 )
 
-//CreateFood создать еду для змейки
-func CreateFood(coord Coordinates) *food {
+//createFood создать еду для змейки
+func createFood(coord coordinates) *food {
 	food := new(food)
 	food.Entity = termloop.NewEntity(1, 1, 1, 1)
 

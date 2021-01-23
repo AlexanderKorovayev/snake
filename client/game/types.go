@@ -8,8 +8,8 @@ package game
 
 // сделан доступным так как для приведения к json нужно
 // что бы объекты были открытыми
-// Сoordinates координаты
-type Coordinates struct {
+// coordinates координаты
+type coordinates struct {
 	X int
 	Y int
 }
@@ -28,7 +28,7 @@ type transportData struct {
 	Estimate         string                   // обратный отсчёт для начала игры
 	CLientDirection  direction                // направление конкретной змейки
 	DirectionMap     map[string]direction     // направление змеек
-	MainObjectsCoord map[string][]Coordinates // координаты всех объектов
+	MainObjectsCoord map[string][]coordinates // координаты всех объектов
 	Info             string                   // полезная информация
 	Color            map[string]string        // цвет змеек
 	ClientID         string                   // идентификатор клиента
@@ -40,7 +40,7 @@ func createTransportData() *transportData {
 	trData.Estimate = ""
 	trData.CLientDirection = direction(0)
 	trData.DirectionMap = map[string]direction{}
-	trData.MainObjectsCoord = map[string][]Coordinates{}
+	trData.MainObjectsCoord = map[string][]coordinates{}
 	trData.Info = ""
 	trData.Color = map[string]string{}
 	trData.ClientID = ""

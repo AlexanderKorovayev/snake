@@ -10,8 +10,8 @@ import (
 	"github.com/JoelOtter/termloop"
 )
 
-//CreateOtherSnake создать змейку
-func CreateOtherSnake(body []Coordinates, name string, color termloop.Attr) *otherSnake {
+//createOtherSnake создать змейку
+func createOtherSnake(body []coordinates, name string, color termloop.Attr) *otherSnake {
 	snakeObj := new(otherSnake)
 	snakeObj.Entity = termloop.NewEntity(1, 1, 1, 1)
 	snakeObj.body = body

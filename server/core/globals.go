@@ -6,13 +6,6 @@ package core
 
 package core
 
-import (
-	"github.com/JoelOtter/termloop"
-)
-
-// TermloopGame переменная игры нам нужна для динамической смены левелов
-var TermloopGame *termloop.Game
-
 // Width ширина поля, по факту граница рисуется на 34 пикселе, и змейке достаётся 33 в ширину
 const Width int = 46
 
@@ -28,7 +21,7 @@ var MainObjects map[string][]Coordinates = map[string][]Coordinates{}
 // ClientsCount переменная для хранения колличества подключённых клиентов
 // будем использовать словарь с пустыми значениями, такой подход быстро
 // позволяет проверять наличие елемента в себе
-var ClientsCount map[string]string
+var ClientsCount map[string]string = map[string]string{}
 
 // TimeCount переменная для обратного отсчёта
 var TimeCount int = 5

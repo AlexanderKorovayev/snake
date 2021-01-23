@@ -38,7 +38,7 @@ func (s *startMenu) Tick(event termloop.Event) {
 			// сначала установим базовую часть уровня
 			// и уже она будет по своему тику пинать сервер для ожидания начала игры
 			level := startBaseSnakeLevel()
-			TermloopGame.Screen().SetLevel(level)
+			termloopGame.Screen().SetLevel(level)
 		}
 	}
 }

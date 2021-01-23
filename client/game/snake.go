@@ -12,8 +12,8 @@ import (
 	"github.com/JoelOtter/termloop"
 )
 
-//CreateSnake создать змейку
-func CreateSnake(body []Coordinates, name string, drctn direction, color termloop.Attr) *snake {
+//createSnake создать змейку
+func createSnake(body []coordinates, name string, drctn direction, color termloop.Attr) *snake {
 	snakeObj := new(snake)
 	snakeObj.Entity = termloop.NewEntity(1, 1, 1, 1)
 	snakeObj.drctn = drctn
@@ -29,7 +29,7 @@ func (snake *snake) Draw(screen *termloop.Screen) {
 	// столкновения с уровнем будут просчитываться на клиенте
 	if snake.areaCollision() || gameScreen.snake1.dead == true {
 		level := startFinishLevel()
-		TermloopGame.Screen().SetLevel(level)
+		termloopGame.Screen().SetLevel(level)
 	}
 	//отрисовка на экране главной змейки клиента
 	for _, v := range snake.body {
@@ -80,7 +80,7 @@ func (snake *snake) Tick(event termloop.Event) {
 	message := createTransportData()
 	// зададим координаты змейки
 	// каждый клиент отправляет только свою главную змейку
-	message.MainObjectsCoord = map[string][]Coordinates{gameScreen.snake1.name: gameScreen.snake1.body}
+	message.MainObjectsCoord = map[string][]coordinates{gameScreen.snake1.name: gameScreen.snake1.body}
 	// зададим направление змейки
 	message.CLientDirection = gameScreen.snake1.drctn
 	// зададим имя змейки
@@ -123,6 +123,6 @@ func (snake *snake) areaCollision() bool {
 }
 
 //GetHead получение головы змейки
-func (snake *snake) GetHead() *Coordinates {
+func (snake *snake) GetHead() *coordinates {
 	return &snake.body[len(snake.body)-1]
 }

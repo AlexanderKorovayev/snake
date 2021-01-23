@@ -15,8 +15,8 @@ import (
 // переменной мы можем менять происходящее на уровне
 var gameScreen *game
 
-// TermloopGame переменная игры нам нужна для динамической смены левелов
-var TermloopGame *termloop.Game
+// termloopGame переменная игры нам нужна для динамической смены левелов
+var termloopGame *termloop.Game
 
 // width ширина поля, по факту граница рисуется на 34 пикселе, и змейке достаётся 33 в ширину
 const width int = 46

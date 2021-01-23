@@ -53,7 +53,7 @@ func getOutboundIP() string {
 	return localAddr.IP.String()
 }
 
-func parseSnakeCoord(data *transportData) []Coordinates {
+func parseSnakeCoord(data *transportData) []coordinates {
 	// получаем координаты
 	return data.MainObjectsCoord[clientID]
 	// обрабатываем сообщение

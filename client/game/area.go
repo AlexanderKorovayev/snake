@@ -27,23 +27,23 @@ import (
 // флаг, сигнализирующий, нужно ли ещё ожидать игроков и начала основной игры
 var initGameFlag bool = true
 
-//CreateArea создать арену, по которой будет перемещаться змейка
-func CreateArea() *area {
+//createArea создать арену, по которой будет перемещаться змейка
+func createArea() *area {
 	area := new(area)
 	area.Entity = termloop.NewEntity(1, 1, 1, 1)
-	border := make(map[Coordinates]int)
+	border := make(map[coordinates]int)
 	fillAreaBorder(width, high, &border)
 	area.areaBorder = border
 	return area
 }
 
 //fillAreaBorder заполнить игровую область информацией о её границах
-func fillAreaBorder(imax, jmax int, border *map[Coordinates]int) {
+func fillAreaBorder(imax, jmax int, border *map[coordinates]int) {
 	starti := 0
 	startj := 0
 	for i := starti; i < imax; i++ {
 		for j := startj; j < jmax; j++ {
-			coord := Coordinates{i, j}
+			coord := coordinates{i, j}
 			if i == starti || i == imax-1 {
 				(*border)[coord] = 1
 			} else if j == startj || j == jmax-1 {
@@ -125,6 +125,6 @@ func (area *area) Tick(event termloop.Event) {
 }
 
 //Collision произошло ли косание с змейкой
-func (area *area) collision(c *Coordinates) bool {
+func (area *area) collision(c *coordinates) bool {
 	return area.areaBorder[*c] == 1
 }
