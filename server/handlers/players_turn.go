@@ -9,7 +9,6 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"time"
@@ -21,16 +20,7 @@ import (
 func PlayersTurn(w http.ResponseWriter, r *http.Request) {
 	// клиент присылает координаты своей змейки и её направление
 	// надо организовать обработку этой информации.
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		//добавить обработку ошибок
-	}
-	var data core.TransportData
-	err = json.Unmarshal(body, &data)
-
-	if err != nil {
-		//добавить обработку ошибок
-	}
+	data := core.ParseBody(r)
 
 	// теперь необходимо записывать данные каждого клиента.
 	// клиенты будут запрашивать обновление данных, каждому мы будем присылать

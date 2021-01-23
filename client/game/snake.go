@@ -7,8 +7,6 @@ package core
 package game
 
 import (
-	"encoding/json"
-
 	"github.com/JoelOtter/termloop"
 )
 
@@ -86,19 +84,15 @@ func (snake *snake) Tick(event termloop.Event) {
 	// зададим имя змейки
 	message.ClientID = gameScreen.snake1.name
 	// опрашиваем сервер
-	info := getServerInfo("playersTurn", message)
+	info_byte := getServerInfo("playersTurn", message)
 	// распарсим info в json
-	infoJSON := createTransportData()
-	err := json.Unmarshal(info, infoJSON)
-	if err != nil {
-		//добавить обработку ошибок
-	}
+	message = parseBody(info_byte)
 	// если произошло столкновение, то остановим игру у клиента
-	if infoJSON.Info == "snakeSelfCollision" {
+	if message.Info == "snakeSelfCollision" {
 		gameScreen.snake1.dead = true
 	}
 	// обновим координаты для всех объектов
-	for objName, coord := range infoJSON.MainObjectsCoord {
+	for objName, coord := range message.MainObjectsCoord {
 		if objName == "food" && gameScreen.gameFood != nil {
 			gameScreen.gameFood.coord = coord[0]
 		}

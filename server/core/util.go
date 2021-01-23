@@ -7,7 +7,10 @@ package core
 package core
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"math/rand"
+	"net/http"
 	"time"
 )
 
@@ -57,4 +60,22 @@ func Remove(s []string, el string) []string {
 		}
 	}
 	return s[:len(s)-1]
+}
+
+// приведение данных от клиента к нужному виду
+func ParseBody(r *http.Request) *TransportData {
+	// если все условия соблюдены, то начинаем читать данные
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		//добавить обработку ошибок
+	}
+
+	// приводим данные к нужном формату
+	data := CreateTransportData()
+	err = json.Unmarshal(body, &data)
+
+	if err != nil {
+		//добавить обработку ошибок
+	}
+	return data
 }

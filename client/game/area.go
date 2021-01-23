@@ -18,7 +18,6 @@ package core
 package game
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/JoelOtter/termloop"
@@ -77,15 +76,11 @@ func (area *area) Tick(event termloop.Event) {
 		// по истечению этого времени он отошлёт сообщение о готовности играть
 		// а также координаты для всех объектов.
 
-		// создадим сообщение, которое необходимо передать серверу
-		message := createTransportData()
 		// опрашиваем сервер
-		info := getServerInfo("initiate", message)
+		message := createTransportData()
+		info_byte := getServerInfo("initiate", message)
 		// распарсим info в json
-		err := json.Unmarshal(info, message)
-		if err != nil {
-			//добавить обработку ошибок
-		}
+		message = parseBody(info_byte)
 		// получим статус
 		status := message.Info
 		// по статусу определяем сценарий действий, определяемый в свиче
@@ -96,7 +91,7 @@ func (area *area) Tick(event termloop.Event) {
 			// отрисуем обратный отсчёт
 			// мы уже создали глобальный GameScreen в startBaseSnakeLevel, поэтому тут
 			// надо просто обновлять в нём обратный отсчёт
-			gameScreen.timeToReady = createTimeObj(fmt.Sprintf("your color is %v. Start in %v", message.Color[clientID], estimate))
+			gameScreen.timeToReady = createTimeObj(fmt.Sprintf("your color is %v. Start in %v", message.ColorMap[clientID], estimate))
 			gameScreen.AddEntity(gameScreen.timeToReady)
 		case "busy":
 			// реализовать обработку
@@ -113,13 +108,8 @@ func (area *area) Tick(event termloop.Event) {
 			// отключим инициализирующий игру цикл
 			// теперь они будут исходить от тика змейки у каждого игрока
 			initGameFlag = false
-			// получим направления для змееки
-			// infoJSON.Info имеет тип интерфейс, но если в нём хранится сложный
-			// объект, то его поля тоже имеют тип интерфейс, поэтому будет
-			// преобразовывать его поэтапно
-			directionMap := message.DirectionMap
 			// добавим остальные объекты на уже созданный уровень
-			startMainSnakeLevel(message.MainObjectsCoord, directionMap, message.Color)
+			startMainSnakeLevel(message.MainObjectsCoord, message.DirectionMap, message.ColorMap)
 		}
 	}
 }

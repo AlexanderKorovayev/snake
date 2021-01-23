@@ -30,7 +30,7 @@ type transportData struct {
 	DirectionMap     map[string]direction     // направление змеек
 	MainObjectsCoord map[string][]coordinates // координаты всех объектов
 	Info             string                   // полезная информация
-	Color            map[string]string        // цвет змеек
+	ColorMap         map[string]string        // цвет змеек
 	ClientID         string                   // идентификатор клиента
 }
 
@@ -42,7 +42,7 @@ func createTransportData() *transportData {
 	trData.DirectionMap = map[string]direction{}
 	trData.MainObjectsCoord = map[string][]coordinates{}
 	trData.Info = ""
-	trData.Color = map[string]string{}
+	trData.ColorMap = map[string]string{}
 	trData.ClientID = ""
 	return trData
 }

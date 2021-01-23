@@ -7,6 +7,7 @@ package core
 package game
 
 import (
+	"encoding/json"
 	"log"
 	"os"
 
@@ -63,4 +64,16 @@ func colorMap(color string) termloop.Attr {
 		colorTerm = termloop.ColorCyan
 	}
 	return colorTerm
+}
+
+// приведение данных от клиента к нужному виду
+func parseBody(data_byte []byte) *transportData {
+	// приводим данные к нужном формату
+	data := createTransportData()
+	err := json.Unmarshal(data_byte, &data)
+
+	if err != nil {
+		//добавить обработку ошибок
+	}
+	return data
 }
