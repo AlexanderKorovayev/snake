@@ -67,10 +67,10 @@ func colorMap(color string) termloop.Attr {
 }
 
 // приведение данных от клиента к нужному виду
-func parseBody(data_byte []byte) *transportData {
+func parseBody(dataByte []byte) *transportData {
 	// приводим данные к нужном формату
 	data := createTransportData()
-	err := json.Unmarshal(data_byte, &data)
+	err := json.Unmarshal(dataByte, &data)
 
 	if err != nil {
 		//добавить обработку ошибок

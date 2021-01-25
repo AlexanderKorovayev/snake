@@ -84,9 +84,9 @@ func (snake *snake) Tick(event termloop.Event) {
 	// зададим имя змейки
 	message.ClientID = gameScreen.snake1.name
 	// опрашиваем сервер
-	info_byte := getServerInfo("playersTurn", message)
+	infoByte := getServerInfo("playersTurn", message)
 	// распарсим info в json
-	message = parseBody(info_byte)
+	message = parseBody(infoByte)
 	// если произошло столкновение, то остановим игру у клиента
 	if message.Info == "snakeSelfCollision" {
 		gameScreen.snake1.dead = true

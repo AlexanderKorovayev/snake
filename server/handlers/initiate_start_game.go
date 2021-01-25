@@ -26,20 +26,19 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 	// проверим осталось ли время
 	if core.TimeCount > 0 {
 		// проверим остались ли свободные места
-		if len(core.ClientsCount) < core.MaxObjectsCount {
+		if len(core.ColorMap) < core.MaxObjectsCount {
 			// парсим входящие данные
 			data := core.ParseBody(r)
 			// проверим, есть ли клиент в игре
-			_, ok := core.ClientsCount[data.ClientID]
+			_, ok := core.ColorMap[data.ClientID]
 			// если клиент уже в игре
 			if ok {
 				myJSON := addInfo(data, "already added", core.ColorMap)
 				//отправляем данные клиенту обратно
 				fmt.Fprintf(w, string(myJSON))
 			} else {
-				// иначе добавляем в игру
-				core.ClientsCount[data.ClientID] = ""
 				// назначим цвет
+				// так же обозначим что клиент добавлен в игру
 				core.ColorMap[data.ClientID] = core.Colors[0]
 				// удалим выбранный цвет из списка доступных
 				core.Colors = core.Remove(core.Colors, core.Colors[0])
@@ -57,15 +56,15 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 	} else {
 		// сообщаем клиенту, что время вышло
 		data := core.ParseBody(r)
-		_, ok := core.ClientsCount[data.ClientID]
+		_, ok := core.ColorMap[data.ClientID]
 		// если клиент уже был в игре, то отправим координаты всех объектов
 		if ok {
 			// отправка всех объектов
 			// введём порядковый номер, который нужен для
 			// правильного распределения змеек
 			i := 1
-			// надо перебрать всех подключённых клиентов через ClientsCount
-			for clName := range core.ClientsCount {
+			// надо перебрать всех подключённых клиентов через ColorMap
+			for clName := range core.ColorMap {
 				//получаем координаты и направление для данного клиента
 				data.MainObjectsCoord[clName], data.DirectionMap[clName] = generateDrctnBodyCoord(i)
 				i++

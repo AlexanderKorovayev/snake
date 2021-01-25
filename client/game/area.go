@@ -78,9 +78,9 @@ func (area *area) Tick(event termloop.Event) {
 
 		// опрашиваем сервер
 		message := createTransportData()
-		info_byte := getServerInfo("initiate", message)
+		infoByte := getServerInfo("initiate", message)
 		// распарсим info в json
-		message = parseBody(info_byte)
+		message = parseBody(infoByte)
 		// получим статус
 		status := message.Info
 		// по статусу определяем сценарий действий, определяемый в свиче
