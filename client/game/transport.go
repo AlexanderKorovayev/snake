@@ -26,8 +26,8 @@ func getServerInfo(postMethodName string, message *transportData) []byte {
 	}
 
 	r := bytes.NewReader(bytesMessageRepresentation)
-	resp, err := http.Post(fmt.Sprintf("http://localhost:2000/%v", postMethodName), "application/json", r)
-	//resp, err := http.Post(fmt.Sprintf("https://wonderful-cougar-42.loca.lt/%v", postMethodName), "application/json", r)
+	//resp, err := http.Post(fmt.Sprintf("http://localhost:2000/%v", postMethodName), "application/json", r)
+	resp, err := http.Post(fmt.Sprintf("https://wet-horse-80.loca.lt/%v", postMethodName), "application/json", r)
 	if err != nil {
 		//добавить обработку ошибки
 	}

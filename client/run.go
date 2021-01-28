@@ -6,5 +6,7 @@ import (
 )
 
 func main() {
+	// сохраним необходимые настройки из конфига
+	game.InitializationGlobals("config.ini")
 	game.StartGame()
 }

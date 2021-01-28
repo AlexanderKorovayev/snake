@@ -12,6 +12,8 @@ import (
 	"math/rand"
 	"net/http"
 	"time"
+
+	"gopkg.in/ini.v1"
 )
 
 //FindInSlice функция для поиска вхождений в срезе
@@ -62,7 +64,7 @@ func Remove(s []string, el string) []string {
 	return s[:len(s)-1]
 }
 
-// приведение данных от клиента к нужному виду
+// ParseBody приведение данных от клиента к нужному виду
 func ParseBody(r *http.Request) *TransportData {
 	// если все условия соблюдены, то начинаем читать данные
 	body, err := ioutil.ReadAll(r.Body)
@@ -78,4 +80,22 @@ func ParseBody(r *http.Request) *TransportData {
 		//добавить обработку ошибок
 	}
 	return data
+}
+
+func readConfig(path string) *ini.File {
+	cfg, err := ini.Load(path)
+	if err != nil {
+		// сделать обработчик ошибок
+	}
+	return cfg
+}
+
+// InitializationGlobals инициализация глобальных переменных
+func InitializationGlobals(path string) {
+	conf := readConfig(path)
+	Width, _ = conf.Section("").Key("width").Int()
+	High, _ = conf.Section("").Key("high").Int()
+	MaxObjectsCount, _ = conf.Section("").Key("MaxObjectsCount").Int()
+	TimeCount, _ = conf.Section("").Key("TimeCount").Int()
+	Colors = conf.Section("").Key("Colors").Strings(",")
 }

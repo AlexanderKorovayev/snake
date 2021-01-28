@@ -19,10 +19,10 @@ var gameScreen *game
 var termloopGame *termloop.Game
 
 // width ширина поля, по факту граница рисуется на 34 пикселе, и змейке достаётся 33 в ширину
-const width int = 46
+var width int
 
 // high высота поля, по факту граница рисуется на 14 пикселе, и змейке достаётся 13 в ширину
-const high int = 16
+var high int
 
 // константа для хранения имени клиента
 var clientID string = getOutboundIP()

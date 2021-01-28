@@ -12,6 +12,7 @@ import (
 	"os"
 
 	"github.com/JoelOtter/termloop"
+	"gopkg.in/ini.v1"
 )
 
 //FindInSlice функция для поиска вхождений в срезе
@@ -76,4 +77,19 @@ func parseBody(dataByte []byte) *transportData {
 		//добавить обработку ошибок
 	}
 	return data
+}
+
+func readConfig(path string) *ini.File {
+	cfg, err := ini.Load(path)
+	if err != nil {
+		// сделать обработчик ошибок
+	}
+	return cfg
+}
+
+// InitializationGlobals инициализация глобальных переменных
+func InitializationGlobals(path string) {
+	conf := readConfig(path)
+	width, _ = conf.Section("").Key("width").Int()
+	high, _ = conf.Section("").Key("high").Int()
 }
