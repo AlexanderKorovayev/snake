@@ -77,7 +77,6 @@ func InitiateGame(w http.ResponseWriter, r *http.Request) {
 			// сообщаем, что можно начинать играть
 			myJSON := addInfo(data, "ready", core.ColorMap)
 			//отправляем данные клиенту обратно
-			fmt.Printf("в итоге %v \n", data)
 			fmt.Fprintf(w, string(myJSON))
 		} else {
 			// иначе сообщаем, что время для добавления вышло
